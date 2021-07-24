@@ -1,0 +1,51 @@
+.xstooltip {
+	text-align: left;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 9999999;
+	background: #101040;
+	color: #FFFFFF;
+	font: normal 8pt sans-serif;
+	padding: 5px 0px 5px 25px;
+	border: solid 1px;
+	border-color: #0000FF;
+}
+
+.xstooltip ul {
+	margin: 8px 0px 0px 16px;
+	padding: 0px;
+}
+
+.xstooltip li {
+	margin: 0px;
+	padding: 0px;
+}
+
+.xstooltip_s_menu {
+	text-align: left;
+	text-decoration: none;
+	font-size: 100%;
+	font-weight: bold;
+	color: #CCCCCC;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	background: #101040;
+	font: normal 8pt sans-serif;
+	padding: 3px 0px 0px 10px;
+	border: solid 1px;
+	border-color: #0000FF;
+}
+
+.xstooltip_s_menu a{
+	font-family: verdana, arial, sans-serif;
+	text-decoration: none;
+	line-height: 18px;
+	font-weight: bold;
+	color: #CCCCCC;
+	font-size: 100%;
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>abgx360 - Verified</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="tooltipstyle.css">
+	<link rel="stylesheet" type="text/css" href="verifiedstyle.css">
+	<link rel="alternate" type="application/rss+xml" href="ver_rss.xml" title="abgx360 Verified List RSS Feed">
+	<script type="text/javascript" src="js.js"></script>
+</head>
+<body>
+
+
+<div id="master">
+	<div id="logobg"></div>
+	<div id="navbar">
+		<a href="http://abgx.net" onClick="RecLink(this, 'Outbound Links', 'abgx.net'); return false;">[abgx.net]</a> -
+		<a href="http://c4evaspeaks.com/" onClick="RecLink(this, 'Outbound Links', 'c4evaspeaks.com'); return false;">[c4evaspeaks.com]</a> -
+		<a href="http://jungleflasher.net" onClick="RecLink(this, 'Outbound Links', 'jungleflasher.net'); return false;">[jungleflasher.net]</a> -
+		<a href="http://team-xecuter.com" onClick="RecLink(this, 'Outbound Links', 'team-xecuter.com'); return false;">[team-xecuter.com]</a> -
+		<a href="http://xbox-scene.com" onClick="RecLink(this, 'Outbound Links', 'xbox-scene.com'); return false;">[xbox-scene.com]</a>
+	</div>
+	<div id="logo"><img src="logo.png" alt="abgx360"></div>
+	<div id="bodywrap">
+		<div id="sidecol">
+			<br>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="download.html">Download</a></li>
+				<li><a href="verified.html">Verified</a></li>
+				<li><a href="chat.html">Chat</a></li>
+				<li><a href="translate.html">Translate</a></li>
+				<li><a href="https://www.youtube.com/watch?v=JRzuGy6IUw8" onClick="RecLink(this, 'Outbound Links', 'RickRoll'); return false;">Tutorial</a></li>
+				<li><a href="donate.html">Donate</a></li>
+			</ul><br>
+		</div>
+		<div id="maincol">
+<p class=head>The results on this page are generated directly from the database.<br>
+We also have a txt list sorted by <a href="games_by_alpha.txt" onClick="RecLink(this, 'Text Files', 'games_by_alpha.txt'); return false;">Name</a>,
+<a href="games_by_date.txt" onClick="RecLink(this, 'Text Files', 'games_by_date.txt'); return false;">Date</a> or
+<a href="games_by_titleid.txt" onClick="RecLink(this, 'Text Files', 'games_by_titleid.txt'); return false;">Title ID</a> and an
+<a href="ver_rss.xml" onClick="RecLink(this, 'Text Files', 'ver_rss.xml'); return false;">RSS Feed</a> which are automatically updated within 5 minutes of a change.<br>
+</p>
+<br>
+<form method="get" action="/verified.html">
+<table>
+	<tr>
+		<td width="1%" nowrap class=vmid>Search by:</td>
+		<td width="1%" class=vmid>
+			<select name="f" class=pf>
+				<option value="name">Name</option>
+				<option value="mediaid">Media ID</option>
+				<option value="xex_crc">XEX CRC</option>
+				<option value="titleid">Title ID</option>
+				<option value="wave">Wave</option>
+				<option value="date">Date</option>
+			</select>
+		</td><td width="97%" class=vmid>
+			<input type="text" name="q" class="w100p pf">
+		</td><td width="1%" class=vmid>
+			<input type="submit" value="Search" class=pf>
+		</td>
+	</tr>
+</table>
+</form>
+<br>
+<table width="100%"><tr><th width="1%"></th><th width="92%">Game Name</th><th width="1%">Region</th><th width="1%">Verified</th><th width="1%">XEX CRC</th><th width="1%">Media ID</th><th width="1%">Title ID</th><th width="1%">Wave</th><th width="1%"></th></tr>
+<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>2195</td><td>Scene it? Ganz groáes Kino! [Unofficial DB Name]</td><td>PAL</td><td nowrap>2016-09-25</td><td>27CC1296</td><td>66984ACC</td><td nowrap><a href="http://marketplace.xbox.com/en-GB/games/media/66acd000-77fe-1000-9115-d802575207f8/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">575207F8</a> (WR-2040)</td><td class=w4>4th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=27CC1296">1</a></td></tr>
+</table><p class=results><b>1</b> result generated in 0.134468 seconds (max 50 results)</p>
+<p>1 verified SS/DMI combo found for this XEX:</p>
+<table><tr><th>SS Version</th><th>SS CRC</th><th>DMI CRC</th></tr>
+<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=rf>2</td><td><a href="Apps/StealthFiles/SS_AF0C9A1A.bin" onClick="RecLink(this, 'Stealth Files', 'SS File'); return false;">AF0C9A1A</a></td><td><a href="Apps/StealthFiles/DMI_E589C9FF.bin" onClick="RecLink(this, 'Stealth Files', 'DMI File'); return false;">E589C9FF</a></td></tr>
+</table>
+<p><a href="http://paste2.org/p/2127681" onClick="RecLink(this, 'Text Files', 'paste2.org-How_to_Manually_patch_SSv2_files'); return false;">How to Manually patch SSv2 files</a></p>
+<p class=head>Note: An SSv2 CRC listed here may be the same as an SSv1 CRC in your ISO, this is because the SS CRC is not a full CRC of the file (that would be the RawSS CRC).<br>You still need to download and patch one of the SSv2 SS/DMI combos listed here (if available) if you want your SSv1 ISO to have SSv2.</p>
+		</div>
+		<div id="footer">
+			<p>&copy; 2008-2017 by Seacrest</p>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-15833360-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+</html>

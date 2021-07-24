@@ -1,0 +1,118 @@
+table td {
+	padding: 0.1em 0.5em 0.1em 0.5em;
+	margin: 0.1em;
+	font-size: 12px;
+	vertical-align: top;
+	text-align: left;
+}
+
+table th {
+	font-weight: bold;
+	text-align: center;
+}
+
+td a:link {color: #006cff; text-decoration: none;}
+td a:visited {color: #006cff; text-decoration: none;}
+td a:active {color: #00ffff; text-decoration: none;}
+td a:hover {color: #00ff00; text-decoration: none;}
+
+.odd {
+	background: #293059;
+	text-align: left;
+}
+
+.even {
+	background: #212647;
+	text-align: left;
+}
+
+.prog-bar {
+	background: #6060FF none repeat scroll 0%;
+	height: 100%;
+	margin: 0pt;
+	padding: 0pt;
+	text-align: center;
+	font-size: 11px;
+}
+
+.prog-border {
+	background: none repeat scroll 0%;
+	border: 1px solid #424284;
+	height: 13px;
+	margin: 0pt;
+	padding: 1px;
+	width: 150px;
+}
+
+.nopad {
+	padding: 0em 0em 0em 0em;
+	margin: 0em;
+}
+
+.blackbg {
+	background: #000000;
+}
+
+.smalltext {
+	font-size: 11px;
+}
+
+table td textarea {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	width: 100%;
+	height: 16px;
+	color: #CCCCCC;
+	border: none;
+	background-color: transparent;
+	border: 1px dashed blue;
+	overflow: hidden;
+}
+
+table td textarea:focus {
+	border: 1px solid blue;
+}
+
+table td textarea.missing {
+	border: 1px dashed red;
+}
+
+table td textarea.missing:focus {
+	border: 1px solid red;
+}
+
+.vmid {
+	vertical-align: middle;
+}
+
+.vmidr {
+	text-align: right;
+	vertical-align: middle;
+}
+
+.tal {
+	text-align: left;
+}
+
+.author {
+	color: #4343da;
+	background: #000000;
+}
+
+.pf {
+	 border: 1px solid #0000FF;
+	 font-family: Verdana, Arial, Helvetica, sans-serif;
+	 font-size: 12px;
+	 color: #CCCCCC;
+	 background-color: #000040;
+}
+
+.old {
+	color: #4343da;
+	background: #000000;
+	text-align: right;
+}
+
+.oldtext {
+	color: #808080;
+}
