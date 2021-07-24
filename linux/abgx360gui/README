@@ -1,0 +1,31 @@
+abgx360gui requires wxWidgets 2.7.1 or newer (http://wxwidgets.org/downloads/) and xterm 
+(http://invisible-island.net/xterm/)
+
+To install them on systems with apt-get:
+sudo apt-get install libwxgtk2.8-dev xterm
+
+To compile abgx360gui:
+./configure
+make
+
+To run abgx360gui:
+./abgx360gui
+OR
+use your favorite file manager to browse to this folder and double click on abgx360gui
+
+NOTE: This is just a GUI, you need to have abgx360 installed in order to do anything useful
+
+If you encounter this error:
+                wxWidgets must be installed on your system.
+
+                Please check that wx-config is in path, the directory
+                where wxWidgets libraries are installed (returned by
+                'wx-config --libs' or 'wx-config --static --libs' command)
+                is in LD_LIBRARY_PATH or equivalent variable and
+                wxWidgets version is 2.7.1 or above.
+
+First check that wx-config exists in your path (normally /usr/local/bin); it
+might be named something else like wxgtk2-2.8-config, and you will need to create
+a symbolic link named wx-config in order for the configure script to find it.
+
+Example: sudo ln -s /usr/local/bin/wxgtk2-2.8-config /usr/local/bin/wx-config
