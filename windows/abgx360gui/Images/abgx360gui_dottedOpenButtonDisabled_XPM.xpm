@@ -1,0 +1,15 @@
+/* XPM */
+static char *abgx360gui_dottedOpenButtonDisabled_XPM[]={
+/* abgx360gui_dottedOpenButtonDisabled */
+"12 8 2 1",
+"      c None",
+"0     c #8F8F8F",
+"            ",
+"            ",
+"            ",
+" 00  00  00 ",
+" 00  00  00 ",
+"            ",
+"            ",
+"            "};
+
