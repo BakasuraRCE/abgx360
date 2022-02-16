@@ -112,6 +112,27 @@ body {
     font-size: 10px;
 }
 
+.download-box.active span,
+.download-box.active .file-links a,
+.download-box.active .sub-file-links a {
+    color: #00FF00;
+}
+
+.download-box.active .filename > img,
+.download-box.active .sub-filename > img {
+    content: url("arrow_right_g.png");
+}
+
+.download-box.active .file-links a > img:first-of-type,
+.download-box.active .sub-file-links a > img:first-of-type {
+    content: url("link_left_g.png");
+}
+
+.download-box.active .file-links a > img:last-of-type,
+.download-box.active .sub-file-links a > img:last-of-type {
+    content: url("link_right_g.png");
+}
+
 .filename {
     font-weight: bold;
     text-indent: 30px;
