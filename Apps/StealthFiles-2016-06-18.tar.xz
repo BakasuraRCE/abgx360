@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html lang="en"><head>
 <title>404 Not Found</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
 
 <!-- @formatter:off --><!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
