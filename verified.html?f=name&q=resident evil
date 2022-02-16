@@ -27,11 +27,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="master">
 	<div id="logo-bg"></div>
 	<div id="navbar">
-		<a href="http://abgx.net" onClick="RecLink(this, 'Outbound Links', 'abgx.net'); return false;">[abgx.net]</a> -
-		<a href="http://c4evaspeaks.com/" onClick="RecLink(this, 'Outbound Links', 'c4evaspeaks.com'); return false;">[c4evaspeaks.com]</a> -
-		<a href="http://jungleflasher.net" onClick="RecLink(this, 'Outbound Links', 'jungleflasher.net'); return false;">[jungleflasher.net]</a> -
-		<a href="http://team-xecuter.com" onClick="RecLink(this, 'Outbound Links', 'team-xecuter.com'); return false;">[team-xecuter.com]</a> -
-		<a href="http://xbox-scene.com" onClick="RecLink(this, 'Outbound Links', 'xbox-scene.com'); return false;">[xbox-scene.com]</a>
+		<a href="http://abgx.net">[abgx.net]</a> -
+		<a href="http://c4evaspeaks.com/">[c4evaspeaks.com]</a> -
+		<a href="http://jungleflasher.net">[jungleflasher.net]</a> -
+		<a href="http://team-xecuter.com">[team-xecuter.com]</a> -
+		<a href="http://xbox-scene.com">[xbox-scene.com]</a>
 	</div>
 	<div id="logo"><img src="logo.png" alt="abgx360"></div>
 	<div id="body-wrap">
@@ -43,16 +43,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<li><a href="verified.html">Verified</a></li>
 				<li><a href="chat.html">Chat</a></li>
 				<li><a href="translate.html">Translate</a></li>
-				<li><a href="https://www.youtube.com/watch?v=JRzuGy6IUw8" onClick="RecLink(this, 'Outbound Links', 'RickRoll'); return false;">Tutorial</a></li>
+				<li><a href="https://www.youtube.com/watch?v=JRzuGy6IUw8">Tutorial</a></li>
 				<li><a href="donate.html">Donate</a></li>
 			</ul><br>
 		</div>
 		<div id="main-col">
 <p class=head>The results on this page are generated directly from the database.<br>
-We also have a txt list sorted by <a href="games_by_alpha.txt" onClick="RecLink(this, 'Text Files', 'games_by_alpha.txt'); return false;">Name</a>,
-<a href="games_by_date.txt" onClick="RecLink(this, 'Text Files', 'games_by_date.txt'); return false;">Date</a> or
-<a href="games_by_titleid.txt" onClick="RecLink(this, 'Text Files', 'games_by_titleid.txt'); return false;">Title ID</a> and an
-<a href="ver_rss.xml" onClick="RecLink(this, 'Text Files', 'ver_rss.xml'); return false;">RSS Feed</a> which are automatically updated within 5 minutes of a change.<br>
+We also have a txt list sorted by <a href="games_by_alpha.txt">Name</a>,
+<a href="games_by_date.txt">Date</a> or
+<a href="games_by_titleid.txt">Title ID</a> and an
+<a href="ver_rss.xml">RSS Feed</a> which are automatically updated within 5 minutes of a change.<br>
 </p>
 <br>
 <form method="get" action="/verified.html">
@@ -78,12 +78,12 @@ We also have a txt list sorted by <a href="games_by_alpha.txt" onClick="RecLink(
 </form>
 <br>
 <table width="100%"><tr><th width="1%"></th><th width="92%">Game Name</th><th width="1%">Region</th><th width="1%">Verified</th><th width="1%">XEX CRC</th><th width="1%">Media ID</th><th width="1%">Title ID</th><th width="1%">Wave</th><th width="1%"></th></tr>
-<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>2104</td><td>Resident Evil: Revelations 2</td><td class=rf>RF</td><td nowrap>2015-03-18</td><td>D179E732</td><td>4D8D9CDE</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d80243430840/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">43430840</a> (CC-2112)</td><td class=wxgd3>XGD3</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=D179E732">1</a></td></tr>
-<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1812</td><td>Resident Evil: Revelations</td><td class=rf>RF</td><td nowrap>2013-05-21</td><td>1F7DA21D</td><td>09767E37</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d80243430833/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">43430833</a> (CC-2099)</td><td class=wxgd3>XGD3</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=1F7DA21D">3</a></td></tr>
-<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1673</td><td>Resident Evil 6 (Disc 2)</td><td class=rf>RF</td><td nowrap>2012-10-02</td><td>4ABE7581</td><td>40BF802C</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d80243430819/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">43430819</a> (CC-2073)</td><td class=w15>15th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=4ABE7581">4</a></td></tr>
-<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1672</td><td>Resident Evil 6 (Disc 1)</td><td class=rf>RF</td><td nowrap>2012-10-02</td><td>4CDBAF7A</td><td>4EA1CC2E</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d80243430819/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">43430819</a> (CC-2073)</td><td class=wxgd3>XGD3</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=4CDBAF7A">4</a></td></tr>
-<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1545</td><td>Resident Evil: Operation Raccoon City</td><td nowrap>PAL<br>NTSC/U</td><td nowrap>2012-03-20</td><td>8F038E29</td><td>335F4A76</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d8024343081d/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">4343081D</a> (CC-2077)</td><td class=w13>13th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=8F038E29">5</a></td></tr>
-<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>579</td><td>Resident Evil 5</td><td class=rf>RF</td><td nowrap>2009-03-08</td><td>23B2C7D7</td><td>5B2A79D5</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d802434307d4/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">434307D4</a> (CC-2004)</td><td class=w2>2nd</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=23B2C7D7">9</a></td></tr>
+<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>2104</td><td>Resident Evil: Revelations 2</td><td class=rf>RF</td><td nowrap>2015-03-18</td><td>D179E732</td><td>4D8D9CDE</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d80243430840/" target="_blank">43430840</a> (CC-2112)</td><td class=wxgd3>XGD3</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=D179E732">1</a></td></tr>
+<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1812</td><td>Resident Evil: Revelations</td><td class=rf>RF</td><td nowrap>2013-05-21</td><td>1F7DA21D</td><td>09767E37</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d80243430833/" target="_blank">43430833</a> (CC-2099)</td><td class=wxgd3>XGD3</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=1F7DA21D">3</a></td></tr>
+<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1673</td><td>Resident Evil 6 (Disc 2)</td><td class=rf>RF</td><td nowrap>2012-10-02</td><td>4ABE7581</td><td>40BF802C</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d80243430819/" target="_blank">43430819</a> (CC-2073)</td><td class=w15>15th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=4ABE7581">4</a></td></tr>
+<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1672</td><td>Resident Evil 6 (Disc 1)</td><td class=rf>RF</td><td nowrap>2012-10-02</td><td>4CDBAF7A</td><td>4EA1CC2E</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d80243430819/" target="_blank">43430819</a> (CC-2073)</td><td class=wxgd3>XGD3</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=4CDBAF7A">4</a></td></tr>
+<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1545</td><td>Resident Evil: Operation Raccoon City</td><td nowrap>PAL<br>NTSC/U</td><td nowrap>2012-03-20</td><td>8F038E29</td><td>335F4A76</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d8024343081d/" target="_blank">4343081D</a> (CC-2077)</td><td class=w13>13th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=8F038E29">5</a></td></tr>
+<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>579</td><td>Resident Evil 5</td><td class=rf>RF</td><td nowrap>2009-03-08</td><td>23B2C7D7</td><td>5B2A79D5</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d802434307d4/" target="_blank">434307D4</a> (CC-2004)</td><td class=w2>2nd</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=23B2C7D7">9</a></td></tr>
 </table><p class=results><b>6</b> results generated in 0.236275 seconds (max 50 results)</p>
 		</div>
 		<div id="footer">

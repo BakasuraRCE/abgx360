@@ -27,11 +27,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="master">
 	<div id="logo-bg"></div>
 	<div id="navbar">
-		<a href="http://abgx.net" onClick="RecLink(this, 'Outbound Links', 'abgx.net'); return false;">[abgx.net]</a> -
-		<a href="http://c4evaspeaks.com/" onClick="RecLink(this, 'Outbound Links', 'c4evaspeaks.com'); return false;">[c4evaspeaks.com]</a> -
-		<a href="http://jungleflasher.net" onClick="RecLink(this, 'Outbound Links', 'jungleflasher.net'); return false;">[jungleflasher.net]</a> -
-		<a href="http://team-xecuter.com" onClick="RecLink(this, 'Outbound Links', 'team-xecuter.com'); return false;">[team-xecuter.com]</a> -
-		<a href="http://xbox-scene.com" onClick="RecLink(this, 'Outbound Links', 'xbox-scene.com'); return false;">[xbox-scene.com]</a>
+		<a href="http://abgx.net">[abgx.net]</a> -
+		<a href="http://c4evaspeaks.com/">[c4evaspeaks.com]</a> -
+		<a href="http://jungleflasher.net">[jungleflasher.net]</a> -
+		<a href="http://team-xecuter.com">[team-xecuter.com]</a> -
+		<a href="http://xbox-scene.com">[xbox-scene.com]</a>
 	</div>
 	<div id="logo"><img src="logo.png" alt="abgx360"></div>
 	<div id="body-wrap">
@@ -43,16 +43,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<li><a href="verified.html">Verified</a></li>
 				<li><a href="chat.html">Chat</a></li>
 				<li><a href="translate.html">Translate</a></li>
-				<li><a href="https://www.youtube.com/watch?v=JRzuGy6IUw8" onClick="RecLink(this, 'Outbound Links', 'RickRoll'); return false;">Tutorial</a></li>
+				<li><a href="https://www.youtube.com/watch?v=JRzuGy6IUw8">Tutorial</a></li>
 				<li><a href="donate.html">Donate</a></li>
 			</ul><br>
 		</div>
 		<div id="main-col">
 <p class=head>The results on this page are generated directly from the database.<br>
-We also have a txt list sorted by <a href="games_by_alpha.txt" onClick="RecLink(this, 'Text Files', 'games_by_alpha.txt'); return false;">Name</a>,
-<a href="games_by_date.txt" onClick="RecLink(this, 'Text Files', 'games_by_date.txt'); return false;">Date</a> or
-<a href="games_by_titleid.txt" onClick="RecLink(this, 'Text Files', 'games_by_titleid.txt'); return false;">Title ID</a> and an
-<a href="ver_rss.xml" onClick="RecLink(this, 'Text Files', 'ver_rss.xml'); return false;">RSS Feed</a> which are automatically updated within 5 minutes of a change.<br>
+We also have a txt list sorted by <a href="games_by_alpha.txt">Name</a>,
+<a href="games_by_date.txt">Date</a> or
+<a href="games_by_titleid.txt">Title ID</a> and an
+<a href="ver_rss.xml">RSS Feed</a> which are automatically updated within 5 minutes of a change.<br>
 </p>
 <br>
 <form method="get" action="/verified.html">
@@ -78,14 +78,14 @@ We also have a txt list sorted by <a href="games_by_alpha.txt" onClick="RecLink(
 </form>
 <br>
 <table width="100%"><tr><th width="1%"></th><th width="92%">Game Name</th><th width="1%">Region</th><th width="1%">Verified</th><th width="1%">XEX CRC</th><th width="1%">Media ID</th><th width="1%">Title ID</th><th width="1%">Wave</th><th width="1%"></th></tr>
-<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>2141</td><td>Call of Duty: Black Ops III</td><td class=rf>RF</td><td nowrap>2015-11-12</td><td>691FBA95</td><td>33B8D0AD</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d8024156091d/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">4156091D</a> (AV-2333)</td><td class=wxgd3>XGD3</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=691FBA95">2</a></td></tr>
-<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1733</td><td>Call of Duty: Black Ops II</td><td>PAL</td><td nowrap>2012-11-21</td><td>BD579292</td><td>2216717A</td><td nowrap><a href="http://marketplace.xbox.com/en-GB/games/media/66acd000-77fe-1000-9115-d802415608c3/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">415608C3</a> (AV-2243)</td><td class=wxgd3>XGD3</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=BD579292">1</a></td></tr>
-<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1723</td><td>Call of Duty: Black Ops II</td><td class=rf>RF</td><td nowrap>2012-11-12</td><td>AE7588A1</td><td>05C7492A</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d802415608c3/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">415608C3</a> (AV-2243)</td><td class=wxgd3>XGD3</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=AE7588A1">7</a></td></tr>
-<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1352</td><td>Call of Duty: Black Ops</td><td>PAL</td><td nowrap>2011-10-03</td><td>7FA61070</td><td>0ED34F47</td><td nowrap><a href="http://marketplace.xbox.com/en-GB/games/media/66acd000-77fe-1000-9115-d80241560855/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">41560855</a> (AV-2133)</td><td class=w6>6th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=7FA61070">1</a></td></tr>
-<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1294</td><td>Call of Duty: Black Ops</td><td>PAL</td><td nowrap>2011-08-01</td><td>110848C3</td><td>1E0BB99A</td><td nowrap><a href="http://marketplace.xbox.com/en-GB/games/media/66acd000-77fe-1000-9115-d80241560855/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">41560855</a> (AV-2133)</td><td class=w6>6th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=110848C3">1</a></td></tr>
-<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1200</td><td>Call of Duty: Black Ops</td><td nowrap>PAL<br>NTSC/U</td><td nowrap>2011-04-14</td><td>CAB03F16</td><td>4D18C76A</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d80241560855/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">41560855</a> (AV-2133)</td><td class=w6>6th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=CAB03F16">1</a></td></tr>
-<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1079</td><td>Call of Duty: Black Ops</td><td>PAL</td><td nowrap>2010-12-16</td><td>73D59671</td><td>3C8B5AAC</td><td nowrap><a href="http://marketplace.xbox.com/en-GB/games/media/66acd000-77fe-1000-9115-d80241560855/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">41560855</a> (AV-2133)</td><td class=w6>6th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=73D59671">1</a></td></tr>
-<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1027</td><td>Call of Duty: Black Ops</td><td class=rf>RF</td><td nowrap>2010-11-08</td><td>D1F515F8</td><td>0AEB2159</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d80241560855/" onClick="RecLink(this, 'Outbound Links', 'marketplace.xbox.com'); return false;" target="_blank">41560855</a> (AV-2133)</td><td class=w6>6th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=D1F515F8">10</a></td></tr>
+<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>2141</td><td>Call of Duty: Black Ops III</td><td class=rf>RF</td><td nowrap>2015-11-12</td><td>691FBA95</td><td>33B8D0AD</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d8024156091d/" target="_blank">4156091D</a> (AV-2333)</td><td class=wxgd3>XGD3</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=691FBA95">2</a></td></tr>
+<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1733</td><td>Call of Duty: Black Ops II</td><td>PAL</td><td nowrap>2012-11-21</td><td>BD579292</td><td>2216717A</td><td nowrap><a href="http://marketplace.xbox.com/en-GB/games/media/66acd000-77fe-1000-9115-d802415608c3/" target="_blank">415608C3</a> (AV-2243)</td><td class=wxgd3>XGD3</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=BD579292">1</a></td></tr>
+<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1723</td><td>Call of Duty: Black Ops II</td><td class=rf>RF</td><td nowrap>2012-11-12</td><td>AE7588A1</td><td>05C7492A</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d802415608c3/" target="_blank">415608C3</a> (AV-2243)</td><td class=wxgd3>XGD3</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=AE7588A1">7</a></td></tr>
+<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1352</td><td>Call of Duty: Black Ops</td><td>PAL</td><td nowrap>2011-10-03</td><td>7FA61070</td><td>0ED34F47</td><td nowrap><a href="http://marketplace.xbox.com/en-GB/games/media/66acd000-77fe-1000-9115-d80241560855/" target="_blank">41560855</a> (AV-2133)</td><td class=w6>6th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=7FA61070">1</a></td></tr>
+<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1294</td><td>Call of Duty: Black Ops</td><td>PAL</td><td nowrap>2011-08-01</td><td>110848C3</td><td>1E0BB99A</td><td nowrap><a href="http://marketplace.xbox.com/en-GB/games/media/66acd000-77fe-1000-9115-d80241560855/" target="_blank">41560855</a> (AV-2133)</td><td class=w6>6th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=110848C3">1</a></td></tr>
+<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1200</td><td>Call of Duty: Black Ops</td><td nowrap>PAL<br>NTSC/U</td><td nowrap>2011-04-14</td><td>CAB03F16</td><td>4D18C76A</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d80241560855/" target="_blank">41560855</a> (AV-2133)</td><td class=w6>6th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=CAB03F16">1</a></td></tr>
+<tr class=even onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1079</td><td>Call of Duty: Black Ops</td><td>PAL</td><td nowrap>2010-12-16</td><td>73D59671</td><td>3C8B5AAC</td><td nowrap><a href="http://marketplace.xbox.com/en-GB/games/media/66acd000-77fe-1000-9115-d80241560855/" target="_blank">41560855</a> (AV-2133)</td><td class=w6>6th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=73D59671">1</a></td></tr>
+<tr class=odd onMouseOver="ver_MouseOverTR(this)" onMouseOut="ver_MouseOutTR(this)"><td class=num>1027</td><td>Call of Duty: Black Ops</td><td class=rf>RF</td><td nowrap>2010-11-08</td><td>D1F515F8</td><td>0AEB2159</td><td nowrap><a href="http://marketplace.xbox.com/en-US/games/media/66acd000-77fe-1000-9115-d80241560855/" target="_blank">41560855</a> (AV-2133)</td><td class=w6>6th</td><td style="background:#000000"><a href="verified.html?f=pressings&amp;q=D1F515F8">10</a></td></tr>
 </table><p class=results><b>8</b> results generated in 0.259535 seconds (max 50 results)</p>
 		</div>
 		<div id="footer">
