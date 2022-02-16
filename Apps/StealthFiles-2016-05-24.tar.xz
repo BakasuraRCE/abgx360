@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-<html><head>
+<html lang="en"><head>
 <title>404 Not Found</title>
 
 <!-- @formatter:off --><!-- Google Tag Manager -->

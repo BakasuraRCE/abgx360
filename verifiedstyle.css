@@ -1,89 +1,194 @@
 th {
-	font-weight:	bold;
-	text-align:	center;
+    font-weight: bold;
+    text-align: center;
 }
 
 table th,
 table td {
-	padding:	0.1em 0.5em 0.1em 0.5em;
-	margin:		0.1em;
-	font-size:	11px;
-	vertical-align: top;
+    padding: 0.1em 0.5em 0.1em 0.5em;
+    margin: 0.1em;
+    font-size: 11px;
+    vertical-align: top;
 }
 
-td a:link {color: #006cff; text-decoration: none;}
-td a:visited {color: #006cff; text-decoration: none;}
-td a:active {color: #00ffff; text-decoration: none;}
-td a:hover {color: #00ff00; text-decoration: none;}
+td a:link {
+    color: #006cff;
+    text-decoration: none;
+}
+
+td a:visited {
+    color: #006cff;
+    text-decoration: none;
+}
+
+td a:active {
+    color: #00ffff;
+    text-decoration: none;
+}
+
+td a:hover {
+    color: #00ff00;
+    text-decoration: none;
+}
 
 .odd {
-	background:	#293059;
-	text-align:	left;
+    background: #293059;
+    text-align: left;
 }
 
 .even {
-	background:	#212647;
-	text-align:	left;
+    background: #212647;
+    text-align: left;
 }
 
 .rf {
-	color:		#43da43;
-	text-align:	right;
+    color: #43da43;
+    text-align: right;
 }
 
-.w1 {background:#326262;text-align:center;}
-.w2 {background:#324A62;text-align:center;}
-.w3 {background:#323262;text-align:center;}
-.w4 {background:#4A3262;text-align:center;}
-.w5 {background:#623262;text-align:center;}
-.w6 {background:#62324A;text-align:center;}
-.w7 {background:#623232;text-align:center;}
-.w8 {background:#624A32;text-align:center;}
-.w9 {background:#626232;text-align:center;}
-.w10 {background:#4A6232;text-align:center;}
-.w11 {background:#326232;text-align:center;}
-.w12 {background:#32624A;text-align:center;}
-.w13 {background:#326262;text-align:center;border:1px solid #999999;}
-.w14 {background:#324A62;text-align:center;border:1px solid #999999;}
-.w15 {background:#323262;text-align:center;border:1px solid #999999;}
-.w16 {background:#4A3262;text-align:center;border:1px solid #999999;}
-.w17 {background:#623262;text-align:center;border:1px solid #999999;}
-.w18 {background:#62324A;text-align:center;border:1px solid #999999;}
-.w19 {background:#623232;text-align:center;border:1px solid #999999;}
-.w20 {background:#624A32;text-align:center;border:1px solid #999999;}
+.w1 {
+    background: #326262;
+    text-align: center;
+}
 
-.wxgd3 {background:#4A4A4A;text-align:center;}
+.w2 {
+    background: #324A62;
+    text-align: center;
+}
+
+.w3 {
+    background: #323262;
+    text-align: center;
+}
+
+.w4 {
+    background: #4A3262;
+    text-align: center;
+}
+
+.w5 {
+    background: #623262;
+    text-align: center;
+}
+
+.w6 {
+    background: #62324A;
+    text-align: center;
+}
+
+.w7 {
+    background: #623232;
+    text-align: center;
+}
+
+.w8 {
+    background: #624A32;
+    text-align: center;
+}
+
+.w9 {
+    background: #626232;
+    text-align: center;
+}
+
+.w10 {
+    background: #4A6232;
+    text-align: center;
+}
+
+.w11 {
+    background: #326232;
+    text-align: center;
+}
+
+.w12 {
+    background: #32624A;
+    text-align: center;
+}
+
+.w13 {
+    background: #326262;
+    text-align: center;
+    border: 1px solid #999999;
+}
+
+.w14 {
+    background: #324A62;
+    text-align: center;
+    border: 1px solid #999999;
+}
+
+.w15 {
+    background: #323262;
+    text-align: center;
+    border: 1px solid #999999;
+}
+
+.w16 {
+    background: #4A3262;
+    text-align: center;
+    border: 1px solid #999999;
+}
+
+.w17 {
+    background: #623262;
+    text-align: center;
+    border: 1px solid #999999;
+}
+
+.w18 {
+    background: #62324A;
+    text-align: center;
+    border: 1px solid #999999;
+}
+
+.w19 {
+    background: #623232;
+    text-align: center;
+    border: 1px solid #999999;
+}
+
+.w20 {
+    background: #624A32;
+    text-align: center;
+    border: 1px solid #999999;
+}
+
+.wxgd3 {
+    background: #4A4A4A;
+    text-align: center;
+}
 
 .num {
-	color:		#4343da;
-	background:	#000000;
-	text-align:	right;
+    color: #4343da;
+    background: #000000;
+    text-align: right;
 }
 
 .results {
-	color:		#4343da;
-	font-size:	10px;
-	text-indent:	40px;
+    color: #4343da;
+    font-size: 10px;
+    text-indent: 40px;
 }
 
 .vmid {
-	vertical-align:	middle;
-	padding:	0.2em;
-	font-size:	12px;
+    vertical-align: middle;
+    padding: 0.2em;
+    font-size: 12px;
 }
 
 .pf {
-	 border:		1px solid #0000FF;
-	 font-family:		Verdana, Arial, Helvetica, sans-serif;
-	 font-size:		12px;
-	 color:			#CCCCCC;
-	 background-color:	#000040;
+    border: 1px solid #0000FF;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #CCCCCC;
+    background-color: #000040;
 }
 
 .w100p {
-	width:	100%;
+    width: 100%;
 }
 
 .head {
-	font-size:	11px;
+    font-size: 11px;
 }
