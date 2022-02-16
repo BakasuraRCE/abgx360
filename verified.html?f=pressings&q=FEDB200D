@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>abgx360 - Verified</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<link rel="stylesheet" type="text/css" href="tooltipstyle.css">
+	<link rel="stylesheet" type="text/css" href="tool_tip_style.css">
 	<link rel="stylesheet" type="text/css" href="verifiedstyle.css">
 	<link rel="alternate" type="application/rss+xml" href="ver_rss.xml" title="abgx360 Verified List RSS Feed">
 	<script type="text/javascript" src="js.js"></script>
@@ -25,7 +25,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 <div id="master">
-	<div id="logobg"></div>
+	<div id="logo-bg"></div>
 	<div id="navbar">
 		<a href="http://abgx.net" onClick="RecLink(this, 'Outbound Links', 'abgx.net'); return false;">[abgx.net]</a> -
 		<a href="http://c4evaspeaks.com/" onClick="RecLink(this, 'Outbound Links', 'c4evaspeaks.com'); return false;">[c4evaspeaks.com]</a> -
@@ -34,8 +34,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<a href="http://xbox-scene.com" onClick="RecLink(this, 'Outbound Links', 'xbox-scene.com'); return false;">[xbox-scene.com]</a>
 	</div>
 	<div id="logo"><img src="logo.png" alt="abgx360"></div>
-	<div id="bodywrap">
-		<div id="sidecol">
+	<div id="body-wrap">
+		<div id="side-col">
 			<br>
 			<ul>
 				<li><a href="index.html">Home</a></li>
@@ -53,7 +53,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<li>jhmiller (4)</li>
 			</ol>
 		</div>
-		<div id="maincol">
+		<div id="main-col">
 <p class=head>The results on this page are generated directly from the database.<br>
 We also have a txt list sorted by <a href="games_by_alpha.txt" onClick="RecLink(this, 'Text Files', 'games_by_alpha.txt'); return false;">Name</a>,
 <a href="games_by_date.txt" onClick="RecLink(this, 'Text Files', 'games_by_date.txt'); return false;">Date</a> or
