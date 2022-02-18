@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="{% block html_lang %}{{ DEFAULT_LANG }}{% endblock html_lang %}">
+<head>
+    {% block head %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <meta name="color-scheme" content="light dark">
+        <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/bootstrap-dark.css" rel="stylesheet">
+        <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/{{ CSS_FILE }}" rel="stylesheet">
+
+        <title>{% block title %}{{ SITENAME }} · {{ SUBTITLE }}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/{{ CSS_FILE }}"/>
+        {% if FEED_ALL_ATOM %}
+            <link href="{{ FEED_DOMAIN }}/{% if FEED_ALL_ATOM_URL %}{{ FEED_ALL_ATOM_URL }}{% else %}{{ FEED_ALL_ATOM }}{% endif %}" type="application/atom+xml" rel="alternate"
+                  title="{{ SITENAME }} Atom Feed"/>
+        {% endif %}
+        {% if FEED_ALL_RSS %}
+            <link href="{{ FEED_DOMAIN }}/{% if FEED_ALL_RSS_URL %}{{ FEED_ALL_RSS_URL }}{% else %}{{ FEED_ALL_RSS }}{% endif %}" type="application/rss+xml" rel="alternate"
+                  title="{{ SITENAME }} RSS Feed"/>
+        {% endif %}
+        {% block extra_head %}{% endblock extra_head %}
+    {% endblock head %}
+</head>
+
+<body id="index" class="home" style="padding-top: 70px">
+{% include 'github.html' %}
+<header class="fixed-top bg-black-000 border-bottom border-light">
+
+    <div class="container-fluid my-2" id="logo-bg">
+        <div class="container">
+
+            <nav class="navbar navbar-expand-lg navbar-dark p-0">
+                <div class="container-fluid m-0">
+                    <a class="navbar-brand p-0" href="{{ SITEURL }}/"><img src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/logo_reloaded.png" alt="{{ SITENAME }}"></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse pt-3" id="navbarNav">
+                        <ul class="navbar-nav ms-auto pt-1">
+
+                            {% for title, link in MENUITEMS %}
+                                <li class="nav-item d-flex menu-item">
+                                    <a class="nav-link align-self-end pt-0 pb-0" href="{{ link }}">[{{ title }}]</a>
+                                </li>
+                                {% if not loop.last and loop.index is odd %}
+                                    <li class="text-primary d-none d-lg-block"> -</li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if DISPLAY_PAGES_ON_MENU -%}
+                                {% for pg in pages %}
+                                    <li class="nav-item d-flex menu-page">
+                                        <a class="nav-link {% if pg == page %}active {% endif %}align-self-end pt-0 pb-0" href="{{ SITEURL }}/{{ pg.url }}">[{{ pg.title }}]</a>
+                                    </li>
+                                    {% if not loop.last and loop.index is odd %}
+                                        <li class="text-primary d-none d-lg-block"> -</li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {% if DISPLAY_CATEGORIES_ON_MENU -%}
+                                {% for cat, null in categories %}
+                                    <li class="nav-item d-flex menu-category">
+                                        <a class="nav-link {% if pg == page %}active {% endif %}align-self-end pt-0 pb-0" href="{{ SITEURL }}/{{ cat.url }}">[{{ cat }}]</a>
+                                    </li>
+                                    {% if not loop.last and loop.index is odd %}
+                                        <li class="text-primary d-none d-lg-block"> -</li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+
+        </div>
+    </div>
+</header><!-- /#banner -->
+<div class="container py-1">
+    {% block content %}
+    {% endblock %}
+</div>
+<section id="extras" class="body">
+    {% if LINKS %}
+        <div class="blogroll">
+            <h2>{{ LINKS_WIDGET_NAME | default('links') }}</h2>
+            <ul>
+                {% for name, link in LINKS %}
+                    <li><a href="{{ link }}">{{ name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div><!-- /.blogroll -->
+    {% endif %}
+    {% if SOCIAL or FEED_ALL_ATOM or FEED_ALL_RSS %}
+        <div class="social">
+            <h2>{{ SOCIAL_WIDGET_NAME | default('social') }}</h2>
+            <ul>
+                {% if FEED_ALL_ATOM %}
+                    <li><a href="{{ FEED_DOMAIN }}/{% if FEED_ALL_ATOM_URL %}{{ FEED_ALL_ATOM_URL }}{% else %}{{ FEED_ALL_ATOM }}{% endif %}" type="application/atom+xml" rel="alternate">atom feed</a>
+                    </li>
+                {% endif %}
+                {% if FEED_ALL_RSS %}
+                    <li><a href="{{ FEED_DOMAIN }}/{% if FEED_ALL_RSS_URL %}{{ FEED_ALL_RSS_URL }}{% else %}{{ FEED_ALL_RSS }}{% endif %}" type="application/rss+xml" rel="alternate">rss feed</a></li>
+                {% endif %}
+
+                {% for name, link in SOCIAL %}
+                    <li><a href="{{ link }}">{{ name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div><!-- /.social -->
+    {% endif %}
+</section><!-- /#extras -->
+
+<footer id="contentinfo" class="body text-center">
+    <p>Seacrest 2008-2018, the original author<br>Bakasura 2021-2022</p>
+</footer><!-- /#contentinfo -->
+
+{% include 'analytics.html' %}
+{% include 'disqus_script.html' %}
+<script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/bootstrap.bundle.min.js"></script>
+<script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/main.js"></script>
+</body>
+</html>
+

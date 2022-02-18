@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block html_lang %}{{ page.lang }}{% endblock %}
+{% block title %}{{ page.title|striptags }} · {{ SITENAME }}{% endblock %}
+
+
+{% block extra_head %}
+    {% import 'translations.html' as translations with context %}
+    {% if translations.entry_hreflang(page) %}
+        {{ translations.entry_hreflang(page) }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <section id="content" class="container rnd-grad-box border border-light rounded my-2">
+        <h1 class="entry-title mb-1">{{ page.title }}</h1>
+    </section>
+    <section id="content" class="container rnd-grad-box border border-light rounded py-2">
+        <div class="row">
+            <div class="col">
+                {% import 'translations.html' as translations with context %}
+                {{ translations.translations_for(page) }}
+                {{ page.content }}
+            </div>
+        </div>
+    </section>
+{% endblock %}
