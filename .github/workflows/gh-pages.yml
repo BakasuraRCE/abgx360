@@ -9,32 +9,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # Setup Python (faster than using Python container)
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - name: Install Python, pipenv and Pipfile packages
+        uses: palewire/install-python-pipenv-pipfile@v2
         with:
-          python-version: "3.10"
-
-      - name: Install Pipenv
-        run: |
-          python -m venv ./venv
-          ./venv/activate
-          pip install --upgrade pipenv wheel
-      - id: cache-pipenv
-        uses: actions/cache@v1
-        with:
-          path: ./venv
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
-
-      - name: Install dependencies
-        if: steps.cache-pipenv.outputs.cache-hit != 'true'
-        run: |
-          ./venv/activate
-          pipenv sync
+          python-version: 3.10
 
       - name: Build with Pelican
         run: |
-          ./venv/activate
           pelican content
 
       - name: Deploy to GitHub Pages
