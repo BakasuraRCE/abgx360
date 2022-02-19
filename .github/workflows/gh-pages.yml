@@ -16,8 +16,7 @@ jobs:
 
       - name: Build with Pelican
         run: |
-          pipenv shell
-          pelican content
+          pipenv run pelican content
 
       - name: Deploy to GitHub Pages
         if: success()
