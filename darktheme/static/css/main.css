@@ -53,7 +53,7 @@
 }
 
 .bg-black-000 {
-  background-color: #000 !important;
+    background-color: #000 !important;
 }
 
 .text-yellow {
@@ -101,4 +101,36 @@ a,
     /*background-color: #000000;*/
     background-image: url('../images/logo_bg.png');
     background-repeat: repeat-x;
+}
+
+.download-box a::before {
+    content: url("../images/link_left.png");
+}
+
+.download-box a::after {
+    content: url("../images/link_right.png");
+}
+
+.download-box a:hover::after {
+    content: url("../images/link_right_g.png");
+}
+
+.download-box a:hover::before {
+    content: url("../images/link_left_g.png");
+}
+
+.download-box a.decoration-none::before,
+.download-box a.decoration-none::after {
+    content: none;
+}
+
+
+/* `sm` applies to x-small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) {
+    .download-box a::before,
+    .download-box a::after,
+    .download-box a:hover::after,
+    .download-box a:hover::before {
+        content: none;
+    }
 }
