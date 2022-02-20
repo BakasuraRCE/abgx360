@@ -48,9 +48,6 @@
                                 <li class="nav-item d-flex col-6 col-lg-auto menu-item">
                                     <a class="nav-link align-self-end py-0" href="{{ link }}">[{{ title }}]</a>
                                 </li>
-                                {% if not loop.last and loop.index is odd %}
-                                    <li class="text-primary d-none d-lg-block"> -</li>
-                                {% endif %}
                             {% endfor %}
                             {% if DISPLAY_PAGES_ON_MENU -%}
                                 {% for pg in pages|menu_order %}
@@ -58,9 +55,6 @@
                                         <a class="nav-link {% if pg == page %}active {% endif %}align-self-end py-0"
                                            href="{{ SITEURL }}/{{ pg.url }}">[{{ pg.menu_title if pg.menu_title else pg.title }}]</a>
                                     </li>
-                                    {% if not loop.last and loop.index is odd %}
-                                        <li class="text-primary d-none d-lg-block"> -</li>
-                                    {% endif %}
                                 {% endfor %}
                             {% endif %}
                             {% if DISPLAY_CATEGORIES_ON_MENU -%}
@@ -68,9 +62,6 @@
                                     <li class="nav-item d-flex col-6 col-lg-auto menu-category">
                                         <a class="nav-link {% if pg == page %}active {% endif %}align-self-end py-0" href="{{ SITEURL }}/{{ cat.url }}">[{{ cat }}]</a>
                                     </li>
-                                    {% if not loop.last and loop.index is odd %}
-                                        <li class="text-primary d-none d-lg-block"> -</li>
-                                    {% endif %}
                                 {% endfor %}
                             {% endif %}
 
