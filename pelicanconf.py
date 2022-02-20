@@ -19,7 +19,7 @@ PAGE_URL = '{slug}.html'
 PAGE_SAVE_AS = PAGE_URL
 
 # Filesystem
-
+DIRECT_TEMPLATES = ['index']
 ARTICLE_PATHS = ['articles']
 STATIC_PATHS = ['static']
 PATH = 'content'
