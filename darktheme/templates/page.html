@@ -14,7 +14,7 @@
     <meta name="twitter:card" content="summary"/>
     <meta name="twitter:title" content="{{ page_title }}"/>
     {% if not page.headerimage or page.headerimage == '' %}
-        <meta name="twitter:image" content="{{ SITEURL }}/images/default_og_image.jpg"/>
+        <meta name="twitter:image" content="{{ SITEURL }}/static/files/images/og_image_default.png"/>
     {% else %}
         <meta property="twitter:image" content="{{ SITEURL }}{{ page.headerimage }}"/>
     {% endif %}
@@ -22,7 +22,7 @@
     <meta property="og:title" content="{{ page_title }}"/>
     <meta property="og:description" content="{{ page.summary | striptags | safe | truncate(150) }}"/>
     {% if not page.headerimage or page.headerimage == '' %}
-        <meta property="og:image" content="{{ SITEURL }}/images/default_og_image.jpg"/>
+        <meta property="og:image" content="{{ SITEURL }}/static/files/images/og_image_default.png"/>
     {% else %}
         <meta property="og:image" content="{{ SITEURL }}{{ page.headerimage }}"/>
     {% endif %}
