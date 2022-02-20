@@ -1,10 +1,33 @@
+from jinja_config.filters import menu_order
+
+# Site
+DEFAULT_LANG = 'en'
 AUTHOR = 'Bakasura'
 SITENAME = 'abgx360 Reloaded'
 SUBTITLE = 'Verify the integrity of your Xbox 360 game backups'
 SITEURL = ''
+TIMEZONE = 'EST'
+THEME = 'darktheme'
+GOOGLE_ANALYTICS = 'GTM-K5ZHTLX'
+GITHUB_URL = 'https://github.com/BakasuraRCE/abgx360'
+DISCORD_URL = 'https://discord.gg/Pn6A9YegXV'
+DISPLAY_CATEGORIES_ON_MENU = False
+DEFAULT_PAGINATION = 10
 
+# Slugs
+PAGE_URL = '{slug}.html'
+PAGE_SAVE_AS = PAGE_URL
+
+# Filesystem
+
+ARTICLE_PATHS = ['articles']
 STATIC_PATHS = ['static']
+PATH = 'content'
 
+# Jinja
+JINJA_FILTERS = {'menu_order': menu_order}
+
+# Markdown
 MARKDOWN = {
     'extension_configs': {
         'markdown.extensions.codehilite': {'css_class': 'highlight'},
@@ -16,19 +39,7 @@ MARKDOWN = {
     'output_format': 'html5',
 }
 
-THEME = 'darktheme'
-
-DISPLAY_CATEGORIES_ON_MENU = False
-
-PATH = 'content'
-
-ARTICLE_PATHS = ['articles']
-
-TIMEZONE = 'EST'
-
-DEFAULT_LANG = 'en'
-
-# Feed generation is usually not desired when developing
+# Disable feed
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
@@ -40,12 +51,10 @@ AUTHOR_FEED_RSS = None
 #          ('Python.org', 'https://www.python.org/'),
 #          ('Jinja2', 'https://palletsprojects.com/p/jinja/'),
 #          ('You can modify those links in your config file', '#'),)
-#
+
 # # Social widget
 # SOCIAL = (('You can add links in your config file', '#'),
 #           ('Another social link', '#'),)
-
-DEFAULT_PAGINATION = 10
 
 # Uncomment following line if you want document-relative URLs when developing
 # RELATIVE_URLS = True

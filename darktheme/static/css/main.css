@@ -124,6 +124,10 @@ a,
     content: none;
 }
 
+.navbar-nav-svg {
+    width: 1rem;
+    height: 1rem;
+}
 
 /* `sm` applies to x-small devices (portrait phones, less than 576px)*/
 @media (max-width: 575.98px) {

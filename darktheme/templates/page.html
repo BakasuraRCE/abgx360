@@ -1,7 +1,35 @@
 {% extends "base.html" %}
 {% block html_lang %}{{ page.lang }}{% endblock %}
-{% block title %}{{ page.title|striptags }} · {{ SITENAME }}{% endblock %}
 
+{% if page.url|length %}
+    {% set page_title = page.page_title|striptags if page.page_title else page.title|striptags ~ ' · ' ~ SITENAME %}
+{% else %}
+    {% set page_title = SITENAME ~ ' · ' ~ SUBTITLE %}
+{% endif %}
+
+{% block meta_header %}
+    {% if page.summary %}
+        <meta name="description" content="{{ page.summary | striptags | safe | truncate(150) }}">
+    {% endif %}
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content="{{ page_title }}"/>
+    {% if not page.headerimage or page.headerimage == '' %}
+        <meta name="twitter:image" content="{{ SITEURL }}/images/default_og_image.jpg"/>
+    {% else %}
+        <meta property="twitter:image" content="{{ SITEURL }}{{ page.headerimage }}"/>
+    {% endif %}
+    <meta property="og:url" content="{{ SITEURL }}/{{ page.slug }}.html"/>
+    <meta property="og:title" content="{{ page_title }}"/>
+    <meta property="og:description" content="{{ page.summary | striptags | safe | truncate(150) }}"/>
+    {% if not page.headerimage or page.headerimage == '' %}
+        <meta property="og:image" content="{{ SITEURL }}/images/default_og_image.jpg"/>
+    {% else %}
+        <meta property="og:image" content="{{ SITEURL }}{{ page.headerimage }}"/>
+    {% endif %}
+    <link rel="canonical" href="{{ SITEURL }}/{{ page.save_as }}"/>
+{% endblock %}
+
+{% block title %}{{ page_title }}{% endblock %}
 
 {% block extra_head %}
     {% import 'translations.html' as translations with context %}
