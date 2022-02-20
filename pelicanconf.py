@@ -23,6 +23,9 @@ DIRECT_TEMPLATES = ['index']
 ARTICLE_PATHS = ['articles']
 STATIC_PATHS = ['static']
 PATH = 'content'
+EXTRA_PATH_METADATA = {
+    'static/google791025052fdf886c.html': {'path': 'google791025052fdf886c.html'},
+}
 
 # Jinja
 JINJA_FILTERS = {'menu_order': menu_order}
