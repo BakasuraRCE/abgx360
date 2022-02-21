@@ -18,6 +18,8 @@ Finally, but not least, if this project is of your liking and wants to collabora
 Regards,<br>
 Bakasura
 
+<div class="download-box text-center"><a href="./download.html">Download the latest version here</a></div>
+
 ## News
 
 [TOC]
