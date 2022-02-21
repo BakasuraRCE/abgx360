@@ -25,6 +25,8 @@ STATIC_PATHS = ['static']
 PATH = 'content'
 EXTRA_PATH_METADATA = {
     'static/google791025052fdf886c.html': {'path': 'google791025052fdf886c.html'},
+    'static/robots.txt': {'path': 'robots.txt'},
+    'static/favicon.ico': {'path': 'favicon.ico'},
 }
 
 # Jinja
