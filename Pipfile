@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 pelican = {extras = ["markdown"], version = "*"}
+pelican-sitemap = "*"
 
 [dev-packages]
 

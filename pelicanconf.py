@@ -14,6 +14,11 @@ DISCORD_URL = 'https://discord.gg/Pn6A9YegXV'
 DISPLAY_CATEGORIES_ON_MENU = False
 DEFAULT_PAGINATION = 10
 
+# Sitemap
+SITEMAP = {
+    "format": "xml"
+}
+
 # Slugs
 PAGE_URL = '{slug}.html'
 PAGE_SAVE_AS = PAGE_URL
