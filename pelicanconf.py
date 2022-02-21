@@ -14,6 +14,10 @@ DISCORD_URL = 'https://discord.gg/Pn6A9YegXV'
 DISPLAY_CATEGORIES_ON_MENU = False
 DEFAULT_PAGINATION = 10
 
+# Plugins
+PLUGIN_PATHS = ['plugins']
+PLUGINS = ['sitemap', 'jinja2content']
+
 # Sitemap
 SITEMAP = {
     "format": "xml"
