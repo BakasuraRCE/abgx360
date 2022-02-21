@@ -11,14 +11,14 @@ abgx360 Reloaded is a hard fork of the latest public version of the original sou
 
 <p class="fw-bold text-yellow">Our intention is not to be a replacement of the current <u>abgx360</u>, nor is we in any way linked to the original author.</p>
 
-The objective of this project is to conduct a job together with you estimated reader to decide the future direction; new features, bugfixes, compatibility with new systems, integration with current databases such as that of the Great Member of the Scene [Hadzz](https://hadzz.com/abgx/){:target="_blank"}. Anyway, feel free to contribute your thoughts in the [Github Discussion Forum](https://github.com/BakasuraRCE/abgx360/discussions){:target="_blank"} or in our [Discord](https://discord.gg/Pn6A9YegXV){:target="_blank"}.
+The objective of this project is to conduct a job together with you estimated reader to decide the future direction; new features, bugfixes, compatibility with new systems, integration with current databases such as that of the Great Member of the Scene [Hadzz](https://hadzz.com/abgx/){:target="_blank"}. Anyway, feel free to contribute your thoughts in the [Github Discussion Forum](https://github.com/BakasuraRCE/abgx360/discussions){:target="_blank"} or in our [Discord]({{ DISCORD_URL }}){:target="_blank"}.
 
 Finally, but not least, if this project is of your liking and wants to collaborate, but you still do not know how, a good idea can be to add a star to our repository in [Github](https://github.com/BakasuraRCE/abgx360){:target="_blank"}, it is a great sample of support that drives us to continue working this project!
 
 Regards,<br>
 Bakasura
 
-<div class="download-box text-center"><a href="./download.html">Download the latest version here</a></div>
+<div class="download-box text-center"><a href="{{ SITEURL }}/download.html">Download the latest version here</a></div>
 
 ## News
 
