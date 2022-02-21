@@ -18,7 +18,11 @@
     {% else %}
         <meta property="twitter:image" content="{{ SITEURL }}{{ page.headerimage }}"/>
     {% endif %}
-    <meta property="og:url" content="{{ SITEURL }}/{{ page.slug }}.html"/>
+    {% if page.url|length %}
+        <meta property="og:url" content="{{ SITEURL }}/{{ page.slug }}.html"/>
+    {% else %}
+        <meta property="og:url" content="{{ SITEURL }}/"/>
+    {% endif %}
     <meta property="og:title" content="{{ page_title }}"/>
     <meta property="og:description" content="{{ page.summary | striptags | safe | truncate(150) }}"/>
     {% if not page.headerimage or page.headerimage == '' %}
@@ -26,7 +30,12 @@
     {% else %}
         <meta property="og:image" content="{{ SITEURL }}{{ page.headerimage }}"/>
     {% endif %}
-    <link rel="canonical" href="{{ SITEURL }}/{{ page.save_as }}"/>
+    {% if page.url|length %}
+        <link rel="canonical" href="{{ SITEURL }}/{{ page.save_as }}"/>
+    {% else %}
+        <link rel="canonical" href="{{ SITEURL }}/"/>
+    {% endif %}
+
 {% endblock %}
 
 {% block title %}{{ page_title }}{% endblock %}
