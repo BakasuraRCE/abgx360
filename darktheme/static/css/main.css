@@ -80,14 +80,15 @@
     background: transparent url(../images/rndgrad_br.png) no-repeat bottom right;
 }
 
-a:hover,
-.navbar-dark .navbar-nav a.nav-link:hover,
-.navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .show > .nav-link {
+html.dark a:hover,
+html.dark .navbar-dark .navbar-nav a.nav-link:hover,
+html.dark .navbar-dark .navbar-nav .nav-link.active,
+html.dark .navbar-dark .navbar-nav .show > .nav-link {
     color: #00e600;
 }
 
-a,
-.navbar-dark .navbar-nav a.nav-link {
+html.dark a,
+html.dark .navbar-dark .navbar-nav a.nav-link {
     color: #636eff;
     font-weight: bold;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
