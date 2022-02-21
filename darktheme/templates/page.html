@@ -11,7 +11,7 @@
     {% if page.summary %}
         <meta name="description" content="{{ page.summary | striptags | safe | truncate(150) }}">
     {% endif %}
-    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="{{ page_title }}"/>
     {% if not page.headerimage or page.headerimage == '' %}
         <meta name="twitter:image" content="{{ SITEURL }}/static/files/images/og_image_default.png"/>
