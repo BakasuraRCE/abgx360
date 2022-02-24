@@ -341,7 +341,12 @@ void abgx360gui::CreateGUIControls() {
     Notebook->AddPage(Start, wxT("Quickstart"));
 
     QuickstartMemo = new wxTextCtrl(Start, ID_QUICKSTARTMEMO, wxT(""), wxPoint(5, 42), wxSize(478, 118), wxTE_READONLY | wxTE_MULTILINE, wxDefaultValidator, wxT("QuickstartMemo"));
+#ifdef WIN32
+    // Ensure the wxTextCtrl object can accept the maximum
+    // text length allowable for this operating system.
+    // (64kb on Win32) (32kb without this call on Win32)
     QuickstartMemo->SetMaxLength(0);
+#endif
     QuickstartMemo->AppendText(wxT("Welcome to abgx360, the ultimate tool for Xbox 360 ISOs and Stealth files!\n\n"));
     QuickstartMemo->AppendText(wxT(""));
     QuickstartMemo->AppendText(wxT("Pick an item from the dropdown list above to get detailed information or instructions "));
