@@ -290,9 +290,16 @@ void abgx360gui::CreateGUIControls() {
     this->SetSizer(MainSizer);
     this->SetAutoLayout(true);
 
+    // Top logo
+    wxBitmap TopBitmap_BITMAP(abgx360gui_TopBitmap_XPM);
+    TopBitmap = new wxStaticBitmap(Panel, ID_TOPBITMAP, TopBitmap_BITMAP, wxPoint(-35, -3), wxSize(600, 67), wxCLIP_CHILDREN | wxNO_BORDER);
+    TopBitmap->Enable(false);
+    TopBitmap->SetFont(ABGX360GUI_FONT);
+    MainSizer->Add(TopBitmap, 0, wxEXPAND | wxBOTTOM, 5);
+
     wxStaticBox *InputSizer_StaticBoxObj = new wxStaticBox(Panel, wxID_ANY, wxT("Input"));
     InputSizer = new wxStaticBoxSizer(InputSizer_StaticBoxObj, wxHORIZONTAL);
-    MainSizer->Add(InputSizer, 0, wxALIGN_CENTER | wxTOP, 70);
+    MainSizer->Add(InputSizer, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
     InputPanel = new wxPanel(Panel, ID_INPUTPANEL, wxPoint(9, 15), wxSize(485, 64));
     InputPanel->SetFont(ABGX360GUI_FONT);
@@ -334,7 +341,7 @@ void abgx360gui::CreateGUIControls() {
     Notebook = new wxNotebook(Panel, ID_NOTEBOOK, wxPoint(8, 168), wxSize(498, 198));
 #endif
     Notebook->SetFont(ABGX360GUI_FONT);
-    MainSizer->Add(Notebook, 0, wxALIGN_CENTER | wxTOP, 10);
+    MainSizer->Add(Notebook, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
     Start = new wxPanel(Notebook, ID_QUICKSTART, wxPoint(4, 26), wxSize(490, 168));
     Start->SetFont(ABGX360GUI_FONT);
@@ -722,7 +729,7 @@ void abgx360gui::CreateGUIControls() {
 
     wxStaticBox *OutputSizer_StaticBoxObj = new wxStaticBox(Panel, wxID_ANY, wxT("Program Output"));
     OutputSizer = new wxStaticBoxSizer(OutputSizer_StaticBoxObj, wxHORIZONTAL);
-    MainSizer->Add(OutputSizer, 0, wxALIGN_CENTER | wxTOP, 8);
+    MainSizer->Add(OutputSizer, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
     OutputPanel = new wxPanel(Panel, ID_OUTPUTPANEL, wxPoint(9, 15), wxSize(485, 64));
     OutputPanel->SetFont(ABGX360GUI_FONT);
@@ -760,12 +767,7 @@ void abgx360gui::CreateGUIControls() {
 
     LaunchPanel = new wxPanel(Panel, ID_LAUNCHPANEL, wxPoint(0, 467), wxSize(515, 63));
     LaunchPanel->SetFont(ABGX360GUI_FONT);
-    MainSizer->Add(LaunchPanel, 0, wxALIGN_CENTER | wxTOP, 5);
-
-    wxBitmap TopBitmap_BITMAP(abgx360gui_TopBitmap_XPM);
-    TopBitmap = new wxStaticBitmap(Panel, ID_TOPBITMAP, TopBitmap_BITMAP, wxPoint(-35, -3), wxSize(600, 67), wxCLIP_CHILDREN | wxNO_BORDER);
-    TopBitmap->Enable(false);
-    TopBitmap->SetFont(ABGX360GUI_FONT);
+    MainSizer->Add(LaunchPanel, 0, wxEXPAND, 0);
 
     wxBitmap dottedOpenButtonDisabled_BITMAP(abgx360gui_dottedOpenButtonDisabled_XPM);
     dottedOpenButtonDisabled = new wxBitmapButton(Panel, ID_DOTTEDOPENBUTTONDISABLED, dottedOpenButtonDisabled_BITMAP, wxPoint(535, 333), wxSize(24, 16), wxBU_AUTODRAW, wxDefaultValidator,
@@ -2586,7 +2588,7 @@ bool DnDInput::OnDropFiles(wxCoord, wxCoord, const wxArrayString& filenames)
     size_t i, count = filenames.GetCount(), realcount = 0;
     wxCommandEvent event(wxEVT_COMMAND_CHOICE_SELECTED, dndselectid);
     event.SetEventObject(dndselect);
-    
+
     /*
     wxString str;
     str.Printf(wxT("%d files/folders dropped:"), (int) count);
@@ -2596,7 +2598,7 @@ bool DnDInput::OnDropFiles(wxCoord, wxCoord, const wxArrayString& filenames)
     }
     wxMessageBox(str, wxT("drag n drop"), wxICON_EXCLAMATION);
     */
-    
+
     if (count) {
         for (i=0;i<count;i++) {
             if (wxDirExists(filenames[i])) {
