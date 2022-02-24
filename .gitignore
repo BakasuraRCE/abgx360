@@ -222,3 +222,6 @@ config.log
 config.status
 stamp-h1
 abgx360gui/abgx360gui
+
+# CMake
+cmake-build-*/
