@@ -226,6 +226,7 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# Dev files
 .idea/
 node_modules/
 output/
@@ -233,3 +234,14 @@ abgx360-pages/
 content/
 jinja_config/
 plugins/
+
+
+# make compile files
+.deps/
+autom4te.cache
+abgx360gui
+Makefile
+config.h
+config.log
+config.status
+stamp-h1

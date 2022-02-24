@@ -1,3 +1,5 @@
+AUTOMAKE_OPTIONS = subdir-objects
+
 bin_PROGRAMS = abgx360gui
 abgx360gui_SOURCES = \
 src/abgx360gui.cpp \
