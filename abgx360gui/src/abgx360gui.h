@@ -23,7 +23,7 @@
 #include <wx/wxprec.h>
 #endif
 
-//Do not add custom headers between 
+//Do not add custom headers between
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
 ////Header Include Start
@@ -63,6 +63,10 @@
 #include <ddk/ntddstor.h>  // device i/o stuff
 #endif
 
+#ifdef __APPLE__
+#include <CoreFoundation/CFBundle.h> // for OSX bundle-related stuff
+#endif
+
 ////Dialog Style Start
 #undef abgx360gui_STYLE
 #define abgx360gui_STYLE wxCAPTION | wxSYSTEM_MENU | wxMINIMIZE_BOX | wxCLOSE_BOX
@@ -72,7 +76,7 @@
 
 class DnDInput : public wxFileDropTarget
 {
-public:  
+public:
     DnDInput(wxTextCtrl* inputeditbox, wxChoice* inputselect, wxWindow* frame, int inputselectid) {
         dndeditbox = inputeditbox;
         dndselect = inputselect;
