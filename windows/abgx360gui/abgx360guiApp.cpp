@@ -12,15 +12,13 @@
 
 IMPLEMENT_APP(abgx360guiApp)
 
-bool abgx360guiApp::OnInit()
-{
-    abgx360gui* frame = new abgx360gui(NULL);
+bool abgx360guiApp::OnInit() {
+    abgx360gui *frame = new abgx360gui(NULL);
     SetTopWindow(frame);
     frame->Show();
     return true;
 }
- 
-int abgx360guiApp::OnExit()
-{
-	return 0;
+
+int abgx360guiApp::OnExit() {
+    return 0;
 }

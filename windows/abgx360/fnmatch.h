@@ -62,23 +62,24 @@ This software is a copyrighted work licensed under the terms of the
 Cygwin license.  Please consult the file "CYGWIN_LICENSE" for
 details. */
 
-#ifndef	_SYS_CDEFS_H
+#ifndef    _SYS_CDEFS_H
 #define _SYS_CDEFS_H
-#ifdef	__cplusplus
+#ifdef    __cplusplus
 #define	__BEGIN_DECLS	extern "C" {
 #define	__END_DECLS	}
 #else
-#define	__BEGIN_DECLS
-#define	__END_DECLS
+#define    __BEGIN_DECLS
+#define    __END_DECLS
 #endif
-#define __P(protos)     protos		/* full-blown ANSI C */
-#define  __CONCAT(__x,__y)   __x##__y
+#define __P(protos)     protos        /* full-blown ANSI C */
+#define  __CONCAT(__x, __y)   __x##__y
 #endif
 
 /* end sys/cdefs.h */
 
 __BEGIN_DECLS
-int      fnmatch __P((const char *, const char *, int));
+int fnmatch __P((const char *, const char *, int));
+
 __END_DECLS
 
 #endif /* !_FNMATCH_H_ */
