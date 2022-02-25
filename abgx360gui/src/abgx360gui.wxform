@@ -616,7 +616,7 @@ object frmNewForm: TfrmNewForm
             Wx_IDValue = 1179
             InvisibleFGColorString = 'DEF:'
           end
-          object StealthCheck: TWxCheckBox
+          object CheckStealth: TWxCheckBox
             Left = 5
             Top = 36
             Width = 94
