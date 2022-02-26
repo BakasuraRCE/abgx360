@@ -118,13 +118,7 @@ class PrettyButton : public wxPanel {
 
  public:
   //contructor
-  PrettyButton(wxWindow *parent,
-               const wxBitmap &normalimage,
-               const wxBitmap &mouseonimage,
-               const wxBitmap &clickimage,
-               const wxPoint &pos,
-               const wxSize &size,
-               int id);
+  PrettyButton(wxWindow *parent, const wxBitmap &normalimage, const wxBitmap &mouseonimage, const wxBitmap &clickimage, const wxPoint &pos, const wxSize &size, int id);
 
   void onMouseEnter(wxMouseEvent &event);
 
@@ -361,9 +355,8 @@ class abgx360gui : public wxFrame {
   wxPanel *Panel;
   ////GUI Control Declaration End
   wxFileHistory *m_folderHistory; // the most recently opened folders
-  InfoTip *MyRegionTip, *RebuildDefaultTip, *RebuildLowSpaceTip, *AutoFixTip, *TrustSSv2Tip, *FixDRTTip, *FixAngle359Tip, *FixBadAnglesTip,
-      *PatchIfStealthPassesTip, *CheckDVDFileTip, *CheckStealthTip, *VerifyTip, *CheckVideoPaddingTip, *CheckCorruptionTip, *CheckForUpdatesTip,
-      *GameCRCTip, *SplitVidTip, *ImagesTip, *PreferredLangTip;
+  InfoTip *MyRegionTip, *RebuildDefaultTip, *RebuildLowSpaceTip, *AutoFixTip, *TrustSSv2Tip, *FixDRTTip, *FixAngle359Tip, *FixBadAnglesTip, *PatchIfStealthPassesTip, *CheckDVDFileTip,
+      *CheckStealthTip, *VerifyTip, *CheckVideoPaddingTip, *CheckCorruptionTip, *CheckForUpdatesTip, *GameCRCTip, *SplitVidTip, *ImagesTip, *PreferredLangTip;
   PrettyButton *LaunchButton;
   wxStaticBitmap *Separator;
   int guifontpointsize;
@@ -523,6 +516,8 @@ class abgx360gui : public wxFrame {
   wxString openfilename, savefilename, cmd;
 
   void OnClose(wxCloseEvent &event);
+
+  void assign_events();
 
   wxNotebook *generate_notebook(wxWindow *parent);
 
