@@ -69,6 +69,12 @@ ABGX360GUI_FONT
 #include "Images/LaunchClick.xpm"
 #include "Images/LaunchNormal.xpm"
 #include "Images/LaunchOver.xpm"
+// Resource library
+#include <cmrc/cmrc.hpp>
+
+CMRC_DECLARE(foo);
+
+auto resource_fs = cmrc::foo::get_filesystem();
 
 //----------------------------------------------------------------------------
 // Utils
@@ -280,6 +286,9 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   // Top logo
   wxBitmap TopBitmap_BITMAP(abgx360gui_TopBitmap_XPM);
   TopBitmap = new wxStaticBitmap(this, ID_TOPBITMAP, TopBitmap_BITMAP, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN | wxNO_BORDER);
+//  auto logo_reloaded = resource_fs.open("abgx360gui/src/Images/logo_reloaded.png");
+//  TopBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap(logo_reloaded.begin(), wxBITMAP_TYPE_RESOURCE), wxDefaultPosition, wxDefaultSize, 0);
+  TopBitmap->SetBackgroundColour(wxColour(0, 0, 0));
   TopBitmap->Enable(false);
   MainSizer->Add(TopBitmap, 0, wxEXPAND | wxBOTTOM, 5);
 

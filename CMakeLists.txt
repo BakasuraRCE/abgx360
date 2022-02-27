@@ -3,6 +3,12 @@ project(abgx360gui)
 
 set(CMAKE_CXX_STANDARD 23)
 
+include(CMakeRC.cmake)
+cmrc_add_resource_library(foo-resources
+        ALIAS foo::rc
+        NAMESPACE foo
+        abgx360gui/src/Images/logo_reloaded.png)
+
 include_directories(abgx360gui/src)
 
 # Set GTK3 for wxWidgets
@@ -21,4 +27,6 @@ add_executable(abgx360gui
 
 # Link wxWidgets deps
 # and for each of your dependent executable/library targets:
-target_link_libraries(abgx360gui ${wxWidgets_LIBRARIES})
+target_link_libraries(abgx360gui PRIVATE ${wxWidgets_LIBRARIES})
+# Link resources
+target_link_libraries(abgx360gui PRIVATE foo::rc)
