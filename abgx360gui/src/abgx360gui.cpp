@@ -588,13 +588,6 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
                                 wxPoint(455, 135),
                                 wxSize(16, 16));
 
-  RebuildDefaultTip = new InfoTip(WxNoteBookPage_Rebuilding, InfoTip_BITMAP, wxT("Requires 7 to 7.5 GB free space on the partition your ISO is located."), wxPoint(117, 50), wxSize(16, 16));
-  RebuildLowSpaceTip = new InfoTip(WxNoteBookPage_Rebuilding,
-                                   InfoTip_BITMAP,
-                                   wxT("Only requires 253 MB free space but will corrupt your ISO if it fails during the rebuilding process."),
-                                   wxPoint(159, 70),
-                                   wxSize(16, 16));
-
   //AutoUploadTip = new InfoTip(WxNoteBookPage_Options, InfoTip_BITMAP, wxT("AutoUpload ini and stealth files to the online database if stealth passes but verification fails, and there isn't an exact match already waiting to be verified."), wxPoint(290,76), wxSize(16,16));
 
   /*
@@ -750,6 +743,7 @@ wxNotebook *abgx360gui::generate_notebook(wxWindow *parent) {
   Notebook->AddPage(this->generate_page_quickstart(Notebook), wxT("Quickstart"));
   Notebook->AddPage(this->generate_page_options(Notebook), wxT("Options"));
   Notebook->AddPage(this->generate_page_manually_patch(Notebook), wxT("Manually Patch or Extract Files"));
+  Notebook->AddPage(this->generate_page_rebuilding(Notebook), wxT("Rebuilding"));
   Notebook->AddPage(this->generate_page_misc(Notebook), wxT("Misc"));
 
   WxNoteBookPage_AutoFix = new wxPanel(Notebook, ID_WXNOTEBOOKPAGE_AUTOFIX, wxPoint(4, 26), wxSize(490, 168));
@@ -810,40 +804,6 @@ wxNotebook *abgx360gui::generate_notebook(wxWindow *parent) {
   TrustSSv2 = new wxCheckBox(WxNoteBookPage_AutoFix, ID_TRUSTSSV2, wxT("Trust SS v2 angles"), wxPoint(15, 75), wxSize(115, 17), 0, wxDefaultValidator, wxT("TrustSSv2"));
   TrustSSv2->SetValue(true);
   TrustSSv2->SetFont(ABGX360GUI_FONT);
-
-  WxNoteBookPage_Rebuilding = new wxPanel(Notebook, ID_WXNOTEBOOKPAGE_REBUILDING, wxPoint(4, 26), wxSize(490, 168));
-  WxNoteBookPage_Rebuilding->SetFont(ABGX360GUI_FONT);
-  Notebook->AddPage(WxNoteBookPage_Rebuilding, wxT("Rebuilding"));
-
-  WxStaticText9 = new wxStaticText(WxNoteBookPage_Rebuilding,
-                                   ID_WXSTATICTEXT9,
-                                   wxT("Choose the method for rebuilding an ISO if it's missing space for a video partition."),
-                                   wxPoint(10, 16),
-                                   wxDefaultSize,
-                                   0,
-                                   wxT("WxStaticText9"));
-  WxStaticText9->SetFont(ABGX360GUI_FONT);
-
-  RebuildDefault = new wxRadioButton(WxNoteBookPage_Rebuilding, ID_REBUILDDEFAULT, wxT("Default Method"), wxPoint(10, 50), wxSize(104, 17), 0, wxDefaultValidator, wxT("RebuildDefault"));
-  RebuildDefault->SetValue(true);
-  RebuildDefault->SetFont(ABGX360GUI_FONT);
-
-  RebuildLowSpace =
-      new wxRadioButton(WxNoteBookPage_Rebuilding, ID_REBUILDLOWSPACE, wxT("Low Disk Space Method"), wxPoint(10, 70), wxSize(147, 17), 0, wxDefaultValidator, wxT("RebuildLowSpace"));
-  RebuildLowSpace->SetFont(ABGX360GUI_FONT);
-
-  NoRebuild = new wxRadioButton(WxNoteBookPage_Rebuilding, ID_NOREBUILD, wxT("Don't rebuild"), wxPoint(10, 90), wxSize(98, 17), 0, wxDefaultValidator, wxT("NoRebuild"));
-  NoRebuild->SetFont(ABGX360GUI_FONT);
-
-  KeepOriginalISO = new wxCheckBox(WxNoteBookPage_Rebuilding,
-                                   ID_KEEPORIGINALISO,
-                                   wxT("Don't delete the original ISO after rebuilding"),
-                                   wxPoint(10, 126),
-                                   wxSize(254, 17),
-                                   0,
-                                   wxDefaultValidator,
-                                   wxT("KeepOriginalISO"));
-  KeepOriginalISO->SetFont(ABGX360GUI_FONT);
 
   return Notebook;
 }
@@ -1173,17 +1133,39 @@ wxPanel *abgx360gui::generate_page_quickstart(wxWindow *parent) {
   return panel;
 }
 
-wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
+wxPanel *abgx360gui::generate_page_rebuilding(wxWindow *parent) {
   auto *panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
   auto *root_sizer = new wxBoxSizer(wxVERTICAL);
   auto *sizer = new wxBoxSizer(wxHORIZONTAL);
   auto *sizer_left = new wxBoxSizer(wxVERTICAL);
-  auto *sizer_right = new wxBoxSizer(wxVERTICAL);
 
-  // //////
-  // Left
-  // //////
+  WxStaticText9 = new wxStaticText(panel, wxID_ANY, wxT("Choose the method for rebuilding an ISO if it's missing space for a video partition."), wxDefaultPosition, wxDefaultSize);
+  sizer_left->Add(WxStaticText9, wxSizerFlags().Expand());
 
+  RebuildDefaultTip = new InfoTip(panel, InfoTip_BITMAP, wxT("Requires 7 to 7.5 GB free space on the partition your ISO is located."));
+  RebuildDefault = new wxRadioButton(panel, wxID_ANY, wxT("Default Method"), wxDefaultPosition, wxDefaultSize);
+  RebuildDefault->SetValue(true);
+  sizer_left->Add(generate_box_sizer_with_controls({RebuildDefault, RebuildDefaultTip}), wxSizerFlags().Expand());
+
+  RebuildLowSpaceTip =
+      new InfoTip(panel, InfoTip_BITMAP, wxT("Only requires 253 MB free space but will corrupt your ISO if it fails during the rebuilding process."), wxDefaultPosition, wxDefaultSize);
+  RebuildLowSpace = new wxRadioButton(panel, wxID_ANY, wxT("Low Disk Space Method"), wxDefaultPosition, wxDefaultSize);
+  sizer_left->Add(generate_box_sizer_with_controls({RebuildLowSpace, RebuildLowSpaceTip}), wxSizerFlags().Expand());
+
+  NoRebuild = new wxRadioButton(panel, wxID_ANY, wxT("Don't rebuild"), wxDefaultPosition, wxDefaultSize);
+  sizer_left->Add(NoRebuild, wxSizerFlags().Expand());
+
+  KeepOriginalISO = new wxCheckBox(panel, wxID_ANY, wxT("Don't delete the original ISO after rebuilding"), wxDefaultPosition, wxDefaultSize);
+  sizer_left->Add(KeepOriginalISO, wxSizerFlags().Expand());
+
+  // Add sub sizers to panel sizer
+  sizer->Add(sizer_left, wxSizerFlags(0).Border(wxALL, 5));
+
+  root_sizer->Add(sizer, wxSizerFlags().Center());
+  panel->SetSizer(root_sizer);
+  panel->Layout();
+  root_sizer->Fit(panel);
+  return panel;
 }
 
 /*

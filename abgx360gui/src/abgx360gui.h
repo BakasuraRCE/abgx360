@@ -514,6 +514,7 @@ class abgx360gui : public wxFrame {
   wxPanel *generate_page_manually_patch(wxWindow *parent);
   wxPanel *generate_page_options(wxWindow *parent);
   wxPanel *generate_page_quickstart(wxWindow *parent);
+  wxPanel *generate_page_rebuilding(wxWindow *parent);
 };
 
 #endif //__ABGX360GUI_h__
