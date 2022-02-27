@@ -848,6 +848,115 @@ wxNotebook *abgx360gui::generate_notebook(wxWindow *parent) {
   return Notebook;
 }
 
+wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
+  auto *panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+  auto *root_sizer = new wxBoxSizer(wxVERTICAL);
+  auto *sizer = new wxBoxSizer(wxHORIZONTAL);
+  auto *sizer_left = new wxBoxSizer(wxVERTICAL);
+  auto *sizer_right = new wxBoxSizer(wxVERTICAL);
+
+  // //////
+  // Left
+  // //////
+
+  PatchIfStealthPassesTip =
+      new InfoTip(panel, InfoTip_BITMAP, wxT("The default behavior is to patch only if stealth fails and isn't AutoFixed, or stealth is uncertain and isn't verified/AutoFixed"));
+  PatchIfStealthPasses = new wxCheckBox(panel, wxID_ANY, wxT("Patch even if stealth passes"), wxDefaultPosition, wxDefaultSize);
+  sizer_left->Add(generate_box_sizer_with_controls({PatchIfStealthPasses, PatchIfStealthPassesTip}), wxSizerFlags().Expand());
+
+  PatchIfInvalid = new wxCheckBox(panel, wxID_ANY, wxT("Patch even if these files are invalid"), wxDefaultPosition, wxDefaultSize);
+  sizer_left->Add(PatchIfInvalid, wxSizerFlags().Expand());
+
+  PatchVideo = new wxCheckBox(panel, wxID_ANY, wxT("Patch Video"), wxDefaultPosition, wxDefaultSize);
+  PatchVideoEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+  PatchVideoEditBox->Enable(false);
+  wxBitmap PatchVideoOpenButton_BITMAP(abgx360gui_PatchVideoOpenButton_XPM);
+  PatchVideoOpenButton = new wxBitmapButton(panel, wxID_ANY, PatchVideoOpenButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+  PatchVideoOpenButton->Enable(false);
+  sizer_left->Add(generate_box_sizer_with_controls({PatchVideo, PatchVideoEditBox, PatchVideoOpenButton}), wxSizerFlags().Expand());
+
+  PatchPFI = new wxCheckBox(panel, wxID_ANY, wxT("Patch PFI"), wxDefaultPosition, wxDefaultSize);
+  PatchPFIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+  PatchPFIEditBox->Enable(false);
+  wxBitmap PatchPFIOpenButton_BITMAP(abgx360gui_PatchPFIOpenButton_XPM);
+  PatchPFIOpenButton = new wxBitmapButton(panel, wxID_ANY, PatchPFIOpenButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+  PatchPFIOpenButton->Enable(false);
+  sizer_left->Add(generate_box_sizer_with_controls({PatchPFI, PatchPFIEditBox, PatchPFIOpenButton}), wxSizerFlags().Expand());
+
+  PatchDMI = new wxCheckBox(panel, wxID_ANY, wxT("Patch DMI"), wxDefaultPosition, wxDefaultSize);
+  PatchDMIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+  PatchDMIEditBox->Enable(false);
+  wxBitmap PatchDMIOpenButton_BITMAP(abgx360gui_PatchDMIOpenButton_XPM);
+  PatchDMIOpenButton = new wxBitmapButton(panel, wxID_ANY, PatchDMIOpenButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+  PatchDMIOpenButton->Enable(false);
+  sizer_left->Add(generate_box_sizer_with_controls({PatchDMI, PatchDMIEditBox, PatchDMIOpenButton}), wxSizerFlags().Expand());
+
+  PatchSS = new wxCheckBox(panel, wxID_ANY, wxT("Patch SS"), wxDefaultPosition, wxDefaultSize);
+  PatchSSEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+  PatchSSEditBox->Enable(false);
+  wxBitmap PatchSSOpenButton_BITMAP(abgx360gui_PatchSSOpenButton_XPM);
+  PatchSSOpenButton = new wxBitmapButton(panel, wxID_ANY, PatchSSOpenButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator);
+  PatchSSOpenButton->Enable(false);
+  sizer_left->Add(generate_box_sizer_with_controls({PatchSS, PatchSSEditBox, PatchSSOpenButton}), wxSizerFlags().Expand());
+
+  // //////
+  // Right
+  // //////
+
+  Clobber = new wxCheckBox(panel, wxID_ANY, wxT("Overwrite these files without prompting"), wxDefaultPosition, wxDefaultSize);
+  sizer_right->Add(Clobber, wxSizerFlags().Expand());
+
+  ExtractVideo = new wxCheckBox(panel, wxID_ANY, wxT("Extract Video"), wxDefaultPosition, wxDefaultSize);
+  ExtractVideoEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+  ExtractVideoEditBox->Enable(false);
+  wxBitmap ExtractVideoSaveButton_BITMAP(abgx360gui_ExtractVideoSaveButton_XPM);
+  ExtractVideoSaveButton = new wxBitmapButton(panel, wxID_ANY, ExtractVideoSaveButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+  ExtractVideoSaveButton->Enable(false);
+  sizer_right->Add(generate_box_sizer_with_controls({ExtractVideo, ExtractVideoEditBox, ExtractVideoSaveButton}), wxSizerFlags().Expand());
+
+  ExtractEntireVideoPartition = new wxCheckBox(panel, wxID_ANY, wxT("Extract entire video partition (253 MB)"), wxDefaultPosition, wxDefaultSize);
+  ExtractEntireVideoPartition->Enable(false);
+  sizer_right->Add(ExtractEntireVideoPartition, wxSizerFlags().Expand());
+
+  ExtractPFI = new wxCheckBox(panel, wxID_ANY, wxT("Extract PFI"), wxDefaultPosition, wxDefaultSize);
+  ExtractPFIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+  ExtractPFIEditBox->Enable(false);
+  wxBitmap ExtractPFISaveButton_BITMAP(abgx360gui_ExtractPFISaveButton_XPM);
+  ExtractPFISaveButton = new wxBitmapButton(panel, wxID_ANY, ExtractPFISaveButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+  ExtractPFISaveButton->Enable(false);
+  sizer_right->Add(generate_box_sizer_with_controls({ExtractPFI, ExtractPFIEditBox, ExtractPFISaveButton}), wxSizerFlags().Expand());
+
+  ExtractDMI = new wxCheckBox(panel, wxID_ANY, wxT("Extract DMI"), wxDefaultPosition, wxDefaultSize);
+  ExtractDMIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+  ExtractDMIEditBox->Enable(false);
+  wxBitmap ExtractDMISaveButton_BITMAP(abgx360gui_ExtractDMISaveButton_XPM);
+  ExtractDMISaveButton = new wxBitmapButton(panel, wxID_ANY, ExtractDMISaveButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+  ExtractDMISaveButton->Enable(false);
+  sizer_right->Add(generate_box_sizer_with_controls({ExtractDMI, ExtractDMIEditBox, ExtractDMISaveButton}), wxSizerFlags().Expand());
+
+  ExtractSS = new wxCheckBox(panel, wxID_ANY, wxT("Extract SS"), wxDefaultPosition, wxDefaultSize);
+  ExtractSSEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+  ExtractSSEditBox->Enable(false);
+  wxBitmap ExtractSSSaveButton_BITMAP(abgx360gui_ExtractSSSaveButton_XPM);
+  ExtractSSSaveButton = new wxBitmapButton(panel, wxID_ANY, ExtractSSSaveButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+  ExtractSSSaveButton->Enable(false);
+  sizer_right->Add(generate_box_sizer_with_controls({ExtractSS, ExtractSSEditBox, ExtractSSSaveButton}), wxSizerFlags().Expand());
+
+  // Add sub sizers to panel sizer
+  sizer->Add(sizer_left, wxSizerFlags(0).Border(wxALL, 5));
+  sizer->Add(sizer_right, wxSizerFlags(0).Border(wxALL, 5));
+
+  root_sizer->Add(sizer, wxSizerFlags().Center());
+
+  WxStaticText2 = new wxStaticText(panel, wxID_ANY, wxT("Note: if you choose to both patch and extract files, extraction will be done first"), wxDefaultPosition, wxDefaultSize);
+  root_sizer->Add(WxStaticText2, wxSizerFlags().Center());
+
+  panel->SetSizer(root_sizer);
+  panel->Layout();
+  root_sizer->Fit(panel);
+  return panel;
+}
+
 wxPanel *abgx360gui::generate_page_misc(wxWindow *parent) {
   auto *panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
   auto *root_sizer = new wxBoxSizer(wxVERTICAL);
@@ -1075,102 +1184,6 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
   // Left
   // //////
 
-  PatchIfStealthPassesTip =
-      new InfoTip(panel, InfoTip_BITMAP, wxT("The default behavior is to patch only if stealth fails and isn't AutoFixed, or stealth is uncertain and isn't verified/AutoFixed"));
-  PatchIfStealthPasses = new wxCheckBox(panel, wxID_ANY, wxT("Patch even if stealth passes"), wxDefaultPosition, wxDefaultSize);
-  sizer_left->Add(generate_box_sizer_with_controls({PatchIfStealthPasses, PatchIfStealthPassesTip}), wxSizerFlags().Expand());
-
-  PatchIfInvalid = new wxCheckBox(panel, wxID_ANY, wxT("Patch even if these files are invalid"), wxDefaultPosition, wxDefaultSize);
-  sizer_left->Add(PatchIfInvalid, wxSizerFlags().Expand());
-
-  PatchVideo = new wxCheckBox(panel, wxID_ANY, wxT("Patch Video"), wxDefaultPosition, wxDefaultSize);
-  PatchVideoEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
-  PatchVideoEditBox->Enable(false);
-  wxBitmap PatchVideoOpenButton_BITMAP(abgx360gui_PatchVideoOpenButton_XPM);
-  PatchVideoOpenButton = new wxBitmapButton(panel, wxID_ANY, PatchVideoOpenButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-  PatchVideoOpenButton->Enable(false);
-  sizer_left->Add(generate_box_sizer_with_controls({PatchVideo, PatchVideoEditBox, PatchVideoOpenButton}), wxSizerFlags().Expand());
-
-  PatchPFI = new wxCheckBox(panel, wxID_ANY, wxT("Patch PFI"), wxDefaultPosition, wxDefaultSize);
-  PatchPFIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
-  PatchPFIEditBox->Enable(false);
-  wxBitmap PatchPFIOpenButton_BITMAP(abgx360gui_PatchPFIOpenButton_XPM);
-  PatchPFIOpenButton = new wxBitmapButton(panel, wxID_ANY, PatchPFIOpenButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-  PatchPFIOpenButton->Enable(false);
-  sizer_left->Add(generate_box_sizer_with_controls({PatchPFI, PatchPFIEditBox, PatchPFIOpenButton}), wxSizerFlags().Expand());
-
-  PatchDMI = new wxCheckBox(panel, wxID_ANY, wxT("Patch DMI"), wxDefaultPosition, wxDefaultSize);
-  PatchDMIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
-  PatchDMIEditBox->Enable(false);
-  wxBitmap PatchDMIOpenButton_BITMAP(abgx360gui_PatchDMIOpenButton_XPM);
-  PatchDMIOpenButton = new wxBitmapButton(panel, wxID_ANY, PatchDMIOpenButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-  PatchDMIOpenButton->Enable(false);
-  sizer_left->Add(generate_box_sizer_with_controls({PatchDMI, PatchDMIEditBox, PatchDMIOpenButton}), wxSizerFlags().Expand());
-
-  PatchSS = new wxCheckBox(panel, wxID_ANY, wxT("Patch SS"), wxDefaultPosition, wxDefaultSize);
-  PatchSSEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
-  PatchSSEditBox->Enable(false);
-  wxBitmap PatchSSOpenButton_BITMAP(abgx360gui_PatchSSOpenButton_XPM);
-  PatchSSOpenButton = new wxBitmapButton(panel, wxID_ANY, PatchSSOpenButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator);
-  PatchSSOpenButton->Enable(false);
-  sizer_left->Add(generate_box_sizer_with_controls({PatchSS, PatchSSEditBox, PatchSSOpenButton}), wxSizerFlags().Expand());
-
-  // //////
-  // Right
-  // //////
-
-  Clobber = new wxCheckBox(panel, wxID_ANY, wxT("Overwrite these files without prompting"), wxDefaultPosition, wxDefaultSize);
-  sizer_right->Add(Clobber, wxSizerFlags().Expand());
-
-  ExtractVideo = new wxCheckBox(panel, wxID_ANY, wxT("Extract Video"), wxDefaultPosition, wxDefaultSize);
-  ExtractVideoEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
-  ExtractVideoEditBox->Enable(false);
-  wxBitmap ExtractVideoSaveButton_BITMAP(abgx360gui_ExtractVideoSaveButton_XPM);
-  ExtractVideoSaveButton = new wxBitmapButton(panel, wxID_ANY, ExtractVideoSaveButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-  ExtractVideoSaveButton->Enable(false);
-  sizer_right->Add(generate_box_sizer_with_controls({ExtractVideo, ExtractVideoEditBox, ExtractVideoSaveButton}), wxSizerFlags().Expand());
-
-  ExtractEntireVideoPartition = new wxCheckBox(panel, wxID_ANY, wxT("Extract entire video partition (253 MB)"), wxDefaultPosition, wxDefaultSize);
-  ExtractEntireVideoPartition->Enable(false);
-  sizer_right->Add(ExtractEntireVideoPartition, wxSizerFlags().Expand());
-
-  ExtractPFI = new wxCheckBox(panel, wxID_ANY, wxT("Extract PFI"), wxDefaultPosition, wxDefaultSize);
-  ExtractPFIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
-  ExtractPFIEditBox->Enable(false);
-  wxBitmap ExtractPFISaveButton_BITMAP(abgx360gui_ExtractPFISaveButton_XPM);
-  ExtractPFISaveButton = new wxBitmapButton(panel, wxID_ANY, ExtractPFISaveButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-  ExtractPFISaveButton->Enable(false);
-  sizer_right->Add(generate_box_sizer_with_controls({ExtractPFI, ExtractPFIEditBox, ExtractPFISaveButton}), wxSizerFlags().Expand());
-
-  ExtractDMI = new wxCheckBox(panel, wxID_ANY, wxT("Extract DMI"), wxDefaultPosition, wxDefaultSize);
-  ExtractDMIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
-  ExtractDMIEditBox->Enable(false);
-  wxBitmap ExtractDMISaveButton_BITMAP(abgx360gui_ExtractDMISaveButton_XPM);
-  ExtractDMISaveButton = new wxBitmapButton(panel, wxID_ANY, ExtractDMISaveButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-  ExtractDMISaveButton->Enable(false);
-  sizer_right->Add(generate_box_sizer_with_controls({ExtractDMI, ExtractDMIEditBox, ExtractDMISaveButton}), wxSizerFlags().Expand());
-
-  ExtractSS = new wxCheckBox(panel, wxID_ANY, wxT("Extract SS"), wxDefaultPosition, wxDefaultSize);
-  ExtractSSEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
-  ExtractSSEditBox->Enable(false);
-  wxBitmap ExtractSSSaveButton_BITMAP(abgx360gui_ExtractSSSaveButton_XPM);
-  ExtractSSSaveButton = new wxBitmapButton(panel, wxID_ANY, ExtractSSSaveButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-  ExtractSSSaveButton->Enable(false);
-  sizer_right->Add(generate_box_sizer_with_controls({ExtractSS, ExtractSSEditBox, ExtractSSSaveButton}), wxSizerFlags().Expand());
-
-  // Add sub sizers to panel sizer
-  sizer->Add(sizer_left, wxSizerFlags(0).Border(wxALL, 5));
-  sizer->Add(sizer_right, wxSizerFlags(0).Border(wxALL, 5));
-
-  root_sizer->Add(sizer, wxSizerFlags().Center());
-
-  WxStaticText2 = new wxStaticText(panel, wxID_ANY, wxT("Note: if you choose to both patch and extract files, extraction will be done first"), wxDefaultPosition, wxDefaultSize);
-  root_sizer->Add(WxStaticText2, wxSizerFlags().Center());
-
-  panel->SetSizer(root_sizer);
-  panel->Layout();
-  root_sizer->Fit(panel);
-  return panel;
 }
 
 /*
