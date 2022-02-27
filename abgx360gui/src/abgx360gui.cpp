@@ -565,29 +565,6 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
 
   LaunchButton = new PrettyButton(LaunchPanel, LaunchNormal_BITMAP, LaunchOver_BITMAP, LaunchClick_BITMAP, wxPoint(0, 0), wxSize(515, 63), ID_RUNBUTTON);
 
-  AutoFixTip = new InfoTip(WxNoteBookPage_AutoFix,
-                           InfoTip_BITMAP,
-                           wxT("Choose the threshold at which abgx360 will attempt to find verified stealth files and automatically patch them if found. Level 1 or 2 is recommended for your own rips and Level 3 is recommended for someone else's rips that you don't fully trust."),
-                           wxPoint(463, 15),
-                           wxSize(16, 16));
-  //LocalOnlyTip = new InfoTip(WxNoteBookPage_AutoFix, InfoTip_BITMAP, wxT("The default behavior is to check the online database first for updated inis and get new stealth files from it when needed. Enabling this option is not recommended because you won't be using the most recent files. If you have no internet connection or wish to stay offline (or the database is down/unreachable for some reason), you can simply check the box in options labeled \"Disable all online functions\"."), wxPoint(463,46), wxSize(16,16));
-  TrustSSv2Tip = new InfoTip(WxNoteBookPage_AutoFix, InfoTip_BITMAP, wxT("See \"What is SS v2?\" under the Quickstart tab."), wxPoint(131, 75), wxSize(16, 16));
-  FixAngle359Tip = new InfoTip(WxNoteBookPage_AutoFix,
-                               InfoTip_BITMAP,
-                               wxT("iXtreme versions previous to v1.4 have a bug that will cause a valid angle of 359 degrees to be jittered to an invalid angle of 360 degrees (NOT safe for XBL). It is recommended to upgrade your firmware to the latest iXtreme version to fix this issue instead of relying on this option, but enabling it will adjust 359 to 0 for compatibility with older firmwares. Also note that enabling this option is harmless on newer firmwares (iXtreme v1.4 and later) as it merely changes the SS v1 angle deviation by 1 degree."),
-                               wxPoint(251, 95),
-                               wxSize(16, 16));
-  FixDRTTip = new InfoTip(WxNoteBookPage_AutoFix,
-                          InfoTip_BITMAP,
-                          wxT("abgx360 decrypts the host's CCRT (Crypted Challenge Response Table) and combines it with the drive's deobfuscated table in order to validate or invalidate the data stored in an additional table used by hacked firmwares to replay responses to challenges issued by the host. Some invalid conditions can't or shouldn't be fixed, but enabling this option will fix the most common conditions like missing C/R data caused by old buggy ripping firmwares or worn out drives. This data is always checked whether this option is enabled or not and an error message will appear if any data is missing or invalid. This option applies to SS v1 only and has no effect on SS v2."),
-                          wxPoint(193, 115),
-                          wxSize(16, 16));
-  FixBadAnglesTip = new InfoTip(WxNoteBookPage_AutoFix,
-                                InfoTip_BITMAP,
-                                wxT("Enabling this option will adjust the replay angles for Challenge Types 24 and 25 (Response Types 7 and 5) back to their CCRT targets if they deviate more than X degrees (default = 3). See \"Angle Deviation and You\" under the Quickstart tab for more on this. Deviation is always checked whether this option is enabled or not and a warning message will appear if any angle deviates more than 3 degrees (message is yellow - stealth is uncertain) or 9 degrees (message is red - stealth failed). This option applies to SS v1 only and has no effect on SS v2."),
-                                wxPoint(455, 135),
-                                wxSize(16, 16));
-
   //AutoUploadTip = new InfoTip(WxNoteBookPage_Options, InfoTip_BITMAP, wxT("AutoUpload ini and stealth files to the online database if stealth passes but verification fails, and there isn't an exact match already waiting to be verified."), wxPoint(290,76), wxSize(16,16));
 
   /*
@@ -743,41 +720,57 @@ wxNotebook *abgx360gui::generate_notebook(wxWindow *parent) {
   Notebook->AddPage(this->generate_page_quickstart(Notebook), wxT("Quickstart"));
   Notebook->AddPage(this->generate_page_options(Notebook), wxT("Options"));
   Notebook->AddPage(this->generate_page_manually_patch(Notebook), wxT("Manually Patch or Extract Files"));
+  Notebook->AddPage(this->generate_page_autofix(Notebook), wxT("AutoFix"));
   Notebook->AddPage(this->generate_page_rebuilding(Notebook), wxT("Rebuilding"));
   Notebook->AddPage(this->generate_page_misc(Notebook), wxT("Misc"));
 
-  WxNoteBookPage_AutoFix = new wxPanel(Notebook, ID_WXNOTEBOOKPAGE_AUTOFIX, wxPoint(4, 26), wxSize(490, 168));
-  WxNoteBookPage_AutoFix->SetFont(ABGX360GUI_FONT);
-  Notebook->AddPage(WxNoteBookPage_AutoFix, wxT("AutoFix"));
+  return Notebook;
+}
 
+wxPanel *abgx360gui::generate_page_autofix(wxWindow *parent) {
+  auto *panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+  auto *root_sizer = new wxBoxSizer(wxVERTICAL);
+  auto *sizer = new wxBoxSizer(wxHORIZONTAL);
+  auto *sizer_left = new wxBoxSizer(wxVERTICAL);
+
+  AutoFixTip = new InfoTip(panel,
+                           InfoTip_BITMAP,
+                           wxT("Choose the threshold at which abgx360 will attempt to find verified stealth files and automatically patch them if found. Level 1 or 2 is recommended for your own rips and Level 3 is recommended for someone else's rips that you don't fully trust."));
+  AutoFixText = new wxStaticText(panel, wxID_ANY, wxT("AutoFix Threshold:"));
   wxArrayString arrayStringFor_AutoFix;
   arrayStringFor_AutoFix.Add(wxT("Level 3 - AutoFix if stealth passes but fails verification"));
   arrayStringFor_AutoFix.Add(wxT("Level 2 - AutoFix if stealth is uncertain and fails verification"));
   arrayStringFor_AutoFix.Add(wxT("Level 1 - AutoFix if stealth fails"));
   arrayStringFor_AutoFix.Add(wxT("Level 0 - Do not AutoFix"));
-  AutoFix = new wxChoice(WxNoteBookPage_AutoFix, ID_AUTOFIX, wxPoint(118, 12), wxSize(336, 23), arrayStringFor_AutoFix, 0, wxDefaultValidator, wxT("AutoFix"));
-  AutoFix->SetFont(ABGX360GUI_FONT);
+  AutoFix = new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, arrayStringFor_AutoFix);
   AutoFix->SetSelection(1);
+  sizer_left->Add(generate_box_sizer_with_controls({AutoFixText, AutoFix, AutoFixTip}), wxSizerFlags().Expand());
 
-  AutoFixText = new wxStaticText(WxNoteBookPage_AutoFix, ID_AUTOFIXTEXT, wxT("AutoFix Threshold:"), wxPoint(10, 16), wxDefaultSize, 0, wxT("AutoFixText"));
-  AutoFixText->SetFont(ABGX360GUI_FONT);
+  auto *ss_sizer = new wxStaticBoxSizer(new wxStaticBox(panel, wxID_ANY, wxT("SS Challenge / Response Data")), wxVERTICAL);
 
-  CRBox = new wxStaticBox(WxNoteBookPage_AutoFix, ID_CRBOX, wxT("SS Challenge / Response Data"), wxPoint(5, 55), wxSize(478, 106));
-  CRBox->SetFont(ABGX360GUI_FONT);
+  TrustSSv2Tip = new InfoTip(ss_sizer->GetStaticBox(), InfoTip_BITMAP, wxT("See \"What is SS v2?\" under the Quickstart tab."));
+  TrustSSv2 = new wxCheckBox(ss_sizer->GetStaticBox(), wxID_ANY, wxT("Trust SS v2 angles"));
+  TrustSSv2->SetValue(true);
+  ss_sizer->Add(generate_box_sizer_with_controls({TrustSSv2, TrustSSv2Tip}), wxSizerFlags().Expand());
 
-  FixDRT = new wxCheckBox(WxNoteBookPage_AutoFix, ID_FIXDRT, wxT("Fix C/R Table if data is invalid"), wxPoint(15, 115), wxSize(175, 17), 0, wxDefaultValidator, wxT("FixDRT"));
+  FixAngle359 = new wxCheckBox(ss_sizer->GetStaticBox(), wxID_ANY, wxT("Adjust SS v1 angle 359 for iXtreme < v1.4"));
+  FixAngle359Tip = new InfoTip(ss_sizer->GetStaticBox(),
+                               InfoTip_BITMAP,
+                               wxT("iXtreme versions previous to v1.4 have a bug that will cause a valid angle of 359 degrees to be jittered to an invalid angle of 360 degrees (NOT safe for XBL). It is recommended to upgrade your firmware to the latest iXtreme version to fix this issue instead of relying on this option, but enabling it will adjust 359 to 0 for compatibility with older firmwares. Also note that enabling this option is harmless on newer firmwares (iXtreme v1.4 and later) as it merely changes the SS v1 angle deviation by 1 degree."));
+  ss_sizer->Add(generate_box_sizer_with_controls({FixAngle359, FixAngle359Tip}), wxSizerFlags().Expand());
+
+  FixDRTTip = new InfoTip(ss_sizer->GetStaticBox(),
+                          InfoTip_BITMAP,
+                          wxT("abgx360 decrypts the host's CCRT (Crypted Challenge Response Table) and combines it with the drive's deobfuscated table in order to validate or invalidate the data stored in an additional table used by hacked firmwares to replay responses to challenges issued by the host. Some invalid conditions can't or shouldn't be fixed, but enabling this option will fix the most common conditions like missing C/R data caused by old buggy ripping firmwares or worn out drives. This data is always checked whether this option is enabled or not and an error message will appear if any data is missing or invalid. This option applies to SS v1 only and has no effect on SS v2."));
+  FixDRT = new wxCheckBox(ss_sizer->GetStaticBox(), wxID_ANY, wxT("Fix C/R Table if data is invalid"));
   FixDRT->SetValue(true);
-  FixDRT->SetFont(ABGX360GUI_FONT);
+  ss_sizer->Add(generate_box_sizer_with_controls({FixDRT, FixDRTTip}), wxSizerFlags().Expand());
 
-  FixAngle359 =
-      new wxCheckBox(WxNoteBookPage_AutoFix, ID_FIXANGLE359, wxT("Adjust SS v1 angle 359 for iXtreme < v1.4"), wxPoint(15, 95), wxSize(235, 17), 0, wxDefaultValidator, wxT("FixAngle359"));
-  FixAngle359->SetFont(ABGX360GUI_FONT);
-
-  FixBadAngles =
-      new wxCheckBox(WxNoteBookPage_AutoFix, ID_FIXBADANGLES, wxT("Adjust angles that deviate more than"), wxPoint(15, 135), wxSize(213, 17), 0, wxDefaultValidator, wxT("FixBadAngles"));
+  FixBadAnglesTip = new InfoTip(ss_sizer->GetStaticBox(),
+                                InfoTip_BITMAP,
+                                wxT("Enabling this option will adjust the replay angles for Challenge Types 24 and 25 (Response Types 7 and 5) back to their CCRT targets if they deviate more than X degrees (default = 3). See \"Angle Deviation and You\" under the Quickstart tab for more on this. Deviation is always checked whether this option is enabled or not and a warning message will appear if any angle deviates more than 3 degrees (message is yellow - stealth is uncertain) or 9 degrees (message is red - stealth failed). This option applies to SS v1 only and has no effect on SS v2."));
+  FixBadAngles = new wxCheckBox(ss_sizer->GetStaticBox(), wxID_ANY, wxT("Adjust angles that deviate more than"));
   FixBadAngles->SetValue(true);
-  FixBadAngles->SetFont(ABGX360GUI_FONT);
-
   wxArrayString arrayStringFor_FixBadAnglesValue;
   arrayStringFor_FixBadAnglesValue.Add(wxT("0"));
   arrayStringFor_FixBadAnglesValue.Add(wxT("1"));
@@ -793,19 +786,22 @@ wxNotebook *abgx360gui::generate_notebook(wxWindow *parent) {
   arrayStringFor_FixBadAnglesValue.Add(wxT("11"));
   arrayStringFor_FixBadAnglesValue.Add(wxT("12"));
   arrayStringFor_FixBadAnglesValue.Add(wxT("13"));
-  FixBadAnglesValue =
-      new wxChoice(WxNoteBookPage_AutoFix, ID_FIXBADANGLESVALUE, wxPoint(229, 132), wxSize(46, 23), arrayStringFor_FixBadAnglesValue, 0, wxDefaultValidator, wxT("FixBadAnglesValue"));
-  FixBadAnglesValue->SetFont(ABGX360GUI_FONT);
+  FixBadAnglesValue = new wxChoice(ss_sizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, arrayStringFor_FixBadAnglesValue);
   FixBadAnglesValue->SetSelection(3);
+  WxStaticText5 = new wxStaticText(ss_sizer->GetStaticBox(), wxID_ANY, wxT("degrees from their CCRT targets"));
+  ss_sizer->Add(generate_box_sizer_with_controls({FixBadAngles, FixBadAnglesValue, WxStaticText5, FixBadAnglesTip}), wxSizerFlags().Expand());
 
-  WxStaticText5 = new wxStaticText(WxNoteBookPage_AutoFix, ID_WXSTATICTEXT5, wxT("degrees from their CCRT targets"), wxPoint(279, 136), wxDefaultSize, 0, wxT("WxStaticText5"));
-  WxStaticText5->SetFont(ABGX360GUI_FONT);
+  // Add ss sizer to left_sizer
+  sizer_left->Add(ss_sizer, wxSizerFlags().Expand());
 
-  TrustSSv2 = new wxCheckBox(WxNoteBookPage_AutoFix, ID_TRUSTSSV2, wxT("Trust SS v2 angles"), wxPoint(15, 75), wxSize(115, 17), 0, wxDefaultValidator, wxT("TrustSSv2"));
-  TrustSSv2->SetValue(true);
-  TrustSSv2->SetFont(ABGX360GUI_FONT);
+  // Add sub sizers to panel sizer
+  sizer->Add(sizer_left, wxSizerFlags(0).Border(wxALL, 5));
 
-  return Notebook;
+  root_sizer->Add(sizer, wxSizerFlags().Center());
+  panel->SetSizer(root_sizer);
+  panel->Layout();
+  root_sizer->Fit(panel);
+  return panel;
 }
 
 wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {

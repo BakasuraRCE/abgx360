@@ -283,7 +283,6 @@ class abgx360gui : public wxFrame {
   wxCheckBox *FixBadAngles;
   wxCheckBox *FixAngle359;
   wxCheckBox *FixDRT;
-  wxStaticBox *CRBox;
   wxStaticText *AutoFixText;
   wxChoice *AutoFix;
   wxPanel *WxNoteBookPage_AutoFix;
@@ -510,6 +509,7 @@ class abgx360gui : public wxFrame {
   void OnClose(wxCloseEvent &event);
   void assign_events();
   wxNotebook *generate_notebook(wxWindow *parent);
+  wxPanel *generate_page_autofix(wxWindow *parent);
   wxPanel *generate_page_misc(wxWindow *parent);
   wxPanel *generate_page_manually_patch(wxWindow *parent);
   wxPanel *generate_page_options(wxWindow *parent);
