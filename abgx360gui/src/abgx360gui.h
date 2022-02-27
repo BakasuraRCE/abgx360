@@ -213,10 +213,7 @@ class abgx360gui : public wxFrame {
   void MnuClearDirHistoryClick(wxCommandEvent &event);
 
   void MnuDirHistoryClick(wxCommandEvent &event);
-
   void QuickstartChoiceSelected(wxCommandEvent &event);
-
-  void DonateClick(wxCommandEvent &event);
 
   void abgx360_netClick(wxCommandEvent &event);
 
@@ -261,7 +258,6 @@ class abgx360gui : public wxFrame {
   wxCheckBox *OpenFileWhenDone;
   wxPanel *OutputPanel;
   wxStaticBoxSizer *OutputSizer;
-  wxBitmapButton *DonateButton;
   wxStaticText *PreferredLangText;
   wxChoice *PreferredLangChoice;
   wxCheckBox *EmbedImages;
@@ -383,7 +379,6 @@ class abgx360gui : public wxFrame {
     ID_MNU_SAVESETTINGS_1668 = 1668,
     ID_MNU_DELETESETTINGS_1750 = 1750,
     ID_MNU_EXIT_1671 = 1671,
-    ID_MNU_DONATE_1867 = 1867,
     ID_MNU_MAKEADONATION_1868 = 1868,
     ID_MNU_HELP_1669 = 1669,
     ID_MNU_GOTOABGX360_NET_1869 = 1869,
@@ -403,7 +398,6 @@ class abgx360gui : public wxFrame {
     ID_PROGRAMOUTPUT = 1843,
     ID_OPENFILEWHENDONE = 1841,
     ID_OUTPUTPANEL = 1840,
-    ID_DONATEBUTTON = 1884,
     ID_PREFERREDLANGTEXT = 1883,
     ID_PREFERREDLANGCHOICE = 1879,
     ID_EMBEDIMAGES = 1874,
@@ -512,19 +506,13 @@ class abgx360gui : public wxFrame {
 
  private:
   wxBitmap InfoTip_BITMAP;
-
   wxString openfilename, savefilename, cmd;
-
   void OnClose(wxCloseEvent &event);
-
   void assign_events();
-
   wxNotebook *generate_notebook(wxWindow *parent);
-
+  wxPanel *generate_page_misc(wxWindow *parent);
   wxPanel *generate_page_manually_patch(wxWindow *parent);
-
   wxPanel *generate_page_options(wxWindow *parent);
-
   wxPanel *generate_page_quickstart(wxWindow *parent);
 };
 

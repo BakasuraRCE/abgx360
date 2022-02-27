@@ -56,7 +56,6 @@ ABGX360GUI_FONT
 #include "Images/abgx360gui_dottedOpenButtonDisabled_XPM.xpm"
 #include "Images/abgx360gui_TopBitmap_XPM.xpm"
 #include "Images/abgx360gui_SaveButton_XPM.xpm"
-#include "Images/abgx360gui_DonateButton_XPM.xpm"
 #include "Images/abgx360gui_ExtractSSSaveButton_XPM.xpm"
 #include "Images/abgx360gui_ExtractDMISaveButton_XPM.xpm"
 #include "Images/abgx360gui_ExtractPFISaveButton_XPM.xpm"
@@ -204,9 +203,8 @@ BEGIN_EVENT_TABLE(abgx360gui, wxFrame)
         EVT_MENU(ID_MNU_OPENINPUTFILE_1748, abgx360gui::OpenButtonClick) EVT_MENU(ID_MNU_CLEARHISTORY_1749, abgx360gui::MnuClearHistoryClick)
         EVT_MENU(ID_MNU_CLEARDIRHISTORY_1773, abgx360gui::MnuClearDirHistoryClick) EVT_MENU(ID_MNU_LOADSETTINGS_1743, abgx360gui::MnuLoadSettingsClick)
         EVT_MENU(ID_MNU_SAVESETTINGS_1668, abgx360gui::MnuSaveSettingsClick) EVT_MENU(ID_MNU_DELETESETTINGS_1750, abgx360gui::MnuDeleteSettingsClick)
-        EVT_MENU(ID_MNU_EXIT_1671, abgx360gui::MnuExitClick) EVT_MENU(ID_MNU_ABOUT_1678, abgx360gui::MnuAboutClick) EVT_MENU(ID_MNU_MAKEADONATION_1868, abgx360gui::DonateClick)
-        EVT_MENU(ID_MNU_GOTOABGX360_NET_1869, abgx360gui::abgx360_netClick) EVT_MENU(ID_MNU_WHERE_STEALTHFILES_1872, abgx360gui::WhereStealthFilesClick)
-        EVT_MENU(ID_MNU_WHERE_IMAGES_1875, abgx360gui::WhereImagesClick)
+        EVT_MENU(ID_MNU_EXIT_1671, abgx360gui::MnuExitClick) EVT_MENU(ID_MNU_ABOUT_1678, abgx360gui::MnuAboutClick) EVT_MENU(ID_MNU_GOTOABGX360_NET_1869, abgx360gui::abgx360_netClick)
+        EVT_MENU(ID_MNU_WHERE_STEALTHFILES_1872, abgx360gui::WhereStealthFilesClick) EVT_MENU(ID_MNU_WHERE_IMAGES_1875, abgx360gui::WhereImagesClick)
 
 //        EVT_CHOICE(ID_INPUTCHOICE, abgx360gui::InputChoiceSelected)
 //        EVT_CHOICE(ID_PROGRAMOUTPUT, abgx360gui::ProgramOutputSelected)
@@ -224,7 +222,6 @@ BEGIN_EVENT_TABLE(abgx360gui, wxFrame)
 //        EVT_BUTTON(ID_PATCHDMIOPENBUTTON, abgx360gui::PatchDMIOpenButtonClick)
 //        EVT_BUTTON(ID_PATCHPFIOPENBUTTON, abgx360gui::PatchPFIOpenButtonClick)
 //        EVT_BUTTON(ID_PATCHVIDEOOPENBUTTON, abgx360gui::PatchVideoOpenButtonClick)
-//        EVT_BUTTON(ID_DONATEBUTTON, abgx360gui::DonateClick)
 
 END_EVENT_TABLE()
 ////Event Table End
@@ -239,7 +236,6 @@ void abgx360gui::assign_events() {
 //  MnuDeleteSettings->Bind(wxEVT_MENU, &abgx360gui::MnuDeleteSettingsClick, this);
 //  MnuExit->Bind(wxEVT_MENU, &abgx360gui::MnuExitClick, this);
 //  MnuAbout->Bind(wxEVT_MENU, &abgx360gui::MnuAboutClick, this);
-//  Donate->Bind(wxEVT_MENU, &abgx360gui::DonateClick, this);
 //  abgx360_net->Bind(wxEVT_MENU, &abgx360gui::abgx360_netClick, this);
 //  WhereStealthFiles->Bind(wxEVT_MENU, &abgx360gui::WhereStealthFilesClick, this);
 //  WhereImages->Bind(wxEVT_MENU, &abgx360gui::WhereImagesClick, this);
@@ -261,7 +257,6 @@ void abgx360gui::assign_events() {
   PatchDMIOpenButton->Bind(wxEVT_BUTTON, &abgx360gui::PatchDMIOpenButtonClick, this);
   PatchPFIOpenButton->Bind(wxEVT_BUTTON, &abgx360gui::PatchPFIOpenButtonClick, this);
   PatchVideoOpenButton->Bind(wxEVT_BUTTON, &abgx360gui::PatchVideoOpenButtonClick, this);
-  DonateButton->Bind(wxEVT_BUTTON, &abgx360gui::DonateClick, this);
 }
 
 abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize &size, long style) : wxFrame(parent, id, title, position, size, style) {
@@ -443,14 +438,6 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   ID_MNU_FILE_1667_Mnu_Obj->Append(ID_MNU_EXIT_1671, wxT("E&xit\tCtrl+Q"), wxT("Quit abgx360 GUI"), wxITEM_NORMAL);
   WxMenuBar1->Append(ID_MNU_FILE_1667_Mnu_Obj, wxT("&File"));
 
-  wxMenu *ID_MNU_DONATE_1867_Mnu_Obj = new wxMenu(0);
-  wxMenuItem *ID_MNU_MAKEADONATION_1868_mnuItem_obj =
-      new wxMenuItem(ID_MNU_DONATE_1867_Mnu_Obj, ID_MNU_MAKEADONATION_1868, wxT("&Help support abgx360 development!"), wxT("Make a donation"), wxITEM_NORMAL);
-  wxBitmap ID_MNU_MAKEADONATION_1868_mnuItem_obj_BMP(abgx360gui_ID_MNU_MAKEADONATION_1868_XPM);
-  ID_MNU_MAKEADONATION_1868_mnuItem_obj->SetBitmap(ID_MNU_MAKEADONATION_1868_mnuItem_obj_BMP);
-  ID_MNU_DONATE_1867_Mnu_Obj->Append(ID_MNU_MAKEADONATION_1868_mnuItem_obj);
-  WxMenuBar1->Append(ID_MNU_DONATE_1867_Mnu_Obj, wxT("&Donate"));
-
   wxMenu *ID_MNU_HELP_1669_Mnu_Obj = new wxMenu(0);
   wxMenuItem *ID_MNU_GOTOABGX360_NET_1869_mnuItem_obj = new wxMenuItem(ID_MNU_HELP_1669_Mnu_Obj,
                                                                        ID_MNU_GOTOABGX360_NET_1869,
@@ -608,22 +595,6 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
                                    wxPoint(159, 70),
                                    wxSize(16, 16));
 
-  MyRegionTip = new InfoTip(WxNoteBookPage_Misc,
-                            InfoTip_BITMAP,
-                            wxT("Optionally enter your console's region so abgx360 can display your game's region code in the appropriate color. If a game won't work on your console, the region code will be displayed in red so you won't overlook it and accidentally burn it. You can select multiple regions if you have multiple consoles."),
-                            wxPoint(328, 16),
-                            wxSize(16, 16));
-  SplitVidTip = new InfoTip(WxNoteBookPage_Misc, InfoTip_BITMAP, wxT("See \"To SplitVid or not to SplitVid\" under the Quickstart tab."), wxPoint(320, 71), wxSize(16, 16));
-  ImagesTip = new InfoTip(WxNoteBookPage_Misc,
-                          InfoTip_BITMAP,
-                          wxT("This refers to the game icon, achievement icons and gamer pictures located within the Xex title resource. Images are extracted to your \"Images\" folder (Press Ctrl+I to find it) with filename \"Title ID-Image ID.png\" (the Title ID will always be displayed when extracting images so that you can find them easily; also note that the game icon will always be Image ID 00008000). Images are only displayed by abgx360 when using HTML output, but you can choose to extract them always if you're using them for your own purpose. Note that not every Xex has a title resource (most bonus discs don't) and therefore images (as well as various strings and achievements) are not always available." NEWLINE NEWLINE "You can optionally choose to embed them in the HTML source code as data URIs for better portability (when using HTML output), otherwise the HTML source will contain absolute links to the images in your local \"Images\" folder."),
-                          wxPoint(459, 99),
-                          wxSize(16, 16));
-  PreferredLangTip = new InfoTip(WxNoteBookPage_Misc,
-                                 InfoTip_BITMAP,
-                                 wxT("This will be the preferred language used when abgx360 displays strings from the Xex title resource such as the game description, achievements, avatar awards, etc. Languages that rely heavily on unicode characters are best viewed using HTML output. If the game does not support your preferred language, abgx360 will use the English language strings. Set the Verbosity Level under the Options tab to High if you want to see which languages are supported by an Xex."),
-                                 wxPoint(320, 43),
-                                 wxSize(16, 16));
   //AutoUploadTip = new InfoTip(WxNoteBookPage_Options, InfoTip_BITMAP, wxT("AutoUpload ini and stealth files to the online database if stealth passes but verification fails, and there isn't an exact match already waiting to be verified."), wxPoint(290,76), wxSize(16,16));
 
   /*
@@ -779,6 +750,7 @@ wxNotebook *abgx360gui::generate_notebook(wxWindow *parent) {
   Notebook->AddPage(this->generate_page_quickstart(Notebook), wxT("Quickstart"));
   Notebook->AddPage(this->generate_page_options(Notebook), wxT("Options"));
   Notebook->AddPage(this->generate_page_manually_patch(Notebook), wxT("Manually Patch or Extract Files"));
+  Notebook->AddPage(this->generate_page_misc(Notebook), wxT("Misc"));
 
   WxNoteBookPage_AutoFix = new wxPanel(Notebook, ID_WXNOTEBOOKPAGE_AUTOFIX, wxPoint(4, 26), wxSize(490, 168));
   WxNoteBookPage_AutoFix->SetFont(ABGX360GUI_FONT);
@@ -873,57 +845,28 @@ wxNotebook *abgx360gui::generate_notebook(wxWindow *parent) {
                                    wxT("KeepOriginalISO"));
   KeepOriginalISO->SetFont(ABGX360GUI_FONT);
 
-  WxNoteBookPage_Misc = new wxPanel(Notebook, ID_WXNOTEBOOKPAGE_MISC, wxPoint(4, 26), wxSize(490, 168));
-  WxNoteBookPage_Misc->SetFont(ABGX360GUI_FONT);
-  Notebook->AddPage(WxNoteBookPage_Misc, wxT("Misc"));
+  return Notebook;
+}
 
-  WxStaticText10 = new wxStaticText(WxNoteBookPage_Misc,
-                                    ID_WXSTATICTEXT10,
-                                    wxT("Add extra command line options here (for advanced users only):"),
-                                    wxPoint(10, 120),
-                                    wxDefaultSize,
-                                    0,
-                                    wxT("WxStaticText10"));
-  WxStaticText10->SetFont(ABGX360GUI_FONT);
+wxPanel *abgx360gui::generate_page_misc(wxWindow *parent) {
+  auto *panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+  auto *root_sizer = new wxBoxSizer(wxVERTICAL);
+  auto *sizer = new wxBoxSizer(wxHORIZONTAL);
+  auto *sizer_left = new wxBoxSizer(wxVERTICAL);
 
-  MyRegion = new wxStaticText(WxNoteBookPage_Misc, ID_MYREGION, wxT("Your console's region code:"), wxPoint(10, 16), wxDefaultSize, 0, wxT("MyRegion"));
-  MyRegion->SetFont(ABGX360GUI_FONT);
-
-  MyRegionEditBox = new wxTextCtrl(WxNoteBookPage_Misc, ID_MYREGIONEDITBOX, wxEmptyString, wxPoint(163, 14), wxSize(80, 19), 0, wxDefaultValidator, wxT("MyRegionEditBox"));
+  MyRegionTip = new InfoTip(panel,
+                            InfoTip_BITMAP,
+                            wxT("Optionally enter your console's region so abgx360 can display your game's region code in the appropriate color. If a game won't work on your console, the region code will be displayed in red so you won't overlook it and accidentally burn it. You can select multiple regions if you have multiple consoles."));
+  MyRegion = new wxStaticText(panel, wxID_ANY, wxT("Your console's region code:"), wxDefaultPosition, wxDefaultSize);
+  MyRegionEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
   MyRegionEditBox->SetMaxLength(8);
-  MyRegionEditBox->SetFont(ABGX360GUI_FONT);
+  MyRegionButton = new wxButton(panel, wxID_ANY, wxT("Select..."), wxDefaultPosition, wxDefaultSize);
+  sizer_left->Add(generate_box_sizer_with_controls({MyRegion, MyRegionEditBox, MyRegionButton, MyRegionTip}), wxSizerFlags().Expand());
 
-  MyRegionButton = new wxButton(WxNoteBookPage_Misc, ID_MYREGIONBUTTON, wxT("Select..."), wxPoint(253, 12), wxSize(66, 23), 0, wxDefaultValidator, wxT("MyRegionButton"));
-  MyRegionButton->SetFont(ABGX360GUI_FONT);
-
-  ExtraOptionsEditBox = new wxTextCtrl(WxNoteBookPage_Misc, ID_EXTRAOPTIONSEDITBOX, wxEmptyString, wxPoint(10, 140), wxSize(468, 19), 0, wxDefaultValidator, wxT("ExtraOptionsEditBox"));
-  ExtraOptionsEditBox->SetFont(ABGX360GUI_FONT);
-
-  XexImagesText = new wxStaticText(WxNoteBookPage_Misc, ID_XEXIMAGESTEXT, wxT("Images:"), wxPoint(10, 99), wxDefaultSize, 0, wxT("XexImagesText"));
-  XexImagesText->SetFont(ABGX360GUI_FONT);
-
-  SplitVidText = new wxStaticText(WxNoteBookPage_Misc, ID_SPLITVIDTEXT, wxT("SplitVid:"), wxPoint(10, 71), wxDefaultSize, 0, wxT("SplitVidText"));
-  SplitVidText->SetFont(ABGX360GUI_FONT);
-
-  wxArrayString arrayStringFor_SplitVid;
-  arrayStringFor_SplitVid.Add(wxT("Add it if it doesn't exist or isn't valid"));
-  arrayStringFor_SplitVid.Add(wxT("Remove it if it exists"));
-  arrayStringFor_SplitVid.Add(wxT("Leave it the way it is"));
-  SplitVid = new wxChoice(WxNoteBookPage_Misc, ID_SPLITVIDCHOICE, wxPoint(60, 67), wxSize(250, 23), arrayStringFor_SplitVid, 0, wxDefaultValidator, wxT("SplitVid"));
-  SplitVid->SetFont(ABGX360GUI_FONT);
-  SplitVid->SetSelection(2);
-
-  wxArrayString arrayStringFor_XexImages;
-  arrayStringFor_XexImages.Add(wxT("Extract images when using HTML output"));
-  arrayStringFor_XexImages.Add(wxT("Extract images always"));
-  arrayStringFor_XexImages.Add(wxT("Don't extract images"));
-  XexImages = new wxChoice(WxNoteBookPage_Misc, ID_XEXIMAGES, wxPoint(60, 95), wxSize(250, 23), arrayStringFor_XexImages, 0, wxDefaultValidator, wxT("XexImages"));
-  XexImages->SetFont(ABGX360GUI_FONT);
-  XexImages->SetSelection(0);
-
-  EmbedImages = new wxCheckBox(WxNoteBookPage_Misc, ID_EMBEDIMAGES, wxT("Embed them in HTML"), wxPoint(320, 99), wxSize(139, 17), 0, wxDefaultValidator, wxT("EmbedImages"));
-  EmbedImages->SetFont(ABGX360GUI_FONT);
-
+  PreferredLangTip = new InfoTip(panel,
+                                 InfoTip_BITMAP,
+                                 wxT("This will be the preferred language used when abgx360 displays strings from the Xex title resource such as the game description, achievements, avatar awards, etc. Languages that rely heavily on unicode characters are best viewed using HTML output. If the game does not support your preferred language, abgx360 will use the English language strings. Set the Verbosity Level under the Options tab to High if you want to see which languages are supported by an Xex."));
+  PreferredLangText = new wxStaticText(panel, wxID_ANY, wxT("Preferred Language:"), wxDefaultPosition, wxDefaultSize);
   wxArrayString arrayStringFor_PreferredLangChoice;
   arrayStringFor_PreferredLangChoice.Add(wxT("English"));
   arrayStringFor_PreferredLangChoice.Add(wxT("Japanese"));
@@ -937,20 +880,47 @@ wxNotebook *abgx360gui::generate_notebook(wxWindow *parent) {
   arrayStringFor_PreferredLangChoice.Add(wxT("Simplified Chinese"));
   arrayStringFor_PreferredLangChoice.Add(wxT("Polish"));
   arrayStringFor_PreferredLangChoice.Add(wxT("Russian"));
-  PreferredLangChoice =
-      new wxChoice(WxNoteBookPage_Misc, ID_PREFERREDLANGCHOICE, wxPoint(122, 39), wxSize(188, 23), arrayStringFor_PreferredLangChoice, 0, wxDefaultValidator, wxT("PreferredLangChoice"));
-  PreferredLangChoice->SetFont(ABGX360GUI_FONT);
+  PreferredLangChoice = new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, arrayStringFor_PreferredLangChoice);
   PreferredLangChoice->SetSelection(0);
+  sizer_left->Add(generate_box_sizer_with_controls({PreferredLangText, PreferredLangChoice, PreferredLangTip}), wxSizerFlags().Expand());
 
-  PreferredLangText = new wxStaticText(WxNoteBookPage_Misc, ID_PREFERREDLANGTEXT, wxT("Preferred Language:"), wxPoint(10, 43), wxDefaultSize, 0, wxT("PreferredLangText"));
-  PreferredLangText->SetFont(ABGX360GUI_FONT);
+  SplitVidTip = new InfoTip(panel, InfoTip_BITMAP, wxT("See \"To SplitVid or not to SplitVid\" under the Quickstart tab."));
+  SplitVidText = new wxStaticText(panel, wxID_ANY, wxT("SplitVid:"), wxDefaultPosition, wxDefaultSize);
+  wxArrayString arrayStringFor_SplitVid;
+  arrayStringFor_SplitVid.Add(wxT("Add it if it doesn't exist or isn't valid"));
+  arrayStringFor_SplitVid.Add(wxT("Remove it if it exists"));
+  arrayStringFor_SplitVid.Add(wxT("Leave it the way it is"));
+  SplitVid = new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, arrayStringFor_SplitVid);
+  SplitVid->SetSelection(2);
+  sizer_left->Add(generate_box_sizer_with_controls({SplitVid, SplitVidText, SplitVidTip}), wxSizerFlags().Expand());
 
-  wxBitmap DonateButton_BITMAP(abgx360gui_DonateButton_XPM);
-  DonateButton = new wxBitmapButton(WxNoteBookPage_Misc, ID_DONATEBUTTON, DonateButton_BITMAP, wxPoint(383, 33), wxSize(68, 37), wxBU_AUTODRAW, wxDefaultValidator, wxT("DonateButton"));
-  DonateButton->SetToolTip(wxT("Help support abgx360 development!"));
-  DonateButton->SetFont(ABGX360GUI_FONT);
+  XexImagesText = new wxStaticText(panel, wxID_ANY, wxT("Images:"), wxDefaultPosition, wxDefaultSize);
+  wxArrayString arrayStringFor_XexImages;
+  arrayStringFor_XexImages.Add(wxT("Extract images when using HTML output"));
+  arrayStringFor_XexImages.Add(wxT("Extract images always"));
+  arrayStringFor_XexImages.Add(wxT("Don't extract images"));
+  XexImages = new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, arrayStringFor_XexImages);
+  XexImages->SetSelection(0);
+  EmbedImages = new wxCheckBox(panel, wxID_ANY, wxT("Embed them in HTML"), wxDefaultPosition, wxDefaultSize);
+  ImagesTip = new InfoTip(panel,
+                          InfoTip_BITMAP,
+                          wxT("This refers to the game icon, achievement icons and gamer pictures located within the Xex title resource. Images are extracted to your \"Images\" folder (Press Ctrl+I to find it) with filename \"Title ID-Image ID.png\" (the Title ID will always be displayed when extracting images so that you can find them easily; also note that the game icon will always be Image ID 00008000). Images are only displayed by abgx360 when using HTML output, but you can choose to extract them always if you're using them for your own purpose. Note that not every Xex has a title resource (most bonus discs don't) and therefore images (as well as various strings and achievements) are not always available." NEWLINE NEWLINE "You can optionally choose to embed them in the HTML source code as data URIs for better portability (when using HTML output), otherwise the HTML source will contain absolute links to the images in your local \"Images\" folder."));
+  sizer_left->Add(generate_box_sizer_with_controls({XexImagesText, XexImages, EmbedImages, ImagesTip}), wxSizerFlags().Expand());
 
-  return Notebook;
+  WxStaticText10 = new wxStaticText(panel, wxID_ANY, wxT("Add extra command line options here (for advanced users only):"), wxDefaultPosition, wxDefaultSize);
+  sizer_left->Add(WxStaticText10, wxSizerFlags().Expand());
+
+  ExtraOptionsEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+  sizer_left->Add(ExtraOptionsEditBox, wxSizerFlags().Expand());
+
+  // Add sub sizers to panel sizer
+  sizer->Add(sizer_left, wxSizerFlags(0).Border(wxALL, 5));
+
+  root_sizer->Add(sizer, wxSizerFlags().Center());
+  panel->SetSizer(root_sizer);
+  panel->Layout();
+  root_sizer->Fit(panel);
+  return panel;
 }
 
 wxPanel *abgx360gui::generate_page_options(wxWindow *parent) {
@@ -2565,13 +2535,6 @@ void abgx360gui::QuickstartChoiceSelected(wxCommandEvent &WXUNUSED(event)) {
     QuickstartMemo->AppendText(wxT("These commands are also available on the menu bar under Help."));
   }
   QuickstartMemo->ShowPosition(0);
-}
-
-/*
- * DonateClick
- */
-void abgx360gui::DonateClick(wxCommandEvent &event) {
-  wxLaunchDefaultBrowser(wxT("http://abgx360.net/donate.html"));
 }
 
 /*
