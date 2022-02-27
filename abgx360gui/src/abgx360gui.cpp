@@ -193,18 +193,24 @@ void PrettyButton::onMouseUp(wxMouseEvent &WXUNUSED(event)) {
 ////Event Table Start
 BEGIN_EVENT_TABLE(abgx360gui, wxFrame)
 ////Manual Code Start
-        EVT_UPDATE_UI(ID_PANEL, abgx360gui::UIUpdate) EVT_MENU_RANGE(ID_DIR1, ID_DIR9, abgx360gui::MnuDirHistoryClick) EVT_CHOICE(ID_QUICKSTARTCHOICE, abgx360gui::QuickstartChoiceSelected)
+        EVT_UPDATE_UI(ID_PANEL, abgx360gui::UIUpdate) EVT_MENU_RANGE(ID_DIR1, ID_DIR9, abgx360gui::MnuDirHistoryClick)
+
 ////Manual Code End
 
-        EVT_CLOSE(abgx360gui::OnClose) EVT_MENU(ID_MNU_OPENINPUTFILE_1748, abgx360gui::OpenButtonClick) EVT_MENU(ID_MNU_CLEARHISTORY_1749, abgx360gui::MnuClearHistoryClick)
-        EVT_MENU_RANGE(wxID_FILE1, wxID_FILE9, abgx360gui::MnuFileHistoryClick) EVT_MENU(ID_MNU_CLEARDIRHISTORY_1773, abgx360gui::MnuClearDirHistoryClick)
-        EVT_MENU_RANGE(wxID_FILE1, wxID_FILE9, abgx360gui::MnuDirHistoryClick) EVT_MENU(ID_MNU_LOADSETTINGS_1743, abgx360gui::MnuLoadSettingsClick)
+        EVT_CLOSE(abgx360gui::OnClose)
+
+        EVT_MENU_RANGE(wxID_FILE1, wxID_FILE9, abgx360gui::MnuDirHistoryClick) EVT_MENU_RANGE(wxID_FILE1, wxID_FILE9, abgx360gui::MnuFileHistoryClick)
+
+        EVT_MENU(ID_MNU_OPENINPUTFILE_1748, abgx360gui::OpenButtonClick) EVT_MENU(ID_MNU_CLEARHISTORY_1749, abgx360gui::MnuClearHistoryClick)
+        EVT_MENU(ID_MNU_CLEARDIRHISTORY_1773, abgx360gui::MnuClearDirHistoryClick) EVT_MENU(ID_MNU_LOADSETTINGS_1743, abgx360gui::MnuLoadSettingsClick)
         EVT_MENU(ID_MNU_SAVESETTINGS_1668, abgx360gui::MnuSaveSettingsClick) EVT_MENU(ID_MNU_DELETESETTINGS_1750, abgx360gui::MnuDeleteSettingsClick)
         EVT_MENU(ID_MNU_EXIT_1671, abgx360gui::MnuExitClick) EVT_MENU(ID_MNU_ABOUT_1678, abgx360gui::MnuAboutClick) EVT_MENU(ID_MNU_MAKEADONATION_1868, abgx360gui::DonateClick)
         EVT_MENU(ID_MNU_GOTOABGX360_NET_1869, abgx360gui::abgx360_netClick) EVT_MENU(ID_MNU_WHERE_STEALTHFILES_1872, abgx360gui::WhereStealthFilesClick)
-        EVT_MENU(ID_MNU_WHERE_IMAGES_1875, abgx360gui::WhereImagesClick) EVT_CHOICE(ID_INPUTCHOICE, abgx360gui::InputChoiceSelected)
-        EVT_CHOICE(ID_PROGRAMOUTPUT, abgx360gui::ProgramOutputSelected)
+        EVT_MENU(ID_MNU_WHERE_IMAGES_1875, abgx360gui::WhereImagesClick)
 
+//        EVT_CHOICE(ID_INPUTCHOICE, abgx360gui::InputChoiceSelected)
+//        EVT_CHOICE(ID_PROGRAMOUTPUT, abgx360gui::ProgramOutputSelected)
+//        EVT_CHOICE(ID_QUICKSTARTCHOICE, abgx360gui::QuickstartChoiceSelected)
 //        EVT_BUTTON(ID_SAVEBUTTON, abgx360gui::SaveButtonClick)
 //        EVT_BUTTON(ID_OPENBUTTON, abgx360gui::OpenButtonClick)
 //        EVT_BUTTON(ID_MATCHONLYBUTTON, abgx360gui::MatchOnlyButtonClick)
@@ -224,6 +230,24 @@ END_EVENT_TABLE()
 ////Event Table End
 
 void abgx360gui::assign_events() {
+
+//  OpenButton->Bind(wxEVT_MENU, &abgx360gui::OpenButtonClick, this);
+//  MnuClearHistory->Bind(wxEVT_MENU, &abgx360gui::MnuClearHistoryClick, this);
+//  MnuClearDirHistory->Bind(wxEVT_MENU, &abgx360gui::MnuClearDirHistoryClick, this);
+//  MnuLoadSettings->Bind(wxEVT_MENU, &abgx360gui::MnuLoadSettingsClick, this);
+//  MnuSaveSettings->Bind(wxEVT_MENU, &abgx360gui::MnuSaveSettingsClick, this);
+//  MnuDeleteSettings->Bind(wxEVT_MENU, &abgx360gui::MnuDeleteSettingsClick, this);
+//  MnuExit->Bind(wxEVT_MENU, &abgx360gui::MnuExitClick, this);
+//  MnuAbout->Bind(wxEVT_MENU, &abgx360gui::MnuAboutClick, this);
+//  Donate->Bind(wxEVT_MENU, &abgx360gui::DonateClick, this);
+//  abgx360_net->Bind(wxEVT_MENU, &abgx360gui::abgx360_netClick, this);
+//  WhereStealthFiles->Bind(wxEVT_MENU, &abgx360gui::WhereStealthFilesClick, this);
+//  WhereImages->Bind(wxEVT_MENU, &abgx360gui::WhereImagesClick, this);
+
+  InputChoice->Bind(wxEVT_CHOICE, &abgx360gui::InputChoiceSelected, this);
+  ProgramOutput->Bind(wxEVT_CHOICE, &abgx360gui::ProgramOutputSelected, this);
+  QuickstartChoice->Bind(wxEVT_CHOICE, &abgx360gui::QuickstartChoiceSelected, this);
+
   SaveButton->Bind(wxEVT_BUTTON, &abgx360gui::SaveButtonClick, this);
   OpenButton->Bind(wxEVT_BUTTON, &abgx360gui::OpenButtonClick, this);
   MatchOnlyButton->Bind(wxEVT_BUTTON, &abgx360gui::MatchOnlyButtonClick, this);
