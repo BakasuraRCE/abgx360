@@ -256,7 +256,6 @@ class abgx360gui : public wxFrame {
   wxTextCtrl *OutputFileEditBox;
   wxChoice *ProgramOutput;
   wxCheckBox *OpenFileWhenDone;
-  wxPanel *OutputPanel;
   wxStaticBoxSizer *OutputSizer;
   wxStaticText *PreferredLangText;
   wxChoice *PreferredLangChoice;
@@ -344,10 +343,7 @@ class abgx360gui : public wxFrame {
   wxChoice *InputChoice;
   wxPanel *InputPanel;
   wxStaticBoxSizer *InputSizer;
-  wxBoxSizer *InputSub1Sizer;
-  wxBoxSizer *InputSub2Sizer;
   wxBoxSizer *MainSizer;
-  wxPanel *Panel;
   ////GUI Control Declaration End
   wxFileHistory *m_folderHistory; // the most recently opened folders
   InfoTip *MyRegionTip, *RebuildDefaultTip, *RebuildLowSpaceTip, *AutoFixTip, *TrustSSv2Tip, *FixDRTTip, *FixAngle359Tip, *FixBadAnglesTip, *PatchIfStealthPassesTip, *CheckDVDFileTip,
@@ -396,7 +392,6 @@ class abgx360gui : public wxFrame {
     ID_OUTPUTFILEEDITBOX = 1844,
     ID_PROGRAMOUTPUT = 1843,
     ID_OPENFILEWHENDONE = 1841,
-    ID_OUTPUTPANEL = 1840,
     ID_PREFERREDLANGTEXT = 1883,
     ID_PREFERREDLANGCHOICE = 1879,
     ID_EMBEDIMAGES = 1874,

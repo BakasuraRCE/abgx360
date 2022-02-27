@@ -275,136 +275,93 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
     guifontpointsize--;
   }
 
-  //Do not add custom code between
-  //GUI Items Creation Start and GUI Items Creation End
-  //wxDev-C++ designer will remove them.
-  //Add the custom code before or after the blocks
-  ////GUI Items Creation Start
-
-  Panel = new wxPanel(this, ID_PANEL, wxPoint(0, 0), wxSize(620, 606));
-//    Panel->SetFont(ABGX360GUI_FONT);
-
   MainSizer = new wxBoxSizer(wxVERTICAL);
 
   // Top logo
   wxBitmap TopBitmap_BITMAP(abgx360gui_TopBitmap_XPM);
-  TopBitmap = new wxStaticBitmap(Panel, ID_TOPBITMAP, TopBitmap_BITMAP, wxPoint(-35, -3), wxSize(600, 67), wxCLIP_CHILDREN | wxNO_BORDER);
+  TopBitmap = new wxStaticBitmap(this, ID_TOPBITMAP, TopBitmap_BITMAP, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN | wxNO_BORDER);
   TopBitmap->Enable(false);
-//    TopBitmap->SetFont(ABGX360GUI_FONT);
   MainSizer->Add(TopBitmap, 0, wxEXPAND | wxBOTTOM, 5);
 
-  wxStaticBox *InputSizer_StaticBoxObj = new wxStaticBox(Panel, wxID_ANY, wxT("Input"));
-  InputSizer = new wxStaticBoxSizer(InputSizer_StaticBoxObj, wxVERTICAL);
+  InputSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Input")), wxVERTICAL);
   MainSizer->Add(InputSizer, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
-  InputPanel = new wxPanel(Panel, ID_INPUTPANEL, wxPoint(9, 15), wxSize(485, 64));
-//    InputPanel->SetFont(ABGX360GUI_FONT);
-//    InputSizer->Add(InputPanel, 0, wxALIGN_CENTER | wxLEFT | wxRIGHT | wxBOTTOM, 4);
-
-  InputSub1Sizer = new wxBoxSizer(wxHORIZONTAL);
-  InputSub2Sizer = new wxBoxSizer(wxHORIZONTAL);
-  InputSizer->Add(InputSub1Sizer, 0, wxEXPAND, 0);
-  InputSizer->Add(InputSub2Sizer, 0, wxEXPAND, 0);
+  auto *input_sub_1_sizer = new wxBoxSizer(wxHORIZONTAL);
+  auto *input_sub_2_sizer = new wxBoxSizer(wxHORIZONTAL);
+  InputSizer->Add(input_sub_1_sizer, 0, wxEXPAND, 0);
+  InputSizer->Add(input_sub_2_sizer, 0, wxEXPAND, 0);
 
   wxArrayString arrayStringFor_InputChoice;
   arrayStringFor_InputChoice.Add(wxT("File(s)"));
   arrayStringFor_InputChoice.Add(wxT("Directory"));
   arrayStringFor_InputChoice.Add(wxT("Burned DVD"));
-  InputChoice = new wxChoice(this, ID_INPUTCHOICE, wxPoint(-1, -1), wxSize(-1, -1), arrayStringFor_InputChoice, 0, wxDefaultValidator, wxT("InputChoice"));
-//    InputChoice->SetFont(ABGX360GUI_FONT);
+  InputChoice = new wxChoice(InputSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, arrayStringFor_InputChoice);
   InputChoice->SetSelection(0);
-  InputSub1Sizer->Add(InputChoice, 0, wxALL, 5);
+  input_sub_1_sizer->Add(InputChoice, 0, wxALL, 5);
 
-  WriteDisable = new wxCheckBox(this, ID_WRITEDISABLE, wxT("Disable Writes"), wxPoint(-1, -1), wxSize(-1, -1), 0, wxDefaultValidator, wxT("WriteDisable"));
-//    WriteDisable->SetFont(ABGX360GUI_FONT);
-  InputSub1Sizer->Add(WriteDisable, 0, wxALL, 5);
+  WriteDisable = new wxCheckBox(InputSizer->GetStaticBox(), wxID_ANY, wxT("Disable Writes"));
+  input_sub_1_sizer->Add(WriteDisable, 0, wxALL, 5);
 
-  MatchOnly = new wxCheckBox(this, ID_MATCHONLY, wxT("Match Only:"), wxPoint(-1, -1), wxSize(-1, -1), 0, wxDefaultValidator, wxT("MatchOnly"));
+  MatchOnly = new wxCheckBox(InputSizer->GetStaticBox(), wxID_ANY, wxT("Match Only:"));
   MatchOnly->Show(false);
-//    MatchOnly->SetFont(ABGX360GUI_FONT);
-  InputSub1Sizer->Add(MatchOnly, 0, wxALL, 5);
+  input_sub_1_sizer->Add(MatchOnly, 0, wxALL, 5);
 
-  MatchOnlyEditBox = new wxTextCtrl(this, ID_MATCHONLYEDITBOX, wxEmptyString, wxPoint(-1, -1), wxSize(-1, -1), 0, wxDefaultValidator, wxT("MatchOnlyEditBox"));
+  MatchOnlyEditBox = new wxTextCtrl(InputSizer->GetStaticBox(), wxID_ANY);
   MatchOnlyEditBox->Show(false);
-//    MatchOnlyEditBox->SetFont(ABGX360GUI_FONT);
-  InputSub1Sizer->Add(MatchOnlyEditBox, 1, wxALL, 5);
+  input_sub_1_sizer->Add(MatchOnlyEditBox, 1, wxALL, 5);
 
-  MatchOnlyButton = new wxButton(this, ID_MATCHONLYBUTTON, wxT("Select..."), wxPoint(-1, -1), wxSize(-1, -1), 0, wxDefaultValidator, wxT("MatchOnlyButton"));
+  MatchOnlyButton = new wxButton(InputSizer->GetStaticBox(), wxID_ANY, wxT("Select..."));
   MatchOnlyButton->Show(false);
-//    MatchOnlyButton->SetFont(ABGX360GUI_FONT);
-  InputSub1Sizer->Add(MatchOnlyButton, 0, wxALL, 5);
+  input_sub_1_sizer->Add(MatchOnlyButton, 0, wxALL, 5);
 
-  InputFileEditBox = new wxTextCtrl(this, ID_INPUTFILEEDITBOX, wxEmptyString, wxPoint(-1, -1), wxSize(-1, -1), 0, wxDefaultValidator, wxT("InputFileEditBox"));
-//    InputFileEditBox->SetFont(ABGX360GUI_FONT);
-  InputSub2Sizer->Add(InputFileEditBox, 1, wxALL, 5);
+  InputFileEditBox = new wxTextCtrl(InputSizer->GetStaticBox(), wxID_ANY, wxEmptyString);
+  input_sub_2_sizer->Add(InputFileEditBox, 1, wxALL, 5);
 
   wxBitmap OpenButton_BITMAP(abgx360gui_OpenButton_XPM);
-  OpenButton = new wxBitmapButton(this, ID_OPENBUTTON, OpenButton_BITMAP, wxPoint(-1, -1), wxSize(-1, -1), wxBU_AUTODRAW, wxDefaultValidator, wxT("OpenButton"));
-//    OpenButton->SetFont(ABGX360GUI_FONT);
-  InputSub2Sizer->Add(OpenButton, 0, wxALL, 5);
+  OpenButton = new wxBitmapButton(InputSizer->GetStaticBox(), wxID_ANY, OpenButton_BITMAP);
+  input_sub_2_sizer->Add(OpenButton, 0, wxALL, 5);
 
   Notebook = this->generate_notebook(this);
   MainSizer->Add(Notebook, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
-  wxStaticBox *OutputSizer_StaticBoxObj = new wxStaticBox(Panel, wxID_ANY, wxT("Program Output"));
-  OutputSizer = new wxStaticBoxSizer(OutputSizer_StaticBoxObj, wxHORIZONTAL);
+  OutputSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Program Output")), wxVERTICAL);
   MainSizer->Add(OutputSizer, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
-
-  OutputPanel = new wxPanel(Panel, ID_OUTPUTPANEL, wxPoint(9, 15), wxSize(485, 64));
-  OutputPanel->SetFont(ABGX360GUI_FONT);
-  OutputSizer->Add(OutputPanel, 0, wxALIGN_CENTER | wxLEFT | wxRIGHT | wxBOTTOM, 4);
-
-  OpenFileWhenDone = new wxCheckBox(OutputPanel, ID_OPENFILEWHENDONE, wxT("Open file when done"), wxPoint(114, 5), wxSize(132, 17), 0, wxDefaultValidator, wxT("OpenFileWhenDone"));
-  OpenFileWhenDone->Show(false);
-  OpenFileWhenDone->SetFont(ABGX360GUI_FONT);
 
   wxArrayString arrayStringFor_ProgramOutput;
   arrayStringFor_ProgramOutput.Add(wxT("CLI Window"));
   arrayStringFor_ProgramOutput.Add(wxT("HTML File"));
   arrayStringFor_ProgramOutput.Add(wxT("Text File"));
-  ProgramOutput = new wxChoice(OutputPanel, ID_PROGRAMOUTPUT, wxPoint(2, 2), wxSize(100, 23), arrayStringFor_ProgramOutput, 0, wxDefaultValidator, wxT("ProgramOutput"));
-  ProgramOutput->SetFont(ABGX360GUI_FONT);
+  ProgramOutput = new wxChoice(OutputSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, arrayStringFor_ProgramOutput);
   ProgramOutput->SetSelection(0);
+  Maximize = new wxCheckBox(OutputSizer->GetStaticBox(), wxID_ANY, wxT("Maximize it"));
+  Maximize->SetValue(true);
+  OpenFileWhenDone = new wxCheckBox(OutputSizer->GetStaticBox(), wxID_ANY, wxT("Open file when done"));
+  OpenFileWhenDone->Show(false);
+  TerminalFont = new wxCheckBox(OutputSizer->GetStaticBox(), wxID_ANY, wxT("Use Terminal font characters"));
+  TerminalFont->SetValue(true);
+  OutputSizer->Add(generate_box_sizer_with_controls({ProgramOutput, Maximize, OpenFileWhenDone, TerminalFont}), wxSizerFlags().Expand());
 
-  OutputFileEditBox = new wxTextCtrl(OutputPanel, ID_OUTPUTFILEEDITBOX, wxEmptyString, wxPoint(2, 32), wxSize(434, 19), 0, wxDefaultValidator, wxT("OutputFileEditBox"));
+  OutputFileEditBox = new wxTextCtrl(OutputSizer->GetStaticBox(), wxID_ANY);
   OutputFileEditBox->Enable(false);
-  OutputFileEditBox->SetFont(ABGX360GUI_FONT);
-
   wxBitmap SaveButton_BITMAP(abgx360gui_SaveButton_XPM);
-  SaveButton = new wxBitmapButton(OutputPanel, ID_SAVEBUTTON, SaveButton_BITMAP, wxPoint(446, 29), wxSize(32, 25), wxBU_AUTODRAW, wxDefaultValidator, wxT("SaveButton"));
+  SaveButton = new wxBitmapButton(OutputSizer->GetStaticBox(), wxID_ANY, SaveButton_BITMAP);
   SaveButton->SetToolTip(wxT("Choose the file where program output will be saved"));
   SaveButton->Enable(false);
-  SaveButton->SetFont(ABGX360GUI_FONT);
+  wxBitmap SaveButtonDisabled_BITMAP(abgx360gui_SaveButtonDisabled_XPM);
+  SaveButtonDisabled = new wxBitmapButton(this, ID_SAVEBUTTONDISABLED, SaveButtonDisabled_BITMAP);
+  SaveButtonDisabled->Show(false);
+  OutputSizer->Add(generate_box_sizer_with_controls({OutputFileEditBox, SaveButton}), wxSizerFlags().Expand());
 
-  TerminalFont = new wxCheckBox(OutputPanel, ID_TERMINALFONT, wxT("Use Terminal font characters"), wxPoint(250, 5), wxSize(174, 17), 0, wxDefaultValidator, wxT("TerminalFont"));
-  TerminalFont->SetValue(true);
-  TerminalFont->SetFont(ABGX360GUI_FONT);
-
-  Maximize = new wxCheckBox(OutputPanel, ID_MAXIMIZE, wxT("Maximize it"), wxPoint(114, 5), wxSize(82, 17), 0, wxDefaultValidator, wxT("Maximize"));
-  Maximize->SetValue(true);
-  Maximize->SetFont(ABGX360GUI_FONT);
-
-  LaunchPanel = new wxPanel(Panel, ID_LAUNCHPANEL, wxPoint(0, 467), wxSize(515, 63));
-  LaunchPanel->SetFont(ABGX360GUI_FONT);
+  LaunchPanel = new wxPanel(this, ID_LAUNCHPANEL);
   MainSizer->Add(LaunchPanel, 0, wxEXPAND, 0);
 
-  wxBitmap dottedOpenButtonDisabled_BITMAP(abgx360gui_dottedOpenButtonDisabled_XPM);
-  dottedOpenButtonDisabled = new wxBitmapButton(Panel,
-                                                ID_DOTTEDOPENBUTTONDISABLED,
-                                                dottedOpenButtonDisabled_BITMAP,
-                                                wxPoint(535, 333),
-                                                wxSize(24, 16),
-                                                wxBU_AUTODRAW,
-                                                wxDefaultValidator,
-                                                wxT("dottedOpenButtonDisabled"));
-  dottedOpenButtonDisabled->Show(false);
-  dottedOpenButtonDisabled->SetFont(ABGX360GUI_FONT);
+  // /////////
+  // Others
+  // /////////
 
-  wxBitmap SaveButtonDisabled_BITMAP(abgx360gui_SaveButtonDisabled_XPM);
-  SaveButtonDisabled =
-      new wxBitmapButton(Panel, ID_SAVEBUTTONDISABLED, SaveButtonDisabled_BITMAP, wxPoint(552, 424), wxSize(32, 25), wxBU_AUTODRAW, wxDefaultValidator, wxT("SaveButtonDisabled"));
-  SaveButtonDisabled->Show(false);
-  SaveButtonDisabled->SetFont(ABGX360GUI_FONT);
+  wxBitmap dottedOpenButtonDisabled_BITMAP(abgx360gui_dottedOpenButtonDisabled_XPM);
+  dottedOpenButtonDisabled = new wxBitmapButton(this, ID_DOTTEDOPENBUTTONDISABLED, dottedOpenButtonDisabled_BITMAP);
+  dottedOpenButtonDisabled->Show(false);
 
   StatusBar = new wxStatusBar(this, ID_STATUSBAR);
 
@@ -547,15 +504,6 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   SetTitle(wxT("abgx360 GUI"));
   SetIcon(Self_abgx360gui_XPM);
 
-  ////GUI Items Creation End
-
-#if wxUSE_DRAG_AND_DROP
-
-  // enable drag and drop for input box
-  InputPanel->SetDropTarget(new DnDInput(InputFileEditBox, InputChoice, this, ID_INPUTCHOICE));
-
-#endif
-
   InputChoice->SetSelection(0);
   QuickstartChoice->SetSelection(0);
 
@@ -697,12 +645,12 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   }
   m_fileConfig->SetPath(wxT(".."));
 
+  this->assign_events();
+
   this->SetSizer(MainSizer);
   this->Layout();
 
   this->Centre(wxBOTH);
-
-  this->assign_events();
 }
 
 abgx360gui::~abgx360gui() {
@@ -2624,61 +2572,3 @@ void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
   }
   return;
 }
-
-#if wxUSE_DRAG_AND_DROP
-
-/*
- * input box drag n drop
- */
-bool DnDInput::OnDropFiles(wxCoord, wxCoord, const wxArrayString &filenames) {
-  size_t i, count = filenames.GetCount(), realcount = 0;
-  wxCommandEvent event(wxEVT_COMMAND_CHOICE_SELECTED, dndselectid);
-  event.SetEventObject(dndselect);
-
-  /*
-  wxString str;
-  str.Printf(wxT("%d files/folders dropped:"), (int) count);
-  for (i=0;i<count;i++) {
-      str += wxT(NEWLINE);
-      str += filenames[i];
-  }
-  wxMessageBox(str, wxT("drag n drop"), wxICON_EXCLAMATION);
-  */
-
-  if (count) {
-    for (i = 0; i < count; i++) {
-      if (wxDirExists(filenames[i])) {
-        dndeditbox->Clear();
-        dndeditbox->AppendText(filenames[i]);
-        dndselect->SetSelection(1);  // Directory
-        event.SetInt(1);
-        dndframe->GetEventHandler()->AddPendingEvent(event);
-        return true;
-      } else if (wxFileExists(filenames[i])) {
-        if (realcount) {
-          dndeditbox->AppendText(wxT(" "));
-          if (realcount >= 100) {
-            wxMessageBox(wxT("You have selected over 100 files!" NEWLINE"This will probably exceed maximum command line length limits so try using directory input instead."),
-                         wxT("Doh!"),
-                         wxICON_EXCLAMATION);
-            dndeditbox->Clear();
-            return false;
-          }
-        } else dndeditbox->Clear();
-        dndeditbox->AppendText(wxT("\""));
-        dndeditbox->AppendText(filenames[i]);
-        dndeditbox->AppendText(wxT("\""));
-        realcount++;
-      }
-    }
-    if (realcount) {
-      dndselect->SetSelection(0);  // File(s)
-      event.SetInt(0);
-      dndframe->GetEventHandler()->AddPendingEvent(event);
-      return true;
-    }
-  }
-  return false;
-}
-
-#endif
