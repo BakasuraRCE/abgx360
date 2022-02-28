@@ -228,8 +228,8 @@ char homedir[2048];
 // load replacements from abgx360.ini if it exists (make sure to update checkini() if these addresses are changed)
 char *webinidir =            "http://hadzz.com/abgx/verified/";                       // dir that contains verified ini files
 char *webunverifiedinidir =  "http://hadzz.com/abgx/unverified/";                     // dir that contains unverified ini files
-char *webcsv =               "http://hadzz.com/abgx/GameNameLookup.csv";   // http path to GameNameLookup.csv
-char *webdat =               "http://hadzz.com/abgx/abgx360.dat";          // http path to abgx360.dat
+char *webcsv =               "http://hadzz.com/abgx/GameNameLookup.csv";              // http path to GameNameLookup.csv
+char *webdat =               "http://hadzz.com/abgx/abgx360.dat";                     // http path to abgx360.dat
 char *webtopology =          "http://hadzz.com/abgx/topology.php";                    // http path to topology.php
 char *webstealthdir =        "http://hadzz.com/abgx/StealthFiles/";                   // dir that contains SS/DMI/PFI/Video stealth files
 char *autouploadwebaddress = "http://hadzz.com/abgx/Control/AutoUpload.php";          // form for submitting AutoUploads
@@ -5576,35 +5576,35 @@ void printpfitable(unsigned long startpsnL0, unsigned long endpsnL0, unsigned lo
                    unsigned long sectorsL0, unsigned long sectorsL1, unsigned long long offsetL0, unsigned long long offsetL0end,
                    unsigned long long offsetL1, unsigned long long offsetend, unsigned long sectorstotal) {
     printf("%s%06lXh ", sp5, startpsnL0); color(arrow);
-    if (terminal) printf("Ä„Ä„Ä„Ä PSN Ä„Ä„Ä„%s", greaterthan);
+    if (terminal) printf("ÄÄÄÄÄÄÄ PSN ÄÄÄÄÄÄ%s", greaterthan);
     else printf("------- PSN ------%s", greaterthan);
     color(normal); printf(" %06lXh %06lXh ", endpsnL0, startpsnL1); color(arrow);
-    if (terminal) printf("Ä„Ä„Ä„Ä PSN Ä„Ä„Ä„%s", greaterthan);
+    if (terminal) printf("ÄÄÄÄÄÄÄ PSN ÄÄÄÄÄÄ%s", greaterthan);
     else printf("------- PSN ------%s", greaterthan);
     color(normal); printf(" %06lXh%s", endpsnL1, newline); color(box);
-    if (terminal) printf("%sÚ„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä‚Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Â¿%s%s", sp5, newline, sp5);
+    if (terminal) printf("%sÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿%s%s", sp5, newline, sp5);
     else printf("%s+----------------------------------+----------------------------------+%s%s", sp5, newline, sp5);
-    if (terminal && !html) printf("Â³");
+    if (terminal && !html) printf("³");
     else printf("|");
     color(normal); printf("%sL0 Data Area = %07lu sectors%s", sp2, sectorsL0, sp2); color(box);
-    if (terminal && !html) printf("Â³");
+    if (terminal && !html) printf("³");
     else printf("|");
     color(normal); printf("%sL1 Data Area = %07lu sectors%s", sp2, sectorsL1, sp2); color(box);
-    if (terminal && !html) printf("Â³");
+    if (terminal && !html) printf("³");
     else printf("|");
-    if (terminal) printf("%s%sÃ€Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„ÃÄ„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ù¥s", newline, sp5, newline);
+    if (terminal) printf("%s%sÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ%s", newline, sp5, newline);
     else printf("%s%s+----------------------------------+----------------------------------+%s", newline, sp5, newline);
     color(normal); printf("%s0x%010"LL"X ", sp5, offsetL0); color(arrow);
-    if (terminal) printf("Ä„Ä„Ä„Ä„%s", greaterthan);
+    if (terminal) printf("ÄÄÄÄÄÄÄÄ%s", greaterthan);
     else printf("--------%s", greaterthan);
     color(normal); printf(" 0x%010"LL"X 0x%010"LL"X ", offsetL0end, offsetL1); color(arrow);
-    if (terminal) printf("Ä„Ä„Ä„Ä„%s", greaterthan);
+    if (terminal) printf("ÄÄÄÄÄÄÄÄ%s", greaterthan);
     else printf("--------%s", greaterthan);
     color(normal); printf(" 0x%010"LL"X%s", offsetend, newline); color(arrow);
-    if (terminal) printf("%s%sÄ„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä¢, sp5, lessthan);
+    if (terminal) printf("%s%sÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ", sp5, lessthan);
     else printf("%s%s-----------------", sp5, lessthan);
     color(normal); printf(" %07lu sectors (%010"LL"u bytes) ", sectorstotal, (unsigned long long) sectorstotal * 2048); color(arrow);
-    if (terminal) printf("Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„%s%s%s", greaterthan, newline, newline);
+    if (terminal) printf("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ%s%s%s", greaterthan, newline, newline);
     else printf("----------------%s%s%s", greaterthan, newline, newline);
     color(normal);
   return;
@@ -10434,46 +10434,46 @@ void printheader() {
     int i;
     if (!noheader) {
         color(blue);
-        if (terminal) printf("Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä¥s", newline);
+        if (terminal) printf("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ%s", newline);
         else printf("-------------------------------------------------------------------------------%s", newline);
         color(darkblue); printf("\\\\//\\\\//\\\\//\\\\//");
-        if (terminal) { printf("\\\\/"); color(normal); printf("Û¢); color(darkblue); printf("\\\\//\\ "); }
+        if (terminal) { printf("\\\\/"); color(normal); printf("Û"); color(darkblue); printf("\\\\//\\ "); }
         else { color(white); printf("%s_ |_%s_ ", sp2, sp2); }
         color(green); printf("\\ \\/ /"); color(white);
-        if (terminal) printf("Ú„Â¿Ú„Â¿Ú„Â¿");
+        if (terminal) printf("ÚÄ¿ÚÄ¿ÚÄ¿");
         else printf("_%s_%s_%s", sp2, sp2, sp2);
         color(darkblue); printf("\\\\//\\\\//\\\\//\\\\//\\\\//\\\\//\\\\//\\\\//\\\\//\\\\%s//\\\\//\\\\//\\\\//\\", newline);
         if (!terminal) printf("\\");
-        if (terminal) { color(normal); printf("ÛŸÛ¢); color(darkblue); printf("\\"); color(normal); printf("ÛŸÛ¢);
-                        color(darkblue); printf("\\"); color(normal); printf("ÛŸÛ¢); }
+        if (terminal) { color(normal); printf("ÛßÛ"); color(darkblue); printf("\\"); color(normal); printf("ÛßÛ");
+                        color(darkblue); printf("\\"); color(normal); printf("ÛßÛ"); }
         else { color(white); printf(" (_||_)(_|"); }
         color(green); printf("/ /\\ \\"); color(white);
-        if (terminal && html) printf(" Ä´Ã„Â¿| |");
-        else if (terminal) printf(" Ä´Ã„Â¿Â³ Â³");
+        if (terminal && html) printf(" Ä´ÃÄ¿| |");
+        else if (terminal) printf(" Ä´ÃÄ¿³ ³");
         else printf("_||_ | | ");
         color(darkblue); printf("//\\\\//\\\\//\\\\//\\\\//\\\\//\\\\//\\\\//\\\\//\\\\//%s", newline); color(blue);
-        if (terminal) { printf("Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä¢); color(normal); printf("ßŸß¢); color(blue); printf("Ä¢);
-                        color(normal); printf("ßŸß¢); color(blue); printf("Ä¢); color(normal); printf("ßŸÛ¢); }
+        if (terminal) { printf("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ"); color(normal); printf("ßßß"); color(blue); printf("Ä");
+                        color(normal); printf("ßßß"); color(blue); printf("Ä"); color(normal); printf("ßßÛ"); }
         else { printf("------------------------"); color(white); printf("_|"); }
         color(blue);
-        if (terminal) printf("Ä„Ä„Ä„");
+        if (terminal) printf("ÄÄÄÄÄÄ");
         else printf("------");
         color(white);
-        if (terminal) printf("Ã€Ä™Ã€Ä™Ã€Ä™");
+        if (terminal) printf("ÀÄÙÀÄÙÀÄÙ");
         else printf("_||_||_|"); color(blue);
-        if (terminal) printf("Ä¢);
+        if (terminal) printf("Ä");
         else printf("--");
         color(normal); printf("%s", headerversion); color(blue);
         for (i=0;i<11 - (int) strlen(headerversion);i++) {
-            if (terminal) printf("Ä¢);
+            if (terminal) printf("Ä");
             else printf("-");
         }
         color(normal); printf("[http://hadzz.com/abgx]"); color(blue);
-        if (terminal) printf("Ä„Ä¢);
+        if (terminal) printf("ÄÄÄ");
         else printf("---");
         printf("%s", newline);
         color(normal);
-        if (terminal) printf("%s%s%s ßŸß¢, sp10, sp10, sp2);
+        if (terminal) printf("%s%s%s ßßß", sp10, sp10, sp2);
         printf("%s", newline);
     }
   return;
@@ -12329,7 +12329,7 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                 }
                 else {
                     if (justcount) return 1;
-                    else return printf("Â©");
+                    else return printf("©");
                 }
             }
             else if (codepoint == 0x00AE) {
@@ -12340,7 +12340,7 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                 }
                 else {
                     if (justcount) return 1;
-                    else return printf("Â®");
+                    else return printf("®");
                 }
             }
             else if (codepoint == 0x00B0 || codepoint == 0x00BA) {
@@ -12348,15 +12348,15 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                 if (justcount) return 1;
                 else if (terminal) return printf("%c", 0xF8);
                 else {
-                    if (codepoint == 0x00B0) return printf("Â°");
-                    else return printf("Âº");
+                    if (codepoint == 0x00B0) return printf("°");
+                    else return printf("º");
                 }
             }
             else if (codepoint == 0x00B2) {
                 // superscript 2
                 if (justcount) return 1;
                 else if (terminal) return printf("%c", 0xFD);
-                else return printf("Â²");
+                else return printf("²");
             }
             else if (codepoint == 0x00B3) {
                 // superscript 3
@@ -12366,14 +12366,14 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                 }
                 else {
                     if (justcount) return 1;
-                    else return printf("Â³");
+                    else return printf("³");
                 }
             }
             else if (codepoint == 0x00B4) {
                 // acute accent
                 if (justcount) return 1;
                 else if (terminal) return printf("'");
-                else return printf("Â´");
+                else return printf("´");
             }
             else if (codepoint == 0x00B9) {
                 // superscript 1
@@ -12383,20 +12383,20 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                 }
                 else {
                     if (justcount) return 1;
-                    else return printf("Â¹");
+                    else return printf("¹");
                 }
             }
             else if (codepoint == 0x00BC) {
                 // 1/4
                 if (justcount) return 1;
                 else if (terminal) return printf("%c", 0xAC);
-                else return printf("Â¼");
+                else return printf("¼");
             }
             else if (codepoint == 0x00BD) {
                 // 1/2
                 if (justcount) return 1;
                 else if (terminal) return printf("%c", 0xAB);
-                else return printf("Â½");
+                else return printf("½");
             }
             else if (codepoint == 0x00BE) {
                 // 3/4
@@ -12406,14 +12406,14 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                 }
                 else {
                     if (justcount) return 1;
-                    else return printf("Â¾");
+                    else return printf("¾");
                 }
             }
             else if (codepoint == 0x00BF) {
                 // inverted question mark
                 if (justcount) return 1;
                 else if (terminal) return printf("%c", 0xA8);
-                else return printf("Â¿");
+                else return printf("¿");
             }
             else if ((codepoint >= 0x00C0 && codepoint <= 0x00C5) || codepoint == 0x0100 || codepoint == 0x0102 || codepoint == 0x0104 ||
                      codepoint == 0x01CD || codepoint == 0x01DE || codepoint == 0x01E0 || codepoint == 0x01FA || codepoint == 0x0200 ||
@@ -12426,12 +12426,12 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                     else if (codepoint == 0x00C5) return printf("%c", 0x8F);  // capital A with ring above
                 }
                 else {
-                    if      (codepoint == 0x00C0) return printf("Ã€");  // capital A with Grave
-                    else if (codepoint == 0x00C1) return printf("Ã");  // capital A with Acute
-                    else if (codepoint == 0x00C2) return printf("Â¢);  // capital A with Circumflex
-                    else if (codepoint == 0x00C3) return printf("Ã¢);  // capital A with Tilde
-                    else if (codepoint == 0x00C4 || codepoint == 0x04D2) return printf("Ä¢);  // latin/cyrillic capital A with Diaeresis
-                    else if (codepoint == 0x00C5) return printf("Å¢);  // capital A with ring above
+                    if      (codepoint == 0x00C0) return printf("À");  // capital A with Grave
+                    else if (codepoint == 0x00C1) return printf("Á");  // capital A with Acute
+                    else if (codepoint == 0x00C2) return printf("Â");  // capital A with Circumflex
+                    else if (codepoint == 0x00C3) return printf("Ã");  // capital A with Tilde
+                    else if (codepoint == 0x00C4 || codepoint == 0x04D2) return printf("Ä");  // latin/cyrillic capital A with Diaeresis
+                    else if (codepoint == 0x00C5) return printf("Å");  // capital A with ring above
                 }
                 return printf("A");
             }
@@ -12448,12 +12448,12 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                     else if (codepoint == 0x00E5) return printf("%c", 0x86);  // lowercase a with ring above
                 }
                 else {
-                    if      (codepoint == 0x00E0) return printf("à¢©;  // lowercase a with Grave
-                    else if (codepoint == 0x00E1) return printf("á¢©;  // lowercase a with Acute
-                    else if (codepoint == 0x00E2) return printf("â¢©;  // lowercase a with Circumflex
-                    else if (codepoint == 0x00E3) return printf("ã¢©;  // lowercase a with Tilde
-                    else if (codepoint == 0x00E4 || codepoint == 0x04D3) return printf("ä¢©;  // latin/cyrillic lowercase a with Diaeresis
-                    else if (codepoint == 0x00E5) return printf("å¢©;  // lowercase a with ring above
+                    if      (codepoint == 0x00E0) return printf("à");  // lowercase a with Grave
+                    else if (codepoint == 0x00E1) return printf("á");  // lowercase a with Acute
+                    else if (codepoint == 0x00E2) return printf("â");  // lowercase a with Circumflex
+                    else if (codepoint == 0x00E3) return printf("ã");  // lowercase a with Tilde
+                    else if (codepoint == 0x00E4 || codepoint == 0x04D3) return printf("ä");  // latin/cyrillic lowercase a with Diaeresis
+                    else if (codepoint == 0x00E5) return printf("å");  // lowercase a with ring above
                 }
                 return printf("a");
             }
@@ -12461,13 +12461,13 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                 // latin or cyrillic capital AE's
                 if (justcount) return 1;
                 if (terminal) return printf("%c", 0x92);
-                return printf("Æ¢);
+                return printf("Æ");
             }
             else if (codepoint == 0x00E6 || codepoint == 0x01E3 || codepoint == 0x01FD || codepoint == 0x04D5) {
                 // latin or cyrillic lowercase ae's
                 if (justcount) return 1;
                 if (terminal) return printf("%c", 0x91);
-                return printf("æ¢©;
+                return printf("æ");
             }
             else if ((codepoint >= 0x00C8 && codepoint <= 0x00CB) || codepoint == 0x0112 || codepoint == 0x0114 || codepoint == 0x0116 ||
                      codepoint == 0x0118 || codepoint == 0x011A || codepoint == 0x0204 || codepoint == 0x0206 || codepoint == 0x0388 ||
@@ -12478,10 +12478,10 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                     if (codepoint == 0x00C9) return printf("%c", 0x90);  // capital E with Acute
                 }
                 else {
-                    if      (codepoint == 0x00C8) return printf("È¢);  // capital E with Grave
-                    else if (codepoint == 0x00C9) return printf("É¢);  // capital E with Acute
-                    else if (codepoint == 0x00CA) return printf("Ê¢);  // capital E with Circumflex
-                    else if (codepoint == 0x00CB || codepoint == 0x0401) return printf("Ë¢);  // capital E with Diaeresis or cyrillic capital Io
+                    if      (codepoint == 0x00C8) return printf("È");  // capital E with Grave
+                    else if (codepoint == 0x00C9) return printf("É");  // capital E with Acute
+                    else if (codepoint == 0x00CA) return printf("Ê");  // capital E with Circumflex
+                    else if (codepoint == 0x00CB || codepoint == 0x0401) return printf("Ë");  // capital E with Diaeresis or cyrillic capital Io
                 }
                 return printf("E");
             }
@@ -12497,10 +12497,10 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                     else if (codepoint == 0x00EB || codepoint == 0x0451) return printf("%c", 0x89);  // lowercase e with Diaeresis or cyrillic lowercase Io
                 }
                 else {
-                    if      (codepoint == 0x00E8) return printf("è¢©;  // lowercase e with Grave
-                    else if (codepoint == 0x00E9) return printf("é¢©;  // lowercase e with Acute
-                    else if (codepoint == 0x00EA) return printf("ê¢©;  // lowercase e with Circumflex
-                    else if (codepoint == 0x00EB || codepoint == 0x0451) return printf("ë¢©;  // lowercase e with Diaeresis or cyrillic lowercase Io
+                    if      (codepoint == 0x00E8) return printf("è");  // lowercase e with Grave
+                    else if (codepoint == 0x00E9) return printf("é");  // lowercase e with Acute
+                    else if (codepoint == 0x00EA) return printf("ê");  // lowercase e with Circumflex
+                    else if (codepoint == 0x00EB || codepoint == 0x0451) return printf("ë");  // lowercase e with Diaeresis or cyrillic lowercase Io
                 }
                 return printf("e");
             }
@@ -12511,11 +12511,11 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                 // latin capital I's, greek capital Iotas or cyrillic capital I's/Yi's/Palochkas
                 if (justcount) return 1;
                 if (!terminal) {
-                    if      (codepoint == 0x00CC) return printf("Ì¢);  // capital I with Grave
-                    else if (codepoint == 0x00CD) return printf("Í¢);  // capital I with Acute
-                    else if (codepoint == 0x00CE) return printf("Î¢);  // capital I with Circumflex
+                    if      (codepoint == 0x00CC) return printf("Ì");  // capital I with Grave
+                    else if (codepoint == 0x00CD) return printf("Í");  // capital I with Acute
+                    else if (codepoint == 0x00CE) return printf("Î");  // capital I with Circumflex
                     else if (codepoint == 0x00CF || codepoint == 0x03AA || codepoint == 0x0407)
-                        return printf("Ï¢);  // latin capital I with Diaeresis, greek capital Iota with Dialytika or cyrillic capital Yi
+                        return printf("Ï");  // latin capital I with Diaeresis, greek capital Iota with Dialytika or cyrillic capital Yi
                 }
                 return printf("I");
             }
@@ -12533,11 +12533,11 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                         return printf("%c", 0x8B);  // latin lowercase i with Diaeresis, greek lowercase iota with Dialytika or cyrillic lowercase yi
                 }
                 else {
-                    if      (codepoint == 0x00EC) return printf("ì¢©;  // lowercase i with Grave
-                    else if (codepoint == 0x00ED) return printf("ğº»  // lowercase i with Acute
-                    else if (codepoint == 0x00EE) return printf("î¢©;  // lowercase i with Circumflex
+                    if      (codepoint == 0x00EC) return printf("ì");  // lowercase i with Grave
+                    else if (codepoint == 0x00ED) return printf("í");  // lowercase i with Acute
+                    else if (codepoint == 0x00EE) return printf("î");  // lowercase i with Circumflex
                     else if (codepoint == 0x00EF || codepoint == 0x03CA || codepoint == 0x0457)
-                        return printf("ï¢©;  // latin lowercase i with Diaeresis, greek lowercase iota with Dialytika or cyrillic lowercase yi
+                        return printf("ï");  // latin lowercase i with Diaeresis, greek lowercase iota with Dialytika or cyrillic lowercase yi
                 }
                 return printf("i");
             }
@@ -12548,7 +12548,7 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                 if (codepoint == 0x00D1) {
                     // latin capital N with Tilde
                     if (terminal) return printf("%c", 0xA5);
-                    else return printf("Ñ¢);
+                    else return printf("Ñ");
                 }
                 return printf("N");
             }
@@ -12559,7 +12559,7 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                 if (codepoint == 0x00F1) {
                     // latin lowercase n with Tilde
                     if (terminal) return printf("%c", 0xA4);
-                    else return printf("ñ¢©»
+                    else return printf("ñ");
                 }
                 return printf("n");
             }
@@ -12573,12 +12573,12 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                     if (codepoint == 0x00D6 || codepoint == 0x04E6) return printf("%c", 0x99);  // latin/cyrillic capital O with Diaeresis
                 }
                 else {
-                    if      (codepoint == 0x00D2) return printf("Ò¢);  // capital O with Grave
-                    else if (codepoint == 0x00D3) return printf("Ó¢);  // capital O with Acute
-                    else if (codepoint == 0x00D4) return printf("Ô¢);  // capital O with Circumflex
-                    else if (codepoint == 0x00D5) return printf("Õ¢);  // capital O with Tilde
-                    else if (codepoint == 0x00D6 || codepoint == 0x04E6) return printf("Ö¢);  // latin/cyrillic capital O with Diaeresis
-                    else if (codepoint == 0x00D8) return printf("Ø¢);  // capital O with Stroke
+                    if      (codepoint == 0x00D2) return printf("Ò");  // capital O with Grave
+                    else if (codepoint == 0x00D3) return printf("Ó");  // capital O with Acute
+                    else if (codepoint == 0x00D4) return printf("Ô");  // capital O with Circumflex
+                    else if (codepoint == 0x00D5) return printf("Õ");  // capital O with Tilde
+                    else if (codepoint == 0x00D6 || codepoint == 0x04E6) return printf("Ö");  // latin/cyrillic capital O with Diaeresis
+                    else if (codepoint == 0x00D8) return printf("Ø");  // capital O with Stroke
                 }
                 return printf("O");
             }
@@ -12595,12 +12595,12 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                     else if (codepoint == 0x00F6 || codepoint == 0x04E7) return printf("%c", 0x94);  // latin/cyrillic lowercase o with Diaeresis
                 }
                 else {
-                    if      (codepoint == 0x00F2) return printf("ò¢©»  // lowercase o with Grave
-                    else if (codepoint == 0x00F3) return printf("ó¢©»  // lowercase o with Acute
-                    else if (codepoint == 0x00F4) return printf("ğ¢©»  // lowercase o with Circumflex
-                    else if (codepoint == 0x00F5) return printf("Ãµ");  // lowercase o with Tilde
-                    else if (codepoint == 0x00F6 || codepoint == 0x04E7) return printf("Ã¶");  // latin/cyrillic lowercase o with Diaeresis
-                    else if (codepoint == 0x00F8) return printf("Ã¸");  // lowercase o with Stroke
+                    if      (codepoint == 0x00F2) return printf("ò");  // lowercase o with Grave
+                    else if (codepoint == 0x00F3) return printf("ó");  // lowercase o with Acute
+                    else if (codepoint == 0x00F4) return printf("ô");  // lowercase o with Circumflex
+                    else if (codepoint == 0x00F5) return printf("õ");  // lowercase o with Tilde
+                    else if (codepoint == 0x00F6 || codepoint == 0x04E7) return printf("ö");  // latin/cyrillic lowercase o with Diaeresis
+                    else if (codepoint == 0x00F8) return printf("ø");  // lowercase o with Stroke
                 }
                 return printf("o");
             }
@@ -12614,10 +12614,10 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                     if (codepoint == 0x00DC) return printf("%c", 0x9A);  // capital U with Diaeresis
                 }
                 else {
-                    if      (codepoint == 0x00D9) return printf("Ù¢);  // capital U with Grave
-                    else if (codepoint == 0x00DA) return printf("Ú¢);  // capital U with Acute
-                    else if (codepoint == 0x00DB) return printf("Û¢);  // capital U with Circumflex
-                    else if (codepoint == 0x00DC) return printf("Ü¢);  // capital U with Diaeresis
+                    if      (codepoint == 0x00D9) return printf("Ù");  // capital U with Grave
+                    else if (codepoint == 0x00DA) return printf("Ú");  // capital U with Acute
+                    else if (codepoint == 0x00DB) return printf("Û");  // capital U with Circumflex
+                    else if (codepoint == 0x00DC) return printf("Ü");  // capital U with Diaeresis
                 }
                 return printf("U");
             }
@@ -12634,10 +12634,10 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                     else if (codepoint == 0x00FC || codepoint == 0x03CB) return printf("%c", 0x81);  // latin lowercase u with Diaeresis or greek lowercase upsilon with Dialytika
                 }
                 else {
-                    if      (codepoint == 0x00F9) return printf("Ã¹");  // lowercase u with Grave
-                    else if (codepoint == 0x00FA) return printf("Ãº");  // lowercase u with Acute
-                    else if (codepoint == 0x00FB) return printf("Ã»");  // lowercase u with Circumflex
-                    else if (codepoint == 0x00FC || codepoint == 0x03CB) return printf("Ã¼");  // latin lowercase u with Diaeresis or greek lowercase upsilon with Dialytika
+                    if      (codepoint == 0x00F9) return printf("ù");  // lowercase u with Grave
+                    else if (codepoint == 0x00FA) return printf("ú");  // lowercase u with Acute
+                    else if (codepoint == 0x00FB) return printf("û");  // lowercase u with Circumflex
+                    else if (codepoint == 0x00FC || codepoint == 0x03CB) return printf("ü");  // latin lowercase u with Diaeresis or greek lowercase upsilon with Dialytika
                 }
                 return printf("u");
             }
@@ -12668,7 +12668,7 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                 // bullet
                 if (justcount) return 1;
                 else if (terminal) return printf("%c", 0xF9);
-                else return printf("Â·");
+                else return printf("·");
             }
             else if (codepoint == 0x2018 || codepoint == 0x2019 || codepoint == 0x201B || codepoint == 0x2032 || codepoint == 0x2035) {
                 // single quotes/primes
@@ -12709,7 +12709,7 @@ int printcodepoint(unsigned long codepoint, bool justcount) {
                 }
                 else {
                     if (justcount) return 1;
-                    else return printf("Â©");
+                    else return printf("©");
                 }
             }
         }
@@ -17526,12 +17526,12 @@ int checkss() {
         }
         else printf("%sSS Version: 1%s", sp5, newline);
         color(blue);
-        if (terminal) printf("%sÄ„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„%s", sp5, newline);
+        if (terminal) printf("%sÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ%s", sp5, newline);
         else          printf("%s--------------------------------------------------------------------------%s", sp5, newline);
         color(normal);
         printf("%sCT RT CID Tol Mod Typ Data %s CD %s Response %s Angle Deviation%s", sp5, sp8, sp5, sp1, newline);
         color(blue);
-        if (terminal) printf("%sÄ„ Ä„ Ä„%s Ä„%s Ä„%s Ä„%s Ä„Ä„Ä„Ä„Ä„Ä„Ä Ä„Ä„Ä„Ä„ Ä„Ä„Ä„Ä„Ä„ Ä„Ä„Ä Ä„Ä„Ä„Ä„Ä„Ä„%s", sp5, sp1, sp1, sp1, sp1, newline);
+        if (terminal) printf("%sÄÄ ÄÄ ÄÄ%s ÄÄ%s ÄÄ%s ÄÄ%s ÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄÄÄÄÄÄ ÄÄÄÄÄÄÄÄÄÄ ÄÄÄÄÄ ÄÄÄÄÄÄÄÄÄÄÄÄ%s", sp5, sp1, sp1, sp1, sp1, newline);
         else          printf("%s-- -- --%s --%s --%s --%s ------------- -------- ---------- ----- ------------%s", sp5, sp1, sp1, sp1, sp1, newline);
         color(normal);
         bool stayred;
@@ -17818,7 +17818,7 @@ int checkss() {
             }
         }
         color(blue);
-        if (terminal) printf("%sÄ„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„%s", sp5, newline);
+        if (terminal) printf("%sÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ%s", sp5, newline);
         else          printf("%s--------------------------------------------------------------------------%s", sp5, newline);
         color(normal);
     }
@@ -19236,12 +19236,12 @@ void showap25data(unsigned char *ap25bin) {
     }
     if (extraverbose) {
         color(blue);
-        if (terminal) printf("%sÄ„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä¥s", sp5, newline);
+        if (terminal) printf("%sÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ%s", sp5, newline);
         else          printf("%s-------------------------------------%s", sp5, newline);
         color(normal);
         printf("%sPSN 1 %s PSN 2 %s Data %s Angle Pad%s", sp5, sp2, sp2, sp3, newline);
         color(blue);
-        if (terminal) printf("%sÄ„Ä„Ä„Ä„ Ä„Ä„Ä„Ä„ Ä„Ä„Ä„Ä„ Ä„Ä„Ä Ä„Ä„%s", sp5, newline);
+        if (terminal) printf("%sÄÄÄÄÄÄÄÄ ÄÄÄÄÄÄÄÄ ÄÄÄÄÄÄÄÄ ÄÄÄÄÄ ÄÄÄÄ%s", sp5, newline);
         else          printf("%s-------- -------- -------- ----- ----%s", sp5, newline);
         color(normal);
         for (i=0; i<128; i++) {
@@ -19262,7 +19262,7 @@ void showap25data(unsigned char *ap25bin) {
             }
         }
         color(blue);
-        if (terminal) printf("%sÄ„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä„Ä¥s", sp5, newline);
+        if (terminal) printf("%sÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ%s", sp5, newline);
         else          printf("%s-------------------------------------%s", sp5, newline);
         color(normal);
     }
