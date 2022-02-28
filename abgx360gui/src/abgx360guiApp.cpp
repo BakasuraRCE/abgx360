@@ -13,12 +13,14 @@
 IMPLEMENT_APP(abgx360guiApp)
 
 bool abgx360guiApp::OnInit() {
-    abgx360gui *frame = new abgx360gui(NULL);
-    SetTopWindow(frame);
-    frame->Show();
-    return true;
+  // Enable load PNG images from resource
+  wxImage::AddHandler(new wxPNGHandler());
+  abgx360gui *frame = new abgx360gui(NULL);
+  SetTopWindow(frame);
+  frame->Show();
+  return true;
 }
 
 int abgx360guiApp::OnExit() {
-    return 0;
+  return 0;
 }

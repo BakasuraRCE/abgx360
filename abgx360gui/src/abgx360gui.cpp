@@ -88,6 +88,14 @@ wxBoxSizer *generate_box_sizer_with_controls(const std::list<wxWindow *> &contro
   return sizer;
 }
 
+wxBitmap bitmap_from_resource(const std::string &path) {
+  wxImage wx_image = wxImage();
+  auto resource_file = resource_fs.open(path);
+  wxMemoryInputStream wx_memory_input_stream = wxMemoryInputStream(resource_file.begin(), resource_file.size());
+  wx_image.LoadFile(wx_memory_input_stream, wxBITMAP_TYPE_PNG);
+  return {wx_image};
+}
+
 //----------------------------------------------------------------------------
 // InfoTip
 //----------------------------------------------------------------------------
@@ -284,12 +292,9 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   MainSizer = new wxBoxSizer(wxVERTICAL);
 
   // Top logo
-  wxBitmap TopBitmap_BITMAP(abgx360gui_TopBitmap_XPM);
-  TopBitmap = new wxStaticBitmap(this, ID_TOPBITMAP, TopBitmap_BITMAP, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN | wxNO_BORDER);
-//  auto logo_reloaded = resource_fs.open("abgx360gui/src/Images/logo_reloaded.png");
-//  TopBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap(logo_reloaded.begin(), wxBITMAP_TYPE_RESOURCE), wxDefaultPosition, wxDefaultSize, 0);
+  TopBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap(bitmap_from_resource("abgx360gui/src/Images/logo_reloaded.png")), wxDefaultPosition, wxDefaultSize, 0);
   TopBitmap->SetBackgroundColour(wxColour(0, 0, 0));
-  TopBitmap->Enable(false);
+  TopBitmap->SetMinSize(wxSize(-1, 80));
   MainSizer->Add(TopBitmap, 0, wxEXPAND | wxBOTTOM, 5);
 
   InputSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Input")), wxVERTICAL);
