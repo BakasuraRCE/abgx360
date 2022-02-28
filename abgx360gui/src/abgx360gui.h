@@ -23,10 +23,6 @@
 #include <wx/wxprec.h>
 #endif
 
-//Do not add custom headers between
-//Header Include Start and Header Include End.
-//wxDev-C++ designer will remove them. Add custom headers after the block.
-////Header Include Start
 #include <wx/dirdlg.h>
 #include <wx/filedlg.h>
 #include <wx/menu.h>
@@ -45,7 +41,7 @@
 #include <wx/choice.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
-////Header Include End
+#include <wx/mstream.h>
 
 #include <wx/tooltip.h>
 #include <wx/utils.h>
