@@ -138,11 +138,13 @@ BEGIN_EVENT_TABLE(PrettyButton, wxPanel)
 END_EVENT_TABLE()
 ////Event Table End
 
-PrettyButton::PrettyButton(wxWindow *parent, const wxBitmap &normalimage, const wxBitmap &mouseonimage, const wxBitmap &clickimage, const wxPoint &pos, const wxSize &size, int id) : wxPanel(
-    parent,
-    wxID_ANY,
-    pos,
-    size) {
+PrettyButton::PrettyButton(wxWindow *parent,
+                           const wxBitmap &normalimage,
+                           const wxBitmap &mouseonimage,
+                           const wxBitmap &clickimage,
+                           const wxPoint &pos = wxDefaultPosition,
+                           const wxSize &size = wxDefaultSize,
+                           int id = wxID_ANY) : wxPanel(parent, id, pos, size) {
   //SetBackgroundStyle(wxBG_STYLE_CUSTOM);  // supposed to reduce flicker
   hover = false;
   click = false;
@@ -367,7 +369,12 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   OutputSizer->Add(generate_box_sizer_with_controls({OutputFileEditBox, SaveButton}), wxSizerFlags().Expand());
 
   LaunchPanel = new wxPanel(this, ID_LAUNCHPANEL);
-  MainSizer->Add(LaunchPanel, 0, wxEXPAND, 0);
+  wxBitmap LaunchNormal_BITMAP(LaunchNormal_xpm);
+  wxBitmap LaunchOver_BITMAP(LaunchOver_xpm);
+  wxBitmap LaunchClick_BITMAP(LaunchClick_xpm);
+  LaunchButton = new PrettyButton(this, LaunchNormal_BITMAP, LaunchOver_BITMAP, LaunchClick_BITMAP);
+  LaunchButton->SetMinSize(wxSize(300, 80));
+  MainSizer->Add(LaunchButton, 0, wxEXPAND, 0);
 
   // /////////
   // Others
@@ -520,12 +527,6 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
 
   InputChoice->SetSelection(0);
   QuickstartChoice->SetSelection(0);
-
-  wxBitmap LaunchNormal_BITMAP(LaunchNormal_xpm);
-  wxBitmap LaunchOver_BITMAP(LaunchOver_xpm);
-  wxBitmap LaunchClick_BITMAP(LaunchClick_xpm);
-
-  LaunchButton = new PrettyButton(LaunchPanel, LaunchNormal_BITMAP, LaunchOver_BITMAP, LaunchClick_BITMAP, wxPoint(0, 0), wxSize(515, 63), ID_RUNBUTTON);
 
   //AutoUploadTip = new InfoTip(WxNoteBookPage_Options, InfoTip_BITMAP, wxT("AutoUpload ini and stealth files to the online database if stealth passes but verification fails, and there isn't an exact match already waiting to be verified."), wxPoint(290,76), wxSize(16,16));
 
