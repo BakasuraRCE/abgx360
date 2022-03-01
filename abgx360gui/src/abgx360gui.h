@@ -108,36 +108,6 @@ class InfoTip : public wxPanel {
   wxRect iconbounds;
 };
 
-class PrettyButton : public wxPanel {
- private:
- DECLARE_EVENT_TABLE();
-
- public:
-  //contructor
-  PrettyButton(wxWindow *parent, const wxBitmap &normalimage, const wxBitmap &mouseonimage, const wxBitmap &clickimage, const wxPoint &pos, const wxSize &size, int id);
-
-  void onMouseEnter(wxMouseEvent &event);
-
-  void onMouseLeave(wxMouseEvent &event);
-
-  void onMouseClick(wxMouseEvent &event);
-
-  void onMouseUp(wxMouseEvent &event);
-
-  void onEraseBackground(wxEraseEvent &event);
-
-  void onPaint(wxPaintEvent &event);
-
- private:
-  bool click, hover;
-  wxBitmap mNormalImage;
-  wxBitmap mOverImage;
-  wxBitmap mClickImage;
-  wxWindow *mParent;
-  wxCommandEvent *mEvent;
-  wxStopWatch mSW;
-};
-
 class abgx360gui : public wxFrame {
  private:
  DECLARE_EVENT_TABLE();
@@ -344,7 +314,7 @@ class abgx360gui : public wxFrame {
   wxFileHistory *m_folderHistory; // the most recently opened folders
   InfoTip *MyRegionTip, *RebuildDefaultTip, *RebuildLowSpaceTip, *AutoFixTip, *TrustSSv2Tip, *FixDRTTip, *FixAngle359Tip, *FixBadAnglesTip, *PatchIfStealthPassesTip, *CheckDVDFileTip,
       *CheckStealthTip, *VerifyTip, *CheckVideoPaddingTip, *CheckCorruptionTip, *CheckForUpdatesTip, *GameCRCTip, *SplitVidTip, *ImagesTip, *PreferredLangTip;
-  PrettyButton *LaunchButton;
+  wxBitmapButton *LaunchButton;
   wxStaticBitmap *Separator;
   int guifontpointsize;
 #ifdef WIN32

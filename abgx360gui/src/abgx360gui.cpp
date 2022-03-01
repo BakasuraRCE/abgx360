@@ -127,80 +127,6 @@ void InfoTip::onPaint(wxPaintEvent &event) {
 }
 
 //----------------------------------------------------------------------------
-// PrettyButton
-//----------------------------------------------------------------------------
-
-////Event Table Start
-BEGIN_EVENT_TABLE(PrettyButton, wxPanel)
-        EVT_ERASE_BACKGROUND(PrettyButton::onEraseBackground) EVT_PAINT(PrettyButton::onPaint) EVT_ENTER_WINDOW(PrettyButton::onMouseEnter) EVT_LEAVE_WINDOW(PrettyButton::onMouseLeave)
-        EVT_LEFT_DOWN(PrettyButton::onMouseClick) EVT_LEFT_UP(PrettyButton::onMouseUp)
-
-END_EVENT_TABLE()
-////Event Table End
-
-PrettyButton::PrettyButton(wxWindow *parent,
-                           const wxBitmap &normalimage,
-                           const wxBitmap &mouseonimage,
-                           const wxBitmap &clickimage,
-                           const wxPoint &pos = wxDefaultPosition,
-                           const wxSize &size = wxDefaultSize,
-                           int id = wxID_ANY) : wxPanel(parent, id, pos, size) {
-  //SetBackgroundStyle(wxBG_STYLE_CUSTOM);  // supposed to reduce flicker
-  hover = false;
-  click = false;
-  mNormalImage = normalimage;
-  mOverImage = mouseonimage;
-  mClickImage = clickimage;
-  mParent = parent;
-  mEvent = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, id);
-  mSW.Start(0);
-}
-
-void PrettyButton::onEraseBackground(wxEraseEvent &WXUNUSED(event)) {
-  return;
-}
-
-void PrettyButton::onPaint(wxPaintEvent &event) {
-  //wxBufferedPaintDC dc(this);
-  wxPaintDC dc(this);
-  if (click) dc.DrawBitmap(mClickImage, 0, 0);
-  else if (hover) dc.DrawBitmap(mOverImage, 0, 0);
-  else dc.DrawBitmap(mNormalImage, 0, 0);
-  //event.Skip();
-}
-
-void PrettyButton::onMouseEnter(wxMouseEvent &event) {
-  hover = true;
-  if (event.LeftIsDown()) click = true;
-  else click = false;
-  Refresh();
-  //event.Skip();
-}
-
-void PrettyButton::onMouseLeave(wxMouseEvent &WXUNUSED(event)) {
-  hover = false;
-  click = false;
-  Refresh();
-  //event.Skip();
-}
-
-void PrettyButton::onMouseClick(wxMouseEvent &WXUNUSED(event)) {
-  click = true;
-  Refresh();
-  //event.Skip();
-}
-
-void PrettyButton::onMouseUp(wxMouseEvent &WXUNUSED(event)) {
-  click = false;
-  Refresh();
-  if (mSW.Time() > 2500) {
-    mParent->GetEventHandler()->ProcessEvent(*mEvent);
-    mSW.Start(0);
-  }
-  //event.Skip();
-}
-
-//----------------------------------------------------------------------------
 // abgx360gui
 //----------------------------------------------------------------------------
 //Add Custom Events only in the appropriate block.
@@ -369,12 +295,12 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   OutputSizer->Add(generate_box_sizer_with_controls({OutputFileEditBox, SaveButton}), wxSizerFlags().Expand());
 
   LaunchPanel = new wxPanel(this, ID_LAUNCHPANEL);
-  wxBitmap LaunchNormal_BITMAP(LaunchNormal_xpm);
-  wxBitmap LaunchOver_BITMAP(LaunchOver_xpm);
-  wxBitmap LaunchClick_BITMAP(LaunchClick_xpm);
-  LaunchButton = new PrettyButton(this, LaunchNormal_BITMAP, LaunchOver_BITMAP, LaunchClick_BITMAP);
-  LaunchButton->SetMinSize(wxSize(300, 80));
-  MainSizer->Add(LaunchButton, 0, wxEXPAND, 0);
+  LaunchButton = new wxBitmapButton(this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW | 0);
+  LaunchButton->SetBackgroundColour(wxColour(0, 0, 0));
+  LaunchButton->SetBitmap(wxBitmap(LaunchNormal_xpm));
+  LaunchButton->SetBitmapPressed(wxBitmap(LaunchClick_xpm));
+  LaunchButton->SetBitmapCurrent(wxBitmap(LaunchOver_xpm));
+  MainSizer->Add(LaunchButton, 0, wxEXPAND | wxALL, 5);
 
   // /////////
   // Others
