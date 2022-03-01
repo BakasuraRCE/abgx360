@@ -211,7 +211,7 @@ class abgx360gui : public wxFrame {
   wxMenuBar *WxMenuBar1;
   wxFileHistory *m_fileHistory; // the most recently opened files
   wxConfig *m_fileConfig; // Used to save the file history (can be used for other data too)
-  wxStatusBar *StatusBar;
+  wxTextCtrl *StatusBar;
   wxBitmapButton *SaveButtonDisabled;
   wxBitmapButton *dottedOpenButtonDisabled;
   wxStaticBitmap *TopBitmap;

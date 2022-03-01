@@ -300,7 +300,10 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   LaunchButton->SetBitmap(wxBitmap(LaunchNormal_xpm));
   LaunchButton->SetBitmapPressed(wxBitmap(LaunchClick_xpm));
   LaunchButton->SetBitmapCurrent(wxBitmap(LaunchOver_xpm));
-  MainSizer->Add(LaunchButton, 0, wxEXPAND | wxALL, 5);
+  MainSizer->Add(LaunchButton, 0, wxEXPAND | wxALL, 10);
+
+  StatusBar = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
+  MainSizer->Add(StatusBar, 0, wxEXPAND, 0);
 
   // /////////
   // Others
@@ -309,8 +312,6 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   wxBitmap dottedOpenButtonDisabled_BITMAP(abgx360gui_dottedOpenButtonDisabled_XPM);
   dottedOpenButtonDisabled = new wxBitmapButton(this, ID_DOTTEDOPENBUTTONDISABLED, dottedOpenButtonDisabled_BITMAP);
   dottedOpenButtonDisabled->Show(false);
-
-  StatusBar = new wxStatusBar(this, ID_STATUSBAR);
 
   WxMenuBar1 = new wxMenuBar();
   wxMenu *ID_MNU_FILE_1667_Mnu_Obj = new wxMenu(0);
@@ -447,9 +448,8 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
                                       wxT("SS Files (*ss*.bin)|*ss*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
                                       wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 
-  SetStatusBar(StatusBar);
-  SetTitle(wxT("abgx360 GUI"));
-  SetIcon(Self_abgx360gui_XPM);
+  this->SetTitle(wxT("abgx360 GUI"));
+  this->SetIcon(Self_abgx360gui_XPM);
 
   InputChoice->SetSelection(0);
   QuickstartChoice->SetSelection(0);
@@ -1678,8 +1678,8 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 #endif
 
   //wxLogStatus(wxT("%s"), cmd);
-  if (cmd.Find(wxT(" --user ")) == wxNOT_FOUND && cmd.Find(wxT(" --pass ")) == wxNOT_FOUND) StatusBar->SetStatusText(cmd);
-  else StatusBar->SetStatusText(wxEmptyString);
+  if (cmd.Find(wxT(" --user ")) == wxNOT_FOUND && cmd.Find(wxT(" --pass ")) == wxNOT_FOUND) StatusBar->SetValue(cmd);
+  else StatusBar->SetValue(wxEmptyString);
 }
 
 /*
@@ -1872,7 +1872,7 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
 #endif
 
   //wxLogStatus(wxT("'%s' launched..."), cmd);
-  StatusBar->SetStatusText(wxT("and away we go..."));
+  StatusBar->SetValue(wxT("and away we go..."));
 
   if (ProgramOutput->GetCurrentSelection() == 0) {  // CLI Window
     returnvalue = wxExecute(cmd, wxEXEC_ASYNC);
