@@ -134,7 +134,7 @@ void InfoTip::onPaint(wxPaintEvent &event) {
 ////Event Table Start
 BEGIN_EVENT_TABLE(abgx360gui, wxFrame)
 ////Manual Code Start
-        EVT_UPDATE_UI(ID_PANEL, abgx360gui::UIUpdate) EVT_MENU_RANGE(ID_DIR1, ID_DIR9, abgx360gui::MnuDirHistoryClick)
+        EVT_MENU_RANGE(ID_DIR1, ID_DIR9, abgx360gui::MnuDirHistoryClick)
 
 ////Manual Code End
 
@@ -169,6 +169,8 @@ END_EVENT_TABLE()
 ////Event Table End
 
 void abgx360gui::assign_events() {
+
+  this->Bind(wxEVT_UPDATE_UI, &abgx360gui::UIUpdate, this);
 
 //  OpenButton->Bind(wxEVT_MENU, &abgx360gui::OpenButtonClick, this);
 //  MnuClearHistory->Bind(wxEVT_MENU, &abgx360gui::MnuClearHistoryClick, this);
@@ -1678,8 +1680,12 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 #endif
 
   //wxLogStatus(wxT("%s"), cmd);
-  if (cmd.Find(wxT(" --user ")) == wxNOT_FOUND && cmd.Find(wxT(" --pass ")) == wxNOT_FOUND) StatusBar->SetValue(cmd);
-  else StatusBar->SetValue(wxEmptyString);
+  if (cmd.Find(wxT(" --user ")) == wxNOT_FOUND && cmd.Find(wxT(" --pass ")) == wxNOT_FOUND) {
+    if (StatusBar->GetValue() != cmd)
+      StatusBar->SetValue(cmd);
+  } else {
+    StatusBar->SetValue(wxEmptyString);
+  }
 }
 
 /*
