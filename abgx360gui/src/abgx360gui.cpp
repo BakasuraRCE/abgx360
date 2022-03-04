@@ -1173,7 +1173,7 @@ void abgx360gui::MnuDeleteSettingsClick(wxCommandEvent &WXUNUSED(event)) {
 }
 
 void abgx360gui::doLoadSettings() {
-  long l;
+  int l;
   bool b;
 
   // input
@@ -2142,9 +2142,11 @@ void abgx360gui::MnuAboutClick(wxCommandEvent &WXUNUSED(event)) {
   int random = randomnumber(0, aDescriptions.GetCount() - 1);
 
   wxAboutDialogInfo info;
+  info.SetIcon(Self_abgx360gui_XPM);
   info.SetName(wxT("abgx360 GUI"));
   info.SetVersion(wxT("1.0.2"));
-  info.SetCopyright(wxT("\xA9 2008-2009 by Seacrest"));
+  info.SetCopyright(wxT("(C) 2008-2009 by Seacrest\n(C) 2021 by Bakasura"));
+  info.SetWebSite(this->website);
   info.SetDescription(aDescriptions.Item(random));
   wxAboutBox(info);
 }
