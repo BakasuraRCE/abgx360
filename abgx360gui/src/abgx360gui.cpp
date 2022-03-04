@@ -1675,8 +1675,8 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
  * RunButtonClick
  */
 void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
-  long returnvalue;
-  wxString returnstring;
+  long return_value;
+  wxString return_string;
 #ifndef WIN32
   if (InputChoice->GetCurrentSelection() == 2) {
 #ifdef __APPLE__
@@ -1864,8 +1864,8 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
   StatusBar->SetValue(wxT("and away we go..."));
 
   if (ProgramOutput->GetCurrentSelection() == 0) {  // CLI Window
-	returnvalue = wxExecute(cmd, wxEXEC_ASYNC);
-	if (returnvalue == 0) {  // couldn't start the process
+	return_value = wxExecute(cmd, wxEXEC_ASYNC);
+	if (return_value == 0) {  // couldn't start the process
 #ifdef __APPLE__
 	  wxMessageBox(wxT("ERROR: The command could not be executed! You're probably missing osascript"), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 #else
@@ -1880,8 +1880,8 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
   } else {
 #ifdef __APPLE__
 	// wxMac does not support wxEXEC_SYNC
-	returnvalue = wxExecute(cmd, wxEXEC_ASYNC);
-	if (returnvalue == 0) {  // couldn't start the process
+	return_value = wxExecute(cmd, wxEXEC_ASYNC);
+	if (return_value == 0) {  // couldn't start the process
 		wxMessageBox(wxT("ERROR: The command could not be executed! You're probably missing osascript"), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 	  return;
 	}
@@ -1896,14 +1896,14 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
 		if (!cmd) shellcmd = shell;
 		else shellcmd.Printf(wxT("%s /c %s"), shell, cmd.c_str());
 #endif
-	returnvalue = wxExecute(shellcmd, wxEXEC_SYNC);
-	if (returnvalue == -1) {  // couldn't start the process
+	return_value = wxExecute(shellcmd, wxEXEC_SYNC);
+	if (return_value == -1) {  // couldn't start the process
 		wxMessageBox(wxT("ERROR: The command could not be executed! Most likely the abgx360 command line app isn't in your PATH... reinstalling abgx360 will fix this."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 	  return;
 	}
 #else
-	returnvalue = wxExecute(cmd, wxEXEC_SYNC);
-	if (returnvalue == -1) {  // couldn't start the process
+	return_value = wxExecute(cmd, wxEXEC_SYNC);
+	if (return_value == -1) {  // couldn't start the process
 	  wxMessageBox(wxT("ERROR: The command could not be executed! You probably don't have xterm installed."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 	  return;
 	}
@@ -2126,8 +2126,8 @@ void abgx360gui::ExtractSSSaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
 int random_number(int x, int y) {
   std::random_device rd; // obtain a random number from hardware
   std::mt19937 gen(rd()); // seed the generator
-  std::uniform_int_distribution<> distr(x, y); // define the range
-  return distr(gen);
+  std::uniform_int_distribution<> distribution(x, y); // define the range
+  return distribution(gen);
 }
 
 /*
@@ -2165,8 +2165,8 @@ void abgx360gui::MnuExitClick(wxCommandEvent &WXUNUSED(event)) {
 void abgx360gui::MyRegionButtonClick(wxCommandEvent &WXUNUSED(event)) {
   wxArrayString aRegions;
   wxArrayInt aRegionSelections;
-  wxString str, regioncode;
-  unsigned long ntscu = 0, pal = 0, ntscj = 0;
+  wxString str, region_code;
+  unsigned long ntsc_u = 0, pal = 0, ntsc_j = 0;
 
   aRegions.Add(wxT("NTSC/U"));
   aRegions.Add(wxT("PAL (Australia or New Zealand)"));
@@ -2178,30 +2178,30 @@ void abgx360gui::MyRegionButtonClick(wxCommandEvent &WXUNUSED(event)) {
   str = MyRegionEditBox->GetValue();
   if (str.Len() == 8) {
 	str.Mid(2, 2).ToULong(&pal, 16);
-	str.Mid(4, 2).ToULong(&ntscj, 16);
-	str.Mid(6, 2).ToULong(&ntscu, 16);
-	if (ntscu == 0xFF) aRegionSelections.Add(0);
+	str.Mid(4, 2).ToULong(&ntsc_j, 16);
+	str.Mid(6, 2).ToULong(&ntsc_u, 16);
+	if (ntsc_u == 0xFF) aRegionSelections.Add(0);
 	if (pal & 0x01) aRegionSelections.Add(1);
 	if ((pal & 0xFE) == 0xFE) aRegionSelections.Add(2);
-	if (ntscj & 0x01) aRegionSelections.Add(3);
-	if (ntscj & 0x02) aRegionSelections.Add(4);
-	if ((ntscj & 0xFC) == 0xFC) aRegionSelections.Add(5);
+	if (ntsc_j & 0x01) aRegionSelections.Add(3);
+	if (ntsc_j & 0x02) aRegionSelections.Add(4);
+	if ((ntsc_j & 0xFC) == 0xFC) aRegionSelections.Add(5);
   }
 
   wxGetSelectedChoices(aRegionSelections, wxT("Check the box next to the region of any and all consoles you own"), wxT("Select regions"), aRegions);
 
   if (aRegionSelections.GetCount()) {
-	ntscu = 0;
+	ntsc_u = 0;
 	pal = 0;
-	ntscj = 0;
-	if (aRegionSelections.Index(0) != wxNOT_FOUND) ntscu = 0xFF;
+	ntsc_j = 0;
+	if (aRegionSelections.Index(0) != wxNOT_FOUND) ntsc_u = 0xFF;
 	if (aRegionSelections.Index(1) != wxNOT_FOUND) pal |= 0x01;
 	if (aRegionSelections.Index(2) != wxNOT_FOUND) pal |= 0xFE;
-	if (aRegionSelections.Index(3) != wxNOT_FOUND) ntscj |= 0x01;
-	if (aRegionSelections.Index(4) != wxNOT_FOUND) ntscj |= 0x02;
-	if (aRegionSelections.Index(5) != wxNOT_FOUND) ntscj |= 0xFC;
-	regioncode.Printf(wxT("00%02lX%02lX%02lX"), pal, ntscj, ntscu);
-	MyRegionEditBox->SetValue(regioncode);
+	if (aRegionSelections.Index(3) != wxNOT_FOUND) ntsc_j |= 0x01;
+	if (aRegionSelections.Index(4) != wxNOT_FOUND) ntsc_j |= 0x02;
+	if (aRegionSelections.Index(5) != wxNOT_FOUND) ntsc_j |= 0xFC;
+	region_code.Printf(wxT("00%02lX%02lX%02lX"), pal, ntsc_j, ntsc_u);
+	MyRegionEditBox->SetValue(region_code);
   }
 }
 
@@ -2391,7 +2391,7 @@ void abgx360gui::QuickstartChoiceSelected(wxCommandEvent &WXUNUSED(event)) {
 	QuickstartMemo->AppendText(wxT("Step 3: Click the Launch button and read the output. Red or yellow text is important!" NEWLINE));
 	QuickstartMemo->AppendText(wxT("Note: The .dvd file is automatically created if it doesn't exist or fixed if it's invalid unless you disabled that setting under the options tab or selected \"Disable Writes\""));
   } else if (QuickstartChoice->GetCurrentSelection() == 3) {
-	QuickstartMemo->AppendText(wxT("Part of the response to Challenge Types 24 and 25 (Response Types 7 and 5) is a rotational angle between 2 sectors on an original disc. The host's CCRT (which abgx360 decrypts) contains the target angles that would occur on a perfectly mastered disc when read by a perfect drive. There is also a value in the CCRT which only occurs for Challenge Types 24 and 25 that appears to specify the maximum deviation for a given angle. Currently all Xbox 360 games have the same angles (1, 91, 181, 271) and maximum deviation (+/-15). This is a copy protection system based on the fact that we cannot control the location of physical sectors on our backups, and our angles would be hugely different compared to an original. This is a fine protection as long as you can trust the drive firmware to make the actual measurement instead of simply replaying a previous response, which is what hacked firmware does. The default setting in abgx360 (for SS v1) is to adjust the replay angles (which only hacked firmwares can see and use) that deviate more than 3 degrees back to their CCRT target values because in real world testing on a normal drive, up to 2 degrees of deviation is quite normal and deviation greater than 3 on any game is rare and could be suspicous (although it's very common to have high deviation on a dying or worn out drive). Alternatively, (paranoid scenario) a game could be intentionally mastered with a deviation far from its CCRT target and adjusting it to the target value would also be suspicious... although this would potentially cause problems for disc authentication on legitimate unmodified drives. See \"What is SS v2?\" for the solution to this scenario."));
+	QuickstartMemo->AppendText(wxT("Part of the response to Challenge Types 24 and 25 (Response Types 7 and 5) is a rotational angle between 2 sectors on an original disc. The host's CCRT (which abgx360 decrypts) contains the target angles that would occur on a perfectly mastered disc when read by a perfect drive. There is also a value in the CCRT which only occurs for Challenge Types 24 and 25 that appears to specify the maximum deviation for a given angle. Currently all Xbox 360 games have the same angles (1, 91, 181, 271) and maximum deviation (+/-15). This is a copy protection system based on the fact that we cannot control the location of physical sectors on our backups, and our angles would be hugely different compared to an original. This is a fine protection as long as you can trust the drive firmware to make the actual measurement instead of simply replaying a previous response, which is what hacked firmware does. The default setting in abgx360 (for SS v1) is to adjust the replay angles (which only hacked firmwares can see and use) that deviate more than 3 degrees back to their CCRT target values because in real world testing on a normal drive, up to 2 degrees of deviation is quite normal and deviation greater than 3 on any game is rare and could be suspicious (although it's very common to have high deviation on a dying or worn out drive). Alternatively, (paranoid scenario) a game could be intentionally mastered with a deviation far from its CCRT target and adjusting it to the target value would also be suspicious... although this would potentially cause problems for disc authentication on legitimate unmodified drives. See \"What is SS v2?\" for the solution to this scenario."));
   } else if (QuickstartChoice->GetCurrentSelection() == 4) {
 	QuickstartMemo->AppendText(wxT("If you put an Xbox 360 disc in a normal DVD video player you will see a screen that says, \"To play this disc, put it in an Xbox 360 console.\" This happens because there's a DVD video partition on the disc which is split over both layers on original discs. On normal backups the video partition is all on layer 0, and hacked firmwares are supposed to redirect reads to the layer 1 video back to layer 0. However, it was discovered that some hacked firmware versions prior to the release of iXtreme were not doing this properly, and if the Xbox 360 host tried to read the entire video partition, the second part of it would be blank because the firmware started reading from layer 1 instead of continuing to read from layer 0 like it was supposed to. One solution to this problem was called SplitVid, and it works by appending the layer 1 video to the end of an iso (padded up to the proper position based on PFI) so that when these buggy firmwares start reading from layer 1 they will actually read the layer 1 video instead of blank data. The better solution is to simply upgrade your firmware to the latest iXtreme version because these old firmwares have even more security holes, even if you have a perfectly stealthed disc. iXtreme versions prior to v1.4 also have a bug in disc jitter (see 'Is there such a thing as a \"bad kreon rip\"?' for more on this). If you still want to add SplitVid (or even if you want to remove it) you can select your preference in the Misc tab.  The default behavior is to not check for it and just leave it the way it is, because if you're using iXtreme firmware it doesn't matter if a backup has SplitVid or not; data past the game partition will not be readable by the Xbox 360 host."));
   } else if (QuickstartChoice->GetCurrentSelection() == 5) {
@@ -2420,7 +2420,7 @@ void abgx360gui::abgx360_netClick(wxCommandEvent &event) {
  * WhereStealthFilesClick
  */
 void abgx360gui::WhereStealthFilesClick(wxCommandEvent &event) {
-  wxString homedir, stealthdir, str;
+  wxString homedir, stealth_dir, str;
 
 #ifdef WIN32
   if (wxGetEnv(wxT("APPDATA"), &homedir) || wxGetEnv(wxT("ProgramData"), &homedir) || wxGetEnv(wxT("ALLUSERSPROFILE"), &homedir)) {
@@ -2442,30 +2442,29 @@ void abgx360gui::WhereStealthFilesClick(wxCommandEvent &event) {
 #endif
   // create it if it doesn't exist (user probably hasn't run the cli app yet)
   if (!wxDirExists(homedir)) wxMkdir(homedir, 0755);
-  stealthdir = homedir + wxT("StealthFiles");
-  if (!wxDirExists(stealthdir)) wxMkdir(stealthdir, 0755);
+  stealth_dir = homedir + wxT("StealthFiles");
+  if (!wxDirExists(stealth_dir)) wxMkdir(stealth_dir, 0755);
 
-  str += stealthdir + wxT(NEWLINE NEWLINE"Would you like me to open it for you?");
+  str += stealth_dir + wxT(NEWLINE NEWLINE"Would you like me to open it for you?");
 
   if (wxMessageBox(str, wxT("Where is my StealthFiles folder?"), wxYES_NO) == wxYES) {
 #ifdef WIN32
-	wxLaunchDefaultBrowser(stealthdir);
+	wxLaunchDefaultBrowser(stealth_dir);
 #else
 #ifdef __APPLE__
-	wxExecute(wxT("open ") + stealthdir, wxEXEC_ASYNC, NULL);
+	wxExecute(wxT("open ") + stealth_dir, wxEXEC_ASYNC, NULL);
 #else
-	wxExecute(wxT("xdg-open ") + stealthdir, wxEXEC_ASYNC, nullptr);
+	wxExecute(wxT("xdg-open ") + stealth_dir, wxEXEC_ASYNC, nullptr);
 #endif
 #endif
   }
-  return;
 }
 
 /*
  * WhereImagesClick
  */
 void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
-  wxString homedir, imagesdir, str;
+  wxString homedir, images_dir, str;
 
 #ifdef WIN32
   if (wxGetEnv(wxT("APPDATA"), &homedir) || wxGetEnv(wxT("ProgramData"), &homedir) || wxGetEnv(wxT("ALLUSERSPROFILE"), &homedir)) {
@@ -2487,21 +2486,20 @@ void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
 #endif
   // create it if it doesn't exist (user probably hasn't run the cli app yet)
   if (!wxDirExists(homedir)) wxMkdir(homedir, 0755);
-  imagesdir = homedir + wxT("Images");
-  if (!wxDirExists(imagesdir)) wxMkdir(imagesdir, 0755);
+  images_dir = homedir + wxT("Images");
+  if (!wxDirExists(images_dir)) wxMkdir(images_dir, 0755);
 
-  str += imagesdir + wxT(NEWLINE NEWLINE"Would you like me to open it for you?");
+  str += images_dir + wxT(NEWLINE NEWLINE"Would you like me to open it for you?");
 
   if (wxMessageBox(str, wxT("Where is my Images folder?"), wxYES_NO) == wxYES) {
 #ifdef WIN32
-	wxLaunchDefaultBrowser(imagesdir);
+	wxLaunchDefaultBrowser(images_dir);
 #else
 #ifdef __APPLE__
-	wxExecute(wxT("open ") + imagesdir, wxEXEC_ASYNC, NULL);
+	wxExecute(wxT("open ") + images_dir, wxEXEC_ASYNC, NULL);
 #else
-	wxExecute(wxT("xdg-open ") + imagesdir, wxEXEC_ASYNC, nullptr);
+	wxExecute(wxT("xdg-open ") + images_dir, wxEXEC_ASYNC, nullptr);
 #endif
 #endif
   }
-  return;
 }
