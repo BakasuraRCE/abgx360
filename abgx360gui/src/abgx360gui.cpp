@@ -1157,7 +1157,7 @@ void abgx360gui::MnuDeleteSettingsClick(wxCommandEvent &WXUNUSED(event)) {
 	bCont = m_fileConfig->GetNextGroup(str, dummy);
   }
 
-  wxGetMultipleChoices(aDelete, wxT("Check the box next to any saved settings you want to delete"), wxT("Delete Settings"), aNames);
+  wxGetSelectedChoices(aDelete, wxT("Check the box next to any saved settings you want to delete"), wxT("Delete Settings"), aNames);
 
   for (i = 0; i < aDelete.GetCount(); i++) {
 	m_fileConfig->DeleteGroup(aNames[aDelete[i]]);
@@ -2185,7 +2185,7 @@ void abgx360gui::MyRegionButtonClick(wxCommandEvent &WXUNUSED(event)) {
 	if ((ntscj & 0xFC) == 0xFC) aRegionSelections.Add(5);
   }
 
-  wxGetMultipleChoices(aRegionSelections, wxT("Check the box next to the region of any and all consoles you own"), wxT("Select regions"), aRegions);
+  wxGetSelectedChoices(aRegionSelections, wxT("Check the box next to the region of any and all consoles you own"), wxT("Select regions"), aRegions);
 
   if (aRegionSelections.GetCount()) {
 	ntscu = 0;
@@ -2232,7 +2232,7 @@ void abgx360gui::MatchOnlyButtonClick(wxCommandEvent &WXUNUSED(event)) {
 	}
   }
 
-  wxGetMultipleChoices(aMatchSelections, wxT("Check the box next to the type of files you want to match"), wxT("Select matches"), aMatches);
+  wxGetSelectedChoices(aMatchSelections, wxT("Check the box next to the type of files you want to match"), wxT("Select matches"), aMatches);
 
   if (aMatchSelections.GetCount()) {
 	for (i = 0; i < aMatches.GetCount(); i++) {
