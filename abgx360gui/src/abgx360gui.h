@@ -89,6 +89,7 @@ class InfoTip : public wxPanel {
 class abgx360gui : public wxFrame {
  private:
  DECLARE_EVENT_TABLE();
+  const std::string website = "https://bakasurarce.github.io/abgx360/";
 
  public:
   abgx360gui(wxWindow *parent,

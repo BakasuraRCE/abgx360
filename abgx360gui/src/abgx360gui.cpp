@@ -330,7 +330,7 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   auto *p_wx_menu_help = new wxMenu();
 
   this->create_menu_item(p_wx_menu_help,
-						 "&http://abgx360.net",
+						 "&" + this->website,
 						 "Go to the official home of abgx360 to get the latest news and updates or join the chat for help",
 						 &abgx360gui::abgx360_netClick)->SetBitmap(wxBitmap(abgx360gui_ID_MNU_GOTOABGX360_NET_1869_XPM));
   p_wx_menu_help->AppendSeparator();
@@ -2410,7 +2410,7 @@ void abgx360gui::QuickstartChoiceSelected(wxCommandEvent &WXUNUSED(event)) {
  * abgx360_netClick
  */
 void abgx360gui::abgx360_netClick(wxCommandEvent &event) {
-  wxLaunchDefaultBrowser(wxT("http://abgx360.net"));
+  wxLaunchDefaultBrowser(this->website);
 }
 
 /*
