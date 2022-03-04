@@ -210,10 +210,10 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   TopBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap(bitmap_from_resource("abgx360gui/src/Images/logo_reloaded.png")), wxDefaultPosition, wxDefaultSize, 0);
   TopBitmap->SetBackgroundColour(wxColour(0, 0, 0));
   TopBitmap->SetMinSize(wxSize(-1, 80));
-  MainSizer->Add(TopBitmap, 0, wxEXPAND | wxBOTTOM, 5);
+  MainSizer->Add(TopBitmap, 0, int(wxEXPAND) | wxBOTTOM, 5);
 
   InputSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Input")), wxVERTICAL);
-  MainSizer->Add(InputSizer, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
+  MainSizer->Add(InputSizer, 0, int(wxEXPAND) | wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
   auto *input_sub_1_sizer = new wxBoxSizer(wxHORIZONTAL);
   auto *input_sub_2_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -250,10 +250,10 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   input_sub_2_sizer->Add(OpenButton, 0, wxALL, 5);
 
   Notebook = this->generate_notebook(this);
-  MainSizer->Add(Notebook, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
+  MainSizer->Add(Notebook, 1, int(wxEXPAND) | wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
   OutputSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Program Output")), wxVERTICAL);
-  MainSizer->Add(OutputSizer, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
+  MainSizer->Add(OutputSizer, 0, int(wxEXPAND) | wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
   wxArrayString arrayStringFor_ProgramOutput;
   arrayStringFor_ProgramOutput.Add(wxT("CLI Window"));
@@ -286,7 +286,7 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   LaunchButton->SetBitmap(wxBitmap(LaunchNormal_xpm));
   LaunchButton->SetBitmapPressed(wxBitmap(LaunchClick_xpm));
   LaunchButton->SetBitmapCurrent(wxBitmap(LaunchOver_xpm));
-  MainSizer->Add(LaunchButton, 0, wxEXPAND | wxALL, 10);
+  MainSizer->Add(LaunchButton, 0, int(wxEXPAND) | wxALL, 10);
 
   StatusBar = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
   MainSizer->Add(StatusBar, 0, wxEXPAND, 0);
