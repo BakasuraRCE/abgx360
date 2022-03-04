@@ -435,7 +435,7 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   // Frame Config
   // /////////////
 
-  this->SetTitle(wxT("abgx360 GUI"));
+  this->SetTitle(this->title + " v" + this->version);
   this->SetIcon(Self_abgx360gui_XPM);
 
   InputChoice->SetSelection(0);
@@ -2149,12 +2149,12 @@ void abgx360gui::MnuAboutClick(wxCommandEvent &WXUNUSED(event)) {
 
   wxAboutDialogInfo info;
   info.SetIcon(Self_abgx360gui_XPM);
-  info.SetName(wxT("abgx360 GUI"));
-  info.SetVersion(wxT("1.0.2"));
-  info.SetCopyright(wxT("(C) 2008-2009 by Seacrest\n(C) 2021 by Bakasura"));
+  info.SetName(this->title);
+  info.SetVersion(this->version);
+  info.SetCopyright(wxT("(C) 2008-2009 by Seacrest\n(C) 2021-" + std::to_string(wxDateTime::Today().GetYear()) + " by Bakasura"));
   info.SetWebSite(this->website);
   info.SetDescription(aDescriptions.Item(random));
-  wxAboutBox(info);
+  wxAboutBox(info, this);
 }
 
 /*

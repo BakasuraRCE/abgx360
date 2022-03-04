@@ -25,6 +25,7 @@
 #endif
 
 #include <random>
+#include <string>
 
 #include <wx/dirdlg.h>
 #include <wx/filedlg.h>
@@ -91,15 +92,17 @@ class InfoTip : public wxPanel {
 class abgx360gui : public wxFrame {
  private:
  DECLARE_EVENT_TABLE();
+  const std::string title = "abgx360 Reloaded GUI";
+  const std::string version = "2.0.0";
   const std::string website = "https://bakasurarce.github.io/abgx360/";
 
  public:
   abgx360gui(wxWindow *parent,
-             wxWindowID id = wxID_ANY,
-             const wxString &title = wxEmptyString,
-             const wxPoint &pos = wxDefaultPosition,
-             const wxSize &size = wxSize(-1, -1),
-             long style = wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL);
+			 wxWindowID id = wxID_ANY,
+			 const wxString &title = wxEmptyString,
+			 const wxPoint &pos = wxDefaultPosition,
+			 const wxSize &size = wxSize(-1, -1),
+			 long style = wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL);
   virtual ~abgx360gui();
 
   void RunButtonClick(wxCommandEvent &event);
@@ -259,7 +262,7 @@ class abgx360gui : public wxFrame {
   ////GUI Control Declaration End
   wxFileHistory *m_folderHistory; // the most recently opened folders
   InfoTip *MyRegionTip, *RebuildDefaultTip, *RebuildLowSpaceTip, *AutoFixTip, *TrustSSv2Tip, *FixDRTTip, *FixAngle359Tip, *FixBadAnglesTip, *PatchIfStealthPassesTip, *CheckDVDFileTip,
-      *CheckStealthTip, *VerifyTip, *CheckVideoPaddingTip, *CheckCorruptionTip, *CheckForUpdatesTip, *GameCRCTip, *SplitVidTip, *ImagesTip, *PreferredLangTip;
+	  *CheckStealthTip, *VerifyTip, *CheckVideoPaddingTip, *CheckCorruptionTip, *CheckForUpdatesTip, *GameCRCTip, *SplitVidTip, *ImagesTip, *PreferredLangTip;
   wxBitmapButton *LaunchButton;
 #ifdef WIN32
   wxChoice *DriveChoice;
@@ -274,20 +277,20 @@ class abgx360gui : public wxFrame {
 
   enum {
 #ifdef WIN32
-    ID_DRIVECHOICE,
+	ID_DRIVECHOICE,
 #endif
-    ID_SAVE_BUTTON_DISABLED,
-    ID_DOTTED_OPEN_BUTTON_DISABLED,
-    ID_LAUNCHPANEL,
-    ID_DIR1,
-    ID_DIR2,
-    ID_DIR3,
-    ID_DIR4,
-    ID_DIR5,
-    ID_DIR6,
-    ID_DIR7,
-    ID_DIR8,
-    ID_DIR9
+	ID_SAVE_BUTTON_DISABLED,
+	ID_DOTTED_OPEN_BUTTON_DISABLED,
+	ID_LAUNCHPANEL,
+	ID_DIR1,
+	ID_DIR2,
+	ID_DIR3,
+	ID_DIR4,
+	ID_DIR5,
+	ID_DIR6,
+	ID_DIR7,
+	ID_DIR8,
+	ID_DIR9
   };
 
  private:
