@@ -2,6 +2,7 @@
 //
 // Name:        abgx360guiApp.cpp
 // Author:      Seacrest
+// Author:      2021 Bakasura <bakasura@protonmail.ch>
 // Created:     10/8/2007 9:06:46 PM
 // Description: 
 //
