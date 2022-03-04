@@ -2123,10 +2123,11 @@ void abgx360gui::ExtractSSSaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
 }
 
 // returns a random number between x and y
-int randomnumber(int x, int y) {
-  // initialize random number generator
-  srand(time(nullptr));
-  return (rand() % (y - x + 1) + x);
+int random_number(int x, int y) {
+  std::random_device rd; // obtain a random number from hardware
+  std::mt19937 gen(rd()); // seed the generator
+  std::uniform_int_distribution<> distr(x, y); // define the range
+  return distr(gen);
 }
 
 /*
@@ -2139,7 +2140,7 @@ void abgx360gui::MnuAboutClick(wxCommandEvent &WXUNUSED(event)) {
   aDescriptions.Add(wxT("Tell your mom thanks!"));
   aDescriptions.Add(wxT("Keep fucking that chicken!"));
 
-  int random = randomnumber(0, aDescriptions.GetCount() - 1);
+  int random = random_number(0, int(aDescriptions.GetCount() - 1));
 
   wxAboutDialogInfo info;
   info.SetIcon(Self_abgx360gui_XPM);

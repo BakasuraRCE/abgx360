@@ -24,6 +24,8 @@
 #include <wx/wxprec.h>
 #endif
 
+#include <random>
+
 #include <wx/dirdlg.h>
 #include <wx/filedlg.h>
 #include <wx/menu.h>
