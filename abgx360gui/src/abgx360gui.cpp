@@ -198,8 +198,6 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
 
   this->InfoTip_BITMAP = wxBitmap(InfoTip_XPM);
 
-  this->SetSizeHints(wxSize(700, 800), wxDefaultSize);
-
   // /////////
   // Controls
   // /////////
@@ -567,11 +565,22 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   }
   m_fileConfig->SetPath(wxT(".."));
 
+  // /////////////
+  // Events
+  // /////////////
+
   this->assign_events();
+
+  // /////////////////
+  // Set size of Frame
+  // /////////////////
 
   this->SetSizer(MainSizer);
   this->Layout();
-
+  this->SetAutoLayout(true);
+  MainSizer->SetMinSize(wxSize(-1, 700));
+  MainSizer->SetSizeHints(this);
+  this->SetMaxSize(this->GetSize());
   this->Centre(wxBOTH);
 }
 
@@ -1316,6 +1325,7 @@ void abgx360gui::doLoadSettings() {
 	OpenButton->Show();
 #endif
   }
+  this->Layout();
 }
 
 /*
@@ -2006,6 +2016,7 @@ void abgx360gui::ProgramOutputSelected(wxCommandEvent &WXUNUSED(event)) {
 	SaveButton->Enable(true);
 	TerminalFont->SetValue(false);
   }
+  this->Layout();
 }
 
 /*
@@ -2302,6 +2313,7 @@ void abgx360gui::InputChoiceSelected(wxCommandEvent &WXUNUSED(event)) {
 	OpenButton->Show();
 #endif
   }
+  this->Layout();
 }
 
 /*
