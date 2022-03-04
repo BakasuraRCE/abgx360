@@ -110,7 +110,7 @@ InfoTip::InfoTip(wxWindow *parent, const wxBitmap &label, const wxString &info_t
 
 void InfoTip::onMouseOver(wxMouseEvent &WXUNUSED(event)) {
   icon_bounds = this->GetScreenRect();
-  new wxTipWindow(this, m_info_text, 400, NULL, &icon_bounds);
+  new wxTipWindow(this, m_info_text, 400, nullptr, &icon_bounds);
 }
 
 void InfoTip::onPaint(wxPaintEvent &event) {
@@ -1429,7 +1429,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	if (XexImages->GetCurrentSelection() != 2)
 	  cmd += wxT("i"); // selection 0 = extract images when doing html output, selection 1 = extract images always, selection 2 = extract images never
   } else if (XexImages->GetCurrentSelection() == 1) cmd += wxT("i");
-  if (CheckDVDFile->IsChecked() == false) cmd += wxT("d");
+  if (!CheckDVDFile->IsChecked()) cmd += wxT("d");
   if (FixAngle359->IsChecked()) cmd += wxT("x");
   if (KeepOriginalISO->IsChecked()) cmd += wxT("k");
   if (WriteDisable->IsChecked() || InputChoice->GetCurrentSelection() == 2) cmd += wxT("w"); // InputChoice 2 = dvd input
@@ -1603,20 +1603,20 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 
   if (InputChoice->GetCurrentSelection() == 0) {  // file(s)
 	cmd += wxT(" -- "); // -- is a special argument that will end option parsing and all following arguments will be treated as filenames in case a filename begins with a hyphen
-	if (!InputFileEditBox->GetValue().StartsWith(wxT("\""), NULL)) cmd += wxT("\"");
+	if (!InputFileEditBox->GetValue().StartsWith(wxT("\""), nullptr)) cmd += wxT("\"");
 	cmd += InputFileEditBox->GetValue();
-	if (!InputFileEditBox->GetValue().EndsWith(wxT("\""), NULL)) cmd += wxT("\"");
+	if (!InputFileEditBox->GetValue().EndsWith(wxT("\""), nullptr)) cmd += wxT("\"");
   } else if (InputChoice->GetCurrentSelection() == 1) {  // dir
 	if (RecurseSubdirs->IsChecked()) cmd += wxT(" --rec --dir ");
 	else cmd += wxT(" --dir ");
-	if (!InputFileEditBox->GetValue().StartsWith(wxT("\""), NULL)) cmd += wxT("\"");
+	if (!InputFileEditBox->GetValue().StartsWith(wxT("\""), nullptr)) cmd += wxT("\"");
 	cmd += InputFileEditBox->GetValue();
-	if (InputFileEditBox->GetValue().EndsWith(wxT("\\"), NULL))
+	if (InputFileEditBox->GetValue().EndsWith(wxT("\\"), nullptr))
 	  cmd += wxT("\\\""); // asdf\ will be changed to asdf\\ so the shell sees it as asdf\ instead of asdf" ("asdf\" vs "asdf\\" when quoted by app)
-	else if (InputFileEditBox->GetValue().EndsWith(wxT("\\\""), NULL)) {
+	else if (InputFileEditBox->GetValue().EndsWith(wxT("\\\""), nullptr)) {
 	  cmd.RemoveLast();
 	  cmd += wxT("\\\""); // "asdf\" will be changed to "asdf\\" if already quoted by user
-	} else if (!InputFileEditBox->GetValue().EndsWith(wxT("\""), NULL)) cmd += wxT("\"");
+	} else if (!InputFileEditBox->GetValue().EndsWith(wxT("\""), nullptr)) cmd += wxT("\"");
   }
 #ifdef WIN32
   else if (InputChoice->GetCurrentSelection() == 2) {  // burned dvd
@@ -2125,7 +2125,7 @@ void abgx360gui::ExtractSSSaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
 // returns a random number between x and y
 int randomnumber(int x, int y) {
   // initialize random number generator
-  srand(time(NULL));
+  srand(time(nullptr));
   return (rand() % (y - x + 1) + x);
 }
 
@@ -2451,7 +2451,7 @@ void abgx360gui::WhereStealthFilesClick(wxCommandEvent &event) {
 #ifdef __APPLE__
 	wxExecute(wxT("open ") + stealthdir, wxEXEC_ASYNC, NULL);
 #else
-	wxExecute(wxT("xdg-open ") + stealthdir, wxEXEC_ASYNC, NULL);
+	wxExecute(wxT("xdg-open ") + stealthdir, wxEXEC_ASYNC, nullptr);
 #endif
 #endif
   }
@@ -2496,7 +2496,7 @@ void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
 #ifdef __APPLE__
 	wxExecute(wxT("open ") + imagesdir, wxEXEC_ASYNC, NULL);
 #else
-	wxExecute(wxT("xdg-open ") + imagesdir, wxEXEC_ASYNC, NULL);
+	wxExecute(wxT("xdg-open ") + imagesdir, wxEXEC_ASYNC, nullptr);
 #endif
 #endif
   }
