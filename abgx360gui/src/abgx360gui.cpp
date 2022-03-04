@@ -13,7 +13,7 @@
 replace all:
 
 Notebook = new wxNotebook(Panel, ID_NOTEBOOK, wxPoint(8,168),wxSize(498,198));
-    #ifdef __APPLE__
+    #if defined(__APPLE__) || defined(__CLION_IDE__)
         Notebook = new wxNotebook(Panel, ID_NOTEBOOK, wxPoint(8,168),wxSize(498,212));
     #else
         Notebook = new wxNotebook(Panel, ID_NOTEBOOK, wxPoint(8,168),wxSize(498,198));
@@ -29,7 +29,8 @@ ABGX360GUI_FONT
 
 #if defined(_WIN32) || defined(__CLION_IDE__)
 #define NEWLINE "\r\n"
-#else
+#endif
+#if defined(__linux__) || defined(__APPLE__) || defined(__CLION_IDE__)
 #define NEWLINE "\n"
 #endif
 
@@ -447,14 +448,18 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   m_folderHistory->Load(*m_fileConfig);
   m_fileConfig->SetPath(wxT(".."));
 
-#ifndef _WIN32
+#if defined(__linux__) || defined(__APPLE__) || defined(__CLION_IDE__)
   TerminalFont->SetValue(false);
-#ifdef __APPLE__
+
+#if defined(__APPLE__) || defined(__CLION_IDE__)
   OpenFileWhenDone->Show(false);
   OpenFileWhenDone->SetValue(false);
   TerminalFont->Show(false);
 #endif
-#else
+
+#endif
+
+#if defined(_WIN32) || defined(__CLION_IDE__)
   CHAR lpszDrive[4];
   CHAR lpszDriveForCreateFile[7];
   CHAR cDrive;
@@ -467,69 +472,69 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   PSTORAGE_DEVICE_DESCRIPTOR devDesc;
   PUCHAR p;
   ULONG i, j;
-  for (cDrive='A';cDrive<='Z';cDrive++) {
-	  memset(outBuf, 0, 1024);
-	  memset(lpDeviceNameBuffer, 0, 1024);
-	  sprintf(lpszDrive, "%c:\\", cDrive);
-	  // get the drive type, if it's a CD-ROM insert it into the list
-	  if (GetDriveType(lpszDrive) == DRIVE_CDROM) {
-		  sprintf(lpszDriveForCreateFile, "\\\\.\\%c:", cDrive);
-		  hDevice = CreateFile(lpszDriveForCreateFile, GENERIC_READ | GENERIC_WRITE,
-							   FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-		  if (hDevice != INVALID_HANDLE_VALUE) {
-			  // try to get the device name
-			  query.PropertyId = StorageDeviceProperty;
-			  query.QueryType = PropertyStandardQuery;
-			  if (DeviceIoControl(hDevice, IOCTL_STORAGE_QUERY_PROPERTY, &query,
-								  sizeof(STORAGE_PROPERTY_QUERY), &outBuf, 1024, &returnedLength, NULL)) {
-				  devDesc = (PSTORAGE_DEVICE_DESCRIPTOR) outBuf;
-				  p = (PUCHAR) outBuf;
-				  j = 0;
-				  if (devDesc->VendorIdOffset && p[devDesc->VendorIdOffset]) {
-					  for (i = devDesc->VendorIdOffset; p[i] != (UCHAR) NULL && i < returnedLength; i++) {
-						  lpDeviceNameBuffer[j] = (CHAR) p[i];
-						  j++;
-					  }
-					  // backspace over trailing spaces
-					  for (i=j-1;i>0;i--) {
-						  if (lpDeviceNameBuffer[i] == ' ') j--;
-						  else break;
-					  }
-					  lpDeviceNameBuffer[j] = ' ';
-					  j++;
-				  }
-				  if (devDesc->ProductIdOffset && p[devDesc->ProductIdOffset]) {
-					  for (i = devDesc->ProductIdOffset; p[i] != (UCHAR) NULL && i < returnedLength; i++) {
-						  lpDeviceNameBuffer[j] = (CHAR) p[i];
-						  j++;
-					  }
-					  for (i=j-1;i>0;i--) {
-						  if (lpDeviceNameBuffer[i] == ' ') j--;
-						  else break;
-					  }
-					  lpDeviceNameBuffer[j] = ' ';
-					  j++;
-				  }
-				  if (devDesc->ProductRevisionOffset && p[devDesc->ProductRevisionOffset]) {
-					  for (i = devDesc->ProductRevisionOffset; p[i] != (UCHAR) NULL && i < returnedLength; i++) {
-						  lpDeviceNameBuffer[j] = (CHAR) p[i];
-						  j++;
-					  }
-					  for (i=j-1;i>0;i--) {
-						  if (lpDeviceNameBuffer[i] == ' ') j--;
-						  else break;
-					  }
-				  }
-				  lpDeviceNameBuffer[j] = 0x0;
-			  }
-			  CloseHandle(hDevice);
+  for (cDrive = 'A'; cDrive <= 'Z'; cDrive++) {
+	memset(outBuf, 0, 1024);
+	memset(lpDeviceNameBuffer, 0, 1024);
+	sprintf(lpszDrive, "%c:\\", cDrive);
+	// get the drive type, if it's a CD-ROM insert it into the list
+	if (GetDriveType(lpszDrive) == DRIVE_CDROM) {
+	  sprintf(lpszDriveForCreateFile, "\\\\.\\%c:", cDrive);
+	  hDevice = CreateFile(lpszDriveForCreateFile, GENERIC_READ | GENERIC_WRITE,
+						   FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	  if (hDevice != INVALID_HANDLE_VALUE) {
+		// try to get the device name
+		query.PropertyId = StorageDeviceProperty;
+		query.QueryType = PropertyStandardQuery;
+		if (DeviceIoControl(hDevice, IOCTL_STORAGE_QUERY_PROPERTY, &query,
+							sizeof(STORAGE_PROPERTY_QUERY), &outBuf, 1024, &returnedLength, NULL)) {
+		  devDesc = (PSTORAGE_DEVICE_DESCRIPTOR)outBuf;
+		  p = (PUCHAR)outBuf;
+		  j = 0;
+		  if (devDesc->VendorIdOffset && p[devDesc->VendorIdOffset]) {
+			for (i = devDesc->VendorIdOffset; p[i] != (UCHAR)NULL && i < returnedLength; i++) {
+			  lpDeviceNameBuffer[j] = (CHAR)p[i];
+			  j++;
+			}
+			// backspace over trailing spaces
+			for (i = j - 1; i > 0; i--) {
+			  if (lpDeviceNameBuffer[i] == ' ') j--;
+			  else break;
+			}
+			lpDeviceNameBuffer[j] = ' ';
+			j++;
 		  }
-		  if (strlen(lpDeviceNameBuffer)) volumestuff.Printf(wxT("%s (%c:)"), lpDeviceNameBuffer, cDrive);
-		  else volumestuff.Printf(wxT("(%c:)"), cDrive);
-		  arrayStringFor_DriveChoice.Add(wxT(volumestuff));
+		  if (devDesc->ProductIdOffset && p[devDesc->ProductIdOffset]) {
+			for (i = devDesc->ProductIdOffset; p[i] != (UCHAR)NULL && i < returnedLength; i++) {
+			  lpDeviceNameBuffer[j] = (CHAR)p[i];
+			  j++;
+			}
+			for (i = j - 1; i > 0; i--) {
+			  if (lpDeviceNameBuffer[i] == ' ') j--;
+			  else break;
+			}
+			lpDeviceNameBuffer[j] = ' ';
+			j++;
+		  }
+		  if (devDesc->ProductRevisionOffset && p[devDesc->ProductRevisionOffset]) {
+			for (i = devDesc->ProductRevisionOffset; p[i] != (UCHAR)NULL && i < returnedLength; i++) {
+			  lpDeviceNameBuffer[j] = (CHAR)p[i];
+			  j++;
+			}
+			for (i = j - 1; i > 0; i--) {
+			  if (lpDeviceNameBuffer[i] == ' ') j--;
+			  else break;
+			}
+		  }
+		  lpDeviceNameBuffer[j] = 0x0;
+		}
+		CloseHandle(hDevice);
 	  }
+	  if (strlen(lpDeviceNameBuffer)) volumestuff.Printf(wxT("%s (%c:)"), lpDeviceNameBuffer, cDrive);
+	  else volumestuff.Printf(wxT("(%c:)"), cDrive);
+	  arrayStringFor_DriveChoice.Add(wxT(volumestuff));
+	}
   }
-  DriveChoice = new wxChoice(InputPanel, ID_DRIVECHOICE, wxPoint(2,30), wxSize(475,23), arrayStringFor_DriveChoice, 0, wxDefaultValidator, wxT("DriveChoice"));
+  DriveChoice = new wxChoice(InputPanel, ID_DRIVECHOICE, wxPoint(2, 30), wxSize(475, 23), arrayStringFor_DriveChoice, 0, wxDefaultValidator, wxT("DriveChoice"));
   DriveChoice->Show(false);
   DriveChoice->SetFont(ABGX360GUI_FONT);
   DriveChoice->SetSelection(0);
@@ -1682,12 +1687,13 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
   long return_value;
   wxString return_string;
-#ifndef _WIN32
+#if defined(__linux__) || defined(__APPLE__) || defined(__CLION_IDE__)
   if (InputChoice->GetCurrentSelection() == 2) {
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__CLION_IDE__)
 	wxMessageBox(wxT("Mac OS X Burned DVD Input is not currently supported."),
-					 wxT("Mac OS X DVD Input"), wxOK);
-#else
+				 wxT("Mac OS X DVD Input"), wxOK);
+#endif
+#if defined(__linux__) || defined(__CLION_IDE__)
 	wxMessageBox(wxT("For Unix based operating systems: Devices are files!\n"
 					 "Select \"File(s)\" as Input and enter the device name.\n"
 					 "Linux Example: /dev/cdrom (requires read permissions).\n"
@@ -1821,7 +1827,7 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
 	m_fileConfig->SetPath(wxT(".."));
   }
 
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__CLION_IDE__)
   /*
   // create command for OS X using osascript and replacing " quotes in cmd with \'
   cmd.Replace(wxT("\""), wxT("\\'"), true);  // 3 levels of quoting: '1"2\'3\'2"1'
@@ -1838,29 +1844,27 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
   cmd.Replace(wxT("\""), wxT("\\\""), true);
   wxFile *abgx360script = new wxFile("/tmp/abgx360.scpt", wxFile::write);
   if (abgx360script->IsOpened()) {
-	  cmd.Prepend(wxT("tell application \"Terminal\"\n"
-					  "do script \""));
-	  cmd +=  wxT("\"\nset background color of window 1 to \"black\"\n"
-					  "set normal text color of window 1 to \"white\"\n"
-					  "set bold text color of window 1 to \"white\"\n"
-					  "set cursor color of window 1 to \"white\"\n");
-	  if (Maximize->IsChecked())
-		   cmd += wxT("set the position of window 1 to {0, 20}\n"
-					  "set the number of rows of window 1 to 300\n"
-					  "set the number of columns of window 1 to 100\n");
-	  cmd +=      wxT("end tell\n");
-	  if (abgx360script->Write(cmd)) {
-		  abgx360script->Flush();
-		  abgx360script->Close();
-		  cmd = wxT("osascript /tmp/abgx360.scpt");
-	  }
-	  else {
-		  wxMessageBox(wxT("ERROR: Failed to write to '/tmp/abgx360.scpt'! Unable to launch abgx360."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
-		return;
-	  }
-  }
-  else {
-	  wxMessageBox(wxT("ERROR: Failed to open '/tmp/abgx360.scpt' for writing! Unable to launch abgx360."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+	cmd.Prepend(wxT("tell application \"Terminal\"\n"
+					"do script \""));
+	cmd += wxT("\"\nset background color of window 1 to \"black\"\n"
+			   "set normal text color of window 1 to \"white\"\n"
+			   "set bold text color of window 1 to \"white\"\n"
+			   "set cursor color of window 1 to \"white\"\n");
+	if (Maximize->IsChecked())
+	  cmd += wxT("set the position of window 1 to {0, 20}\n"
+				 "set the number of rows of window 1 to 300\n"
+				 "set the number of columns of window 1 to 100\n");
+	cmd += wxT("end tell\n");
+	if (abgx360script->Write(cmd)) {
+	  abgx360script->Flush();
+	  abgx360script->Close();
+	  cmd = wxT("osascript /tmp/abgx360.scpt");
+	} else {
+	  wxMessageBox(wxT("ERROR: Failed to write to '/tmp/abgx360.scpt'! Unable to launch abgx360."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+	  return;
+	}
+  } else {
+	wxMessageBox(wxT("ERROR: Failed to open '/tmp/abgx360.scpt' for writing! Unable to launch abgx360."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 	return;
   }
 #endif
@@ -1871,25 +1875,26 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
   if (ProgramOutput->GetCurrentSelection() == 0) {  // CLI Window
 	return_value = wxExecute(cmd, wxEXEC_ASYNC);
 	if (return_value == 0) {  // couldn't start the process
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__CLION_IDE__)
 	  wxMessageBox(wxT("ERROR: The command could not be executed! You're probably missing osascript"), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
-#else
+#endif
 #if defined(_WIN32) || defined(__CLION_IDE__)
 	  wxMessageBox(wxT("ERROR: The command could not be executed! Most likely the abgx360 command line app isn't in your PATH... reinstalling abgx360 will fix this."),
 				   wxT("abgx360 GUI ERROR"),
 				   wxICON_ERROR);
-#else
+#endif
+#if defined(__linux__) || defined(__CLION_IDE__)
 	  wxMessageBox(wxT("ERROR: The command could not be executed! You probably don't have xterm installed."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 #endif
-#endif
+
 	  return;
 	}
   } else {
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__CLION_IDE__)
 	// wxMac does not support wxEXEC_SYNC
 	return_value = wxExecute(cmd, wxEXEC_ASYNC);
 	if (return_value == 0) {  // couldn't start the process
-		wxMessageBox(wxT("ERROR: The command could not be executed! You're probably missing osascript"), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+	  wxMessageBox(wxT("ERROR: The command could not be executed! You're probably missing osascript"), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 	  return;
 	}
 #else
@@ -2515,7 +2520,7 @@ void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
 #if defined(_WIN32) || defined(__CLION_IDE__)
 	wxLaunchDefaultBrowser(images_dir);
 #else
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__CLION_IDE__)
 	wxExecute(wxT("open ") + images_dir, wxEXEC_ASYNC, NULL);
 #else
 	wxExecute(wxT("xdg-open ") + images_dir, wxEXEC_ASYNC, nullptr);
