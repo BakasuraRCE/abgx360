@@ -994,7 +994,7 @@ wxPanel *abgx360gui::generate_page_quickstart(wxWindow *parent) {
 
   QuickstartMemo = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
   QuickstartMemo->SetMinSize(wxSize(-1, 300));
-  QuickstartMemo->AppendText(wxT("Welcome to abgx360, the ultimate tool for Xbox 360 ISOs and Stealth files!\n\n"));
+  QuickstartMemo->AppendText(wxT("Welcome to " + this->name + " v" + this->version + ", the ultimate tool for Xbox 360 ISOs and Stealth files!\n\n"));
   QuickstartMemo->AppendText(wxEmptyString);
   QuickstartMemo->AppendText(wxT("Pick an item from the dropdown list above to get detailed information or instructions "));
   QuickstartMemo->AppendText(wxT("displayed here."));
@@ -2387,7 +2387,7 @@ void abgx360gui::QuickstartChoiceSelected(wxCommandEvent &WXUNUSED(event)) {
   QuickstartMemo->Clear();
 
   if (QuickstartChoice->GetCurrentSelection() == 0) {
-	QuickstartMemo->AppendText(wxT("Welcome to abgx360, the ultimate tool for Xbox 360 ISOs and Stealth files!" NEWLINE NEWLINE));
+	QuickstartMemo->AppendText(wxT("Welcome to " + this->name + " v" + this->version + ", the ultimate tool for Xbox 360 ISOs and Stealth files!" NEWLINE NEWLINE));
 	QuickstartMemo->AppendText(wxT("Pick an item from the dropdown list above to get detailed information or instructions displayed here."));
   } else if (QuickstartChoice->GetCurrentSelection() == 1) {
 	QuickstartMemo->AppendText(wxT("The default settings are recommended, although you may change any settings and press Ctrl+S to save them as the new defaults or save them with a different name so that they can be loaded at any time by pressing Ctrl+L and selecting them. To delete any of your saved settings press Ctrl+D and select the ones you want to delete. These commands are also available on the menu bar under File."));

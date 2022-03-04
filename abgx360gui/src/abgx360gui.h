@@ -92,7 +92,8 @@ class InfoTip : public wxPanel {
 class abgx360gui : public wxFrame {
  private:
  DECLARE_EVENT_TABLE();
-  const std::string title = "abgx360 Reloaded GUI";
+  const std::string name = "abgx360 Reloaded";
+  const std::string title = this->name + " GUI";
   const std::string version = "2.0.0";
   const std::string website = "https://bakasurarce.github.io/abgx360/";
 
