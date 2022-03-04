@@ -348,7 +348,7 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   this->SetMenuBar(wx_menu_bar);
 
   // /////////
-  // Others
+  // Dialogs
   // /////////
 
   SaveVideoFileDialog = new wxFileDialog(this,
@@ -433,20 +433,16 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
 									  wxT("SS Files (*ss*.bin)|*ss*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
 									  wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 
+  // /////////////
+  // Frame Config
+  // /////////////
+
   this->SetTitle(wxT("abgx360 GUI"));
   this->SetIcon(Self_abgx360gui_XPM);
 
   InputChoice->SetSelection(0);
   QuickstartChoice->SetSelection(0);
 
-  //AutoUploadTip = new InfoTip(WxNoteBookPage_Options, InfoTip_BITMAP, wxT("AutoUpload ini and stealth files to the online database if stealth passes but verification fails, and there isn't an exact match already waiting to be verified."), wxPoint(290,76), wxSize(16,16));
-
-  /*
-  Tip = new InfoTip(WxNoteBookPage_, InfoTip_BITMAP, wxEmptyString, wxPoint(,), wxSize(16,16));
-  Tip = new InfoTip(WxNoteBookPage_, InfoTip_BITMAP, wxEmptyString, wxPoint(,), wxSize(16,16));
-  */
-
-  // wxT("abgx360gui")
   m_folderHistory = new wxFileHistory(9, ID_DIR1);
   m_folderHistory->UseMenu(p_wx_menu_reopen_directory);
   m_fileConfig->SetPath(wxT("/RecentFolders"));
@@ -1074,7 +1070,6 @@ void abgx360gui::MnuSaveSettingsClick(wxCommandEvent &WXUNUSED(event)) {
   m_fileConfig->Write(wxT("OnlineUpdate"), OnlineUpdate->IsChecked());
   m_fileConfig->Write(wxT("CSVUpdate"), CSVUpdate->IsChecked());
   m_fileConfig->Write(wxT("Verify"), Verify->IsChecked());
-  //m_fileConfig->Write(wxT("AutoUpload"), AutoUpload->IsChecked());
   m_fileConfig->Write(wxT("CheckCorruption"), CheckCorruption->IsChecked());
   m_fileConfig->Write(wxT("UseColors"), UseColors->IsChecked());
   m_fileConfig->Write(wxT("StayOffline"), StayOffline->IsChecked());
@@ -1199,7 +1194,6 @@ void abgx360gui::doLoadSettings() {
   if (m_fileConfig->Read(wxT("OnlineUpdate"), &b)) OnlineUpdate->SetValue(b);
   if (m_fileConfig->Read(wxT("CSVUpdate"), &b)) CSVUpdate->SetValue(b);
   if (m_fileConfig->Read(wxT("Verify"), &b)) Verify->SetValue(b);
-  //if (m_fileConfig->Read("AutoUpload", &b)) AutoUpload->SetValue(b);
   if (m_fileConfig->Read(wxT("CheckCorruption"), &b)) CheckCorruption->SetValue(b);
   if (m_fileConfig->Read(wxT("UseColors"), &b)) UseColors->SetValue(b);
   if (m_fileConfig->Read(wxT("StayOffline"), &b)) StayOffline->SetValue(b);
