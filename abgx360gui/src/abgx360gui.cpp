@@ -27,7 +27,7 @@ ABGX360GUI_FONT
 
 */
 
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
 #define NEWLINE "\r\n"
 #else
 #define NEWLINE "\n"
@@ -1061,9 +1061,9 @@ void abgx360gui::MnuSaveSettingsClick(wxCommandEvent &WXUNUSED(event)) {
   m_fileConfig->Write(wxT("InputFileEditBox"), InputFileEditBox->GetValue());
   m_fileConfig->Write(wxT("MatchOnly"), MatchOnly->IsChecked());
   m_fileConfig->Write(wxT("MatchOnlyEditBox"), MatchOnlyEditBox->GetValue());
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
   if (arrayStringFor_DriveChoice.GetCount())
-	  m_fileConfig->Write(wxT("DriveChoice"), DriveChoice->GetCurrentSelection());
+	m_fileConfig->Write(wxT("DriveChoice"), DriveChoice->GetCurrentSelection());
 #endif
   m_fileConfig->Write(wxT("WriteDisable"), WriteDisable->IsChecked());
 
@@ -1185,9 +1185,10 @@ void abgx360gui::doLoadSettings() {
   InputFileEditBox->SetValue(m_fileConfig->Read(wxT("InputFileEditBox")));
   if (m_fileConfig->Read(wxT("MatchOnly"), &b)) MatchOnly->SetValue(b);
   MatchOnlyEditBox->SetValue(m_fileConfig->Read(wxT("MatchOnlyEditBox")));
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
   if (m_fileConfig->Read(wxT("DriveChoice"), &l) &&
-	  arrayStringFor_DriveChoice.GetCount() > (size_t) l) DriveChoice->SetSelection(l);
+	  arrayStringFor_DriveChoice.GetCount() > (size_t)l)
+	DriveChoice->SetSelection(l);
 #endif
   if (m_fileConfig->Read(wxT("WriteDisable"), &b)) WriteDisable->SetValue(b);
 
@@ -1281,22 +1282,22 @@ void abgx360gui::doLoadSettings() {
 	MatchOnlyEditBox->Show();
 	MatchOnlyButton->Show();
 	WriteDisable->Show();
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
 	DriveChoice->Hide();
 	InputFileEditBox->Show();
 	OpenButton->Show();
 #endif
   }
-#ifdef WIN32
-	else if (InputChoice->GetCurrentSelection() == 2) {  // burned dvd
-		MatchOnly->Hide();
-		MatchOnlyEditBox->Hide();
-		MatchOnlyButton->Hide();
-		DriveChoice->Show();
-		InputFileEditBox->Hide();
-		OpenButton->Hide();
-		WriteDisable->Hide();
-	}
+#if defined(WIN32) || defined(__CLION_IDE__)
+  else if (InputChoice->GetCurrentSelection() == 2) {  // burned dvd
+	MatchOnly->Hide();
+	MatchOnlyEditBox->Hide();
+	MatchOnlyButton->Hide();
+	DriveChoice->Show();
+	InputFileEditBox->Hide();
+	OpenButton->Hide();
+	WriteDisable->Hide();
+  }
 #endif
 	/*
 	else if (InputChoice->GetCurrentSelection() == 3) {  // original disc
@@ -1304,7 +1305,7 @@ void abgx360gui::doLoadSettings() {
 		MatchOnly->Hide();
 		MatchOnlyEditBox->Hide();
 		MatchOnlyButton->Hide();
-		#ifdef WIN32
+		#if defined(WIN32) || defined(__CLION_IDE__)
 			DriveChoice->Show();
 			InputFileEditBox->Hide();
 			OpenButton->Hide();
@@ -1319,7 +1320,7 @@ void abgx360gui::doLoadSettings() {
 	MatchOnlyEditBox->Hide();
 	MatchOnlyButton->Hide();
 	WriteDisable->Show();
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
 	DriveChoice->Hide();
 	InputFileEditBox->Show();
 	OpenButton->Show();
@@ -1599,7 +1600,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
   }
 
 #ifndef __APPLE__
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
   if (Maximize->IsChecked()) cmd += wxT(" --max");
 #endif
   if (ProgramOutput->GetCurrentSelection() == 0) cmd += wxT(" --pause"); // pause shell atexit
@@ -1622,17 +1623,17 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	  cmd += wxT("\\\""); // "asdf\" will be changed to "asdf\\" if already quoted by user
 	} else if (!InputFileEditBox->GetValue().EndsWith(wxT("\""), nullptr)) cmd += wxT("\"");
   }
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
   else if (InputChoice->GetCurrentSelection() == 2) {  // burned dvd
-	  if (arrayStringFor_DriveChoice.GetCount() > 0) {
-		  cmd += wxT(" --dvd ");
-		  cmd += arrayStringFor_DriveChoice.Item((size_t) DriveChoice->GetCurrentSelection()).Mid(arrayStringFor_DriveChoice.Item((size_t) DriveChoice->GetCurrentSelection()).Len() - 3, 1);
-	  }
+	if (arrayStringFor_DriveChoice.GetCount() > 0) {
+	  cmd += wxT(" --dvd ");
+	  cmd += arrayStringFor_DriveChoice.Item((size_t)DriveChoice->GetCurrentSelection()).Mid(arrayStringFor_DriveChoice.Item((size_t)DriveChoice->GetCurrentSelection()).Len() - 3, 1);
+	}
   }
 #endif
   /*
   else if (InputChoice->GetCurrentSelection() == 3) {  // original disc
-      #ifdef WIN32
+      #if defined(WIN32) || defined(__CLION_IDE__)
           if (arrayStringFor_DriveChoice.GetCount() > 0) {
               cmd += wxT(" --rip ");
               cmd += arrayStringFor_DriveChoice.Item((size_t) DriveChoice->GetCurrentSelection()).Mid(arrayStringFor_DriveChoice.Item((size_t) DriveChoice->GetCurrentSelection()).Len() - 3, 1);
@@ -1873,8 +1874,10 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
 #ifdef __APPLE__
 	  wxMessageBox(wxT("ERROR: The command could not be executed! You're probably missing osascript"), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 #else
-#ifdef WIN32
-	  wxMessageBox(wxT("ERROR: The command could not be executed! Most likely the abgx360 command line app isn't in your PATH... reinstalling abgx360 will fix this."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+#if defined(WIN32) || defined(__CLION_IDE__)
+	  wxMessageBox(wxT("ERROR: The command could not be executed! Most likely the abgx360 command line app isn't in your PATH... reinstalling abgx360 will fix this."),
+				   wxT("abgx360 GUI ERROR"),
+				   wxICON_ERROR);
 #else
 	  wxMessageBox(wxT("ERROR: The command could not be executed! You probably don't have xterm installed."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 #endif
@@ -1890,19 +1893,21 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
 	  return;
 	}
 #else
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
 	wxString shellcmd;
 #ifdef __WXWINCE__
-		shellcmd = cmd;
+	shellcmd = cmd;
 #else
-		wxChar *shell = wxGetenv(wxT("COMSPEC"));
-		if (!shell) shell = (wxChar*) wxT("\\COMMAND.COM");
-		if (!cmd) shellcmd = shell;
-		else shellcmd.Printf(wxT("%s /c %s"), shell, cmd.c_str());
+	wxChar *shell = wxGetenv(wxT("COMSPEC"));
+	if (!shell) shell = (wxChar *)wxT("\\COMMAND.COM");
+	if (!cmd) shellcmd = shell;
+	else shellcmd.Printf(wxT("%s /c %s"), shell, cmd.c_str());
 #endif
 	return_value = wxExecute(shellcmd, wxEXEC_SYNC);
 	if (return_value == -1) {  // couldn't start the process
-		wxMessageBox(wxT("ERROR: The command could not be executed! Most likely the abgx360 command line app isn't in your PATH... reinstalling abgx360 will fix this."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+	  wxMessageBox(wxT("ERROR: The command could not be executed! Most likely the abgx360 command line app isn't in your PATH... reinstalling abgx360 will fix this."),
+				   wxT("abgx360 GUI ERROR"),
+				   wxICON_ERROR);
 	  return;
 	}
 #else
@@ -2000,7 +2005,7 @@ void abgx360gui::ProgramOutputSelected(wxCommandEvent &WXUNUSED(event)) {
 	OpenFileWhenDone->SetValue(false);
 	OutputFileEditBox->Enable(false);
 	SaveButton->Enable(false);
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
 	TerminalFont->SetValue(true);
 #else
 	TerminalFont->SetValue(false);
@@ -2257,62 +2262,71 @@ void abgx360gui::MatchOnlyButtonClick(wxCommandEvent &WXUNUSED(event)) {
 /*
  * InputChoiceSelected
  */
-void abgx360gui::InputChoiceSelected(wxCommandEvent &WXUNUSED(event)) {
-  if (InputChoice->GetCurrentSelection() == 1) {  // directory
-	OpenButton->SetToolTip(wxT("Open Directory"));
-	WriteDisable->Show();
-	MatchOnly->Show();
-	MatchOnlyEditBox->Show();
-	MatchOnlyButton->Show();
-#ifdef WIN32
-	DriveChoice->Hide();
-	InputFileEditBox->Show();
-	OpenButton->Show();
+void abgx360gui::InputChoiceSelected(wxCommandEvent &event) {
+
+  switch (InputChoice->GetCurrentSelection()) {
+	case 0:// file(s)
+	  OpenButton->SetToolTip(wxT("Open File(s)"));
+	  WriteDisable->Show();
+	  MatchOnly->Hide();
+	  MatchOnlyEditBox->Hide();
+	  MatchOnlyButton->Hide();
+#if defined(WIN32) || defined(__CLION_IDE__)
+	  DriveChoice->Hide();
+	  InputFileEditBox->Show();
+	  OpenButton->Show();
 #endif
-  } else if (InputChoice->GetCurrentSelection() == 2) {  // burned dvd
-#ifdef WIN32
-	MatchOnly->Hide();
-	MatchOnlyEditBox->Hide();
-	MatchOnlyButton->Hide();
-	DriveChoice->Show();
-	InputFileEditBox->Hide();
-	OpenButton->Hide();
-	WriteDisable->Hide();
+	  break;
+	case 1:// directory
+	  OpenButton->SetToolTip(wxT("Open Directory"));
+	  WriteDisable->Show();
+	  MatchOnly->Show();
+	  MatchOnlyEditBox->Show();
+	  MatchOnlyButton->Show();
+#if defined(WIN32) || defined(__CLION_IDE__)
+	  DriveChoice->Hide();
+	  InputFileEditBox->Show();
+	  OpenButton->Show();
+#endif
+	  break;
+	case 2: // burned dvd
+#if defined(WIN32) || defined(__CLION_IDE__)
+	  MatchOnly->Hide();
+	  MatchOnlyEditBox->Hide();
+	  MatchOnlyButton->Hide();
+	  DriveChoice->Show();
+	  InputFileEditBox->Hide();
+	  OpenButton->Hide();
+	  WriteDisable->Hide();
 #else
-	wxMessageBox(wxT("For Unix based operating systems: Devices are files!\n"
-					 "Select \"File(s)\" as Input and enter the device name.\n"
-					 "Linux Example: /dev/cdrom (requires read permissions).\n"
-					 "Writes are automatically disabled for block devices."), wxT("Unix Burned DVD Input"), wxOK);
-	return;
+	  wxMessageBox(wxT("For Unix based operating systems: Devices are files!\n"
+					   "Select \"File(s)\" as Input and enter the device name.\n"
+					   "Linux Example: /dev/cdrom (requires read permissions).\n"
+					   "Writes are automatically disabled for block devices."), wxT("Unix Burned DVD Input"), wxOK);
+	  InputChoice->SetSelection(0);
+	  this->InputChoiceSelected(event);
 #endif
-  }
-	/*
-	else if (InputChoice->GetCurrentSelection() == 3) {  // original disc
-		WriteDisable->Hide();
-		MatchOnly->Hide();
-		MatchOnlyEditBox->Hide();
-		MatchOnlyButton->Hide();
-		#ifdef WIN32
-			DriveChoice->Show();
-			InputFileEditBox->Hide();
-			OpenButton->Hide();
-		#else
-			OpenButton->SetToolTip(wxT("Open Ripper Device"));
-		#endif
-	}
-	*/
-  else {  // file(s)
-	OpenButton->SetToolTip(wxT("Open File(s)"));
-	WriteDisable->Show();
+	  break;
+
+	case 3:
+	  /*
+else if (InputChoice->GetCurrentSelection() == 3) {  // original disc
+	WriteDisable->Hide();
 	MatchOnly->Hide();
 	MatchOnlyEditBox->Hide();
 	MatchOnlyButton->Hide();
-#ifdef WIN32
-	DriveChoice->Hide();
-	InputFileEditBox->Show();
-	OpenButton->Show();
-#endif
+	#if defined(WIN32) || defined(__CLION_IDE__)
+		DriveChoice->Show();
+		InputFileEditBox->Hide();
+		OpenButton->Hide();
+	#else
+		OpenButton->SetToolTip(wxT("Open Ripper Device"));
+	#endif
+}
+*/
+	  break;
   }
+
   this->Layout();
 }
 
@@ -2428,12 +2442,11 @@ void abgx360gui::abgx360_netClick(wxCommandEvent &event) {
 void abgx360gui::WhereStealthFilesClick(wxCommandEvent &event) {
   wxString homedir, stealth_dir, str;
 
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
   if (wxGetEnv(wxT("APPDATA"), &homedir) || wxGetEnv(wxT("ProgramData"), &homedir) || wxGetEnv(wxT("ALLUSERSPROFILE"), &homedir)) {
-	  str = wxT("Your StealthFiles folder is located here:"NEWLINE);
-  }
-  else {
-	  wxMessageBox(wxT("ERROR: Unable to find your StealthFiles folder!"), wxT("Where is my StealthFiles folder?"), wxOK);
+	str = wxT("Your StealthFiles folder is located here:"NEWLINE);
+  } else {
+	wxMessageBox(wxT("ERROR: Unable to find your StealthFiles folder!"), wxT("Where is my StealthFiles folder?"), wxOK);
 	return;
   }
   homedir += wxT("\\abgx360\\");
@@ -2454,7 +2467,7 @@ void abgx360gui::WhereStealthFilesClick(wxCommandEvent &event) {
   str += stealth_dir + wxT(NEWLINE NEWLINE"Would you like me to open it for you?");
 
   if (wxMessageBox(str, wxT("Where is my StealthFiles folder?"), wxYES_NO) == wxYES) {
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
 	wxLaunchDefaultBrowser(stealth_dir);
 #else
 #ifdef __APPLE__
@@ -2472,12 +2485,11 @@ void abgx360gui::WhereStealthFilesClick(wxCommandEvent &event) {
 void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
   wxString homedir, images_dir, str;
 
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
   if (wxGetEnv(wxT("APPDATA"), &homedir) || wxGetEnv(wxT("ProgramData"), &homedir) || wxGetEnv(wxT("ALLUSERSPROFILE"), &homedir)) {
-	  str = wxT("Your Images folder is located here:"NEWLINE);
-  }
-  else {
-	  wxMessageBox(wxT("ERROR: Unable to find your Images folder!"), wxT("Where is my Images folder?"), wxOK);
+	str = wxT("Your Images folder is located here:"NEWLINE);
+  } else {
+	wxMessageBox(wxT("ERROR: Unable to find your Images folder!"), wxT("Where is my Images folder?"), wxOK);
 	return;
   }
   homedir += wxT("\\abgx360\\");
@@ -2498,7 +2510,7 @@ void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
   str += images_dir + wxT(NEWLINE NEWLINE"Would you like me to open it for you?");
 
   if (wxMessageBox(str, wxT("Where is my Images folder?"), wxYES_NO) == wxYES) {
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
 	wxLaunchDefaultBrowser(images_dir);
 #else
 #ifdef __APPLE__

@@ -59,7 +59,7 @@
 #include <wx/dcbuffer.h>
 #include <wx/dnd.h>  // drag and drop
 
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
 #include <ddk/ntddstor.h>  // device i/o stuff
 #endif
 
@@ -265,7 +265,7 @@ class abgx360gui : public wxFrame {
   InfoTip *MyRegionTip, *RebuildDefaultTip, *RebuildLowSpaceTip, *AutoFixTip, *TrustSSv2Tip, *FixDRTTip, *FixAngle359Tip, *FixBadAnglesTip, *PatchIfStealthPassesTip, *CheckDVDFileTip,
 	  *CheckStealthTip, *VerifyTip, *CheckVideoPaddingTip, *CheckCorruptionTip, *CheckForUpdatesTip, *GameCRCTip, *SplitVidTip, *ImagesTip, *PreferredLangTip;
   wxBitmapButton *LaunchButton;
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
   wxChoice *DriveChoice;
   wxArrayString arrayStringFor_DriveChoice;
 #endif
@@ -277,7 +277,7 @@ class abgx360gui : public wxFrame {
   int ID_WX_MENU_DELETE_SETTINGS;
 
   enum {
-#ifdef WIN32
+#if defined(WIN32) || defined(__CLION_IDE__)
 	ID_DRIVECHOICE,
 #endif
 	ID_SAVE_BUTTON_DISABLED,
