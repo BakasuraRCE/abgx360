@@ -68,44 +68,21 @@
 #define abgx360gui_STYLE wxCAPTION | wxSYSTEM_MENU | wxMINIMIZE_BOX | wxCLOSE_BOX
 ////Dialog Style End
 
-#if wxUSE_DRAG_AND_DROP
-
-class DnDInput : public wxFileDropTarget {
- public:
-  DnDInput(wxTextCtrl *inputeditbox, wxChoice *inputselect, wxWindow *frame, int inputselectid) {
-    dndeditbox = inputeditbox;
-    dndselect = inputselect;
-    dndframe = frame;
-    dndselectid = inputselectid;
-  }
-
-  virtual bool OnDropFiles(wxCoord x, wxCoord y, const wxArrayString &filenames);
-
- private:
-  wxTextCtrl *dndeditbox;
-  wxChoice *dndselect;
-  wxWindow *dndframe;
-  int dndselectid;
-};
-
-#endif
-
 class InfoTip : public wxPanel {
  private:
  DECLARE_EVENT_TABLE();
 
  public:
-  //contructor
-  InfoTip(wxWindow *parent, const wxBitmap &label, const wxString &infotext, const wxPoint &pos, const wxSize &size);
+  // constructor
+  InfoTip(wxWindow *parent, const wxBitmap &label, const wxString &info_text, const wxPoint &pos, const wxSize &size);
 
   void onMouseOver(wxMouseEvent &event);
 
   void onPaint(wxPaintEvent &event);
 
-  wxTipWindow *tip;
-  wxString mInfotext;
+  wxString m_info_text;
   wxBitmap mLabel;
-  wxRect iconbounds;
+  wxRect icon_bounds;
 };
 
 class abgx360gui : public wxFrame {
@@ -119,72 +96,37 @@ class abgx360gui : public wxFrame {
              const wxPoint &pos = wxDefaultPosition,
              const wxSize &size = wxSize(-1, -1),
              long style = wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL);
-
   virtual ~abgx360gui();
 
   void RunButtonClick(wxCommandEvent &event);
-
-  void WxBitmapButton1Click(wxCommandEvent &event);
-
   void OpenButtonClick(wxCommandEvent &event);
-
   void SaveButtonClick(wxCommandEvent &event);
-
   void UIUpdate(wxUpdateUIEvent &event);
-
   void ProgramOutputSelected(wxCommandEvent &event);
-
   void PatchVideoOpenButtonClick(wxCommandEvent &event);
-
   void PatchPFIOpenButtonClick(wxCommandEvent &event);
-
   void PatchDMIOpenButtonClick(wxCommandEvent &event);
-
   void PatchSSOpenButtonClick(wxCommandEvent &event);
-
   void ExtractVideoSaveButtonClick(wxCommandEvent &event);
-
   void ExtractPFISaveButtonClick(wxCommandEvent &event);
-
   void ExtractDMISaveButtonClick(wxCommandEvent &event);
-
   void ExtractSSSaveButtonClick(wxCommandEvent &event);
-
   void MnuAboutClick(wxCommandEvent &event);
-
   void MnuSaveSettingsClick(wxCommandEvent &event);
-
   void MnuExitClick(wxCommandEvent &event);
-
   void MnuLoadSettingsClick(wxCommandEvent &event);
-
   void MnuClearHistoryClick(wxCommandEvent &event);
-
   void MnuFileHistoryClick(wxCommandEvent &event);
-
   void MnuDeleteSettingsClick(wxCommandEvent &event);
-
   void doLoadSettings();
-
   void MyRegionButtonClick(wxCommandEvent &event);
-
   void MatchOnlyButtonClick(wxCommandEvent &event);
-
   void InputChoiceSelected(wxCommandEvent &event);
-
-  void MnuFolderHistoryClick(wxCommandEvent &event);
-
-  void Mnuclearfilehistory1749Click(wxCommandEvent &event);
-
   void MnuClearDirHistoryClick(wxCommandEvent &event);
-
   void MnuDirHistoryClick(wxCommandEvent &event);
   void QuickstartChoiceSelected(wxCommandEvent &event);
-
   void abgx360_netClick(wxCommandEvent &event);
-
   void WhereStealthFilesClick(wxCommandEvent &event);
-
   void WhereImagesClick(wxCommandEvent &event);
 
  private:
@@ -208,7 +150,7 @@ class abgx360gui : public wxFrame {
   wxFileDialog *OpenFileDialog;
   wxFileDialog *OpenVideoFileDialog;
   wxFileDialog *SaveVideoFileDialog;
-  wxMenuBar *WxMenuBar1;
+  wxMenuBar *wx_menu_bar;
   wxFileHistory *m_fileHistory; // the most recently opened files
   wxConfig *m_fileConfig; // Used to save the file history (can be used for other data too)
   wxTextCtrl *StatusBar;
@@ -315,160 +257,43 @@ class abgx360gui : public wxFrame {
   InfoTip *MyRegionTip, *RebuildDefaultTip, *RebuildLowSpaceTip, *AutoFixTip, *TrustSSv2Tip, *FixDRTTip, *FixAngle359Tip, *FixBadAnglesTip, *PatchIfStealthPassesTip, *CheckDVDFileTip,
       *CheckStealthTip, *VerifyTip, *CheckVideoPaddingTip, *CheckCorruptionTip, *CheckForUpdatesTip, *GameCRCTip, *SplitVidTip, *ImagesTip, *PreferredLangTip;
   wxBitmapButton *LaunchButton;
-  wxStaticBitmap *Separator;
-  int guifontpointsize;
 #ifdef WIN32
   wxChoice *DriveChoice;
   wxArrayString arrayStringFor_DriveChoice;
 #endif
 
  private:
-  //Note: if you receive any error with these enum IDs, then you need to
-  //change your old form code that are based on the #define control IDs.
-  //#defines may replace a numeric value for the enum names.
-  //Try copy and pasting the below block in your old form header files.
-  enum {
-    ////GUI Enum Control ID Start
-    ID_MNU_FILE_1667 = 1667,
-    ID_MNU_OPENINPUTFILE_1748 = 1748,
-    ID_MNU_REOPEN_1745 = 1745,
-    ID_MNU_CLEARHISTORY_1749 = 1749,
-    ID_MNU_FILEHISTORY_1747 = 1747,
-    ID_MNU_REOPENDIRECTORY_1772 = 1772,
-    ID_MNU_CLEARDIRHISTORY_1773 = 1773,
-    ID_MNU_LOADSETTINGS_1743 = 1743,
-    ID_MNU_SAVESETTINGS_1668 = 1668,
-    ID_MNU_DELETESETTINGS_1750 = 1750,
-    ID_MNU_EXIT_1671 = 1671,
-    ID_MNU_MAKEADONATION_1868 = 1868,
-    ID_MNU_HELP_1669 = 1669,
-    ID_MNU_GOTOABGX360_NET_1869 = 1869,
-    ID_MNU_WHERE_STEALTHFILES_1872 = 1872,
-    ID_MNU_WHERE_IMAGES_1875 = 1875,
-    ID_MNU_ABOUT_1678 = 1678,
+  int ID_WX_MENU_REOPEN_FILES;
+  int ID_WX_MENU_REOPEN_DIRECTORY;
+  int ID_WX_MENU_LOAD_SETTINGS;
+  int ID_WX_MENU_DELETE_SETTINGS;
 
-    ID_STATUSBAR = 1007,
-    ID_SAVEBUTTONDISABLED = 1023,
-    ID_DOTTEDOPENBUTTONDISABLED = 1729,
-    ID_TOPBITMAP = 1721,
-    ID_LAUNCHPANEL = 1838,
-    ID_MAXIMIZE = 1847,
-    ID_TERMINALFONT = 1846,
-    ID_SAVEBUTTON = 1845,
-    ID_OUTPUTFILEEDITBOX = 1844,
-    ID_PROGRAMOUTPUT = 1843,
-    ID_OPENFILEWHENDONE = 1841,
-    ID_PREFERREDLANGTEXT = 1883,
-    ID_PREFERREDLANGCHOICE = 1879,
-    ID_EMBEDIMAGES = 1874,
-    ID_XEXIMAGES = 1866,
-    ID_SPLITVIDCHOICE = 1865,
-    ID_SPLITVIDTEXT = 1864,
-    ID_XEXIMAGESTEXT = 1863,
-    ID_EXTRAOPTIONSEDITBOX = 1694,
-    ID_MYREGIONBUTTON = 1755,
-    ID_MYREGIONEDITBOX = 1754,
-    ID_MYREGION = 1752,
-    ID_WXSTATICTEXT10 = 1693,
-    ID_WXNOTEBOOKPAGE_MISC = 1692,
-    ID_KEEPORIGINALISO = 1691,
-    ID_NOREBUILD = 1751,
-    ID_REBUILDLOWSPACE = 1683,
-    ID_REBUILDDEFAULT = 1685,
-    ID_WXSTATICTEXT9 = 1681,
-    ID_WXNOTEBOOKPAGE_REBUILDING = 1679,
-    ID_TRUSTSSV2 = 1871,
-    ID_WXSTATICTEXT5 = 1813,
-    ID_FIXBADANGLESVALUE = 1812,
-    ID_FIXBADANGLES = 1811,
-    ID_FIXANGLE359 = 1805,
-    ID_FIXDRT = 1804,
-    ID_CRBOX = 1803,
-    ID_AUTOFIXTEXT = 1802,
-    ID_AUTOFIX = 1798,
-    ID_WXNOTEBOOKPAGE_AUTOFIX = 1656,
-    ID_CLOBBER = 1857,
-    ID_EXTRACTSSSAVEBUTTON = 1739,
-    ID_EXTRACTSSEDITBOX = 1634,
-    ID_EXTRACTSS = 1633,
-    ID_EXTRACTDMISAVEBUTTON = 1738,
-    ID_EXTRACTDMIEDITBOX = 1637,
-    ID_EXTRACTDMI = 1638,
-    ID_EXTRACTPFISAVEBUTTON = 1737,
-    ID_EXTRACTPFIEDITBOX = 1640,
-    ID_EXTRACTPFI = 1639,
-    ID_EXTRACTENTIREVIDEOPARTITION = 1642,
-    ID_EXTRACTVIDEOSAVEBUTTON = 1736,
-    ID_EXTRACTVIDEOEDITBOX = 1644,
-    ID_EXTRACTVIDEO = 1643,
-    ID_WXSTATICTEXT2 = 1624,
-    ID_PATCHSSOPENBUTTON = 1727,
-    ID_PATCHSSEDITBOX = 1625,
-    ID_PATCHSS = 1623,
-    ID_PATCHDMIOPENBUTTON = 1726,
-    ID_PATCHDMIEDITBOX = 1626,
-    ID_PATCHDMI = 1622,
-    ID_PATCHPFIOPENBUTTON = 1725,
-    ID_PATCHPFIEDITBOX = 1627,
-    ID_PATCHPFI = 1621,
-    ID_PATCHVIDEOOPENBUTTON = 1724,
-    ID_PATCHVIDEOEDITBOX = 1628,
-    ID_PATCHVIDEO = 1620,
-    ID_PATCHIFINVALID = 1619,
-    ID_PATCHIFSTEALTHPASSES = 1616,
-    ID_WXNOTEBOOKPAGE_MANUALPATCHEXTRACT = 1089,
-    ID_CSVUPDATE = 1877,
-    ID_VERBOSITY = 1699,
-    ID_VERBOSITYTEXT = 1741,
-    ID_SHOWAVATARAWARDS = 1873,
-    ID_HIDESECRETACHIEVEMENTS = 1862,
-    ID_SHOWACHIEVEMENTS = 1861,
-    ID_CHECKGAMECRCWHENNEEDED = 1860,
-    ID_RECURSESUBDIRS = 1858,
-    ID_DISPLAYFILESYSTEM = 1761,
-    ID_CHECKVIDEOPADDING = 1760,
-    ID_STEALTHCHECK = 1178,
-    ID_STAYOFFLINE = 1179,
-    ID_USECOLORS = 1180,
-    ID_CHECKCORRUPTION = 1702,
-    ID_VERIFY = 1170,
-    ID_ONLINEUPDATE = 1169,
-    ID_CHECKDVDFILE = 1168,
-    ID_WXNOTEBOOKPAGE_OPTIONS = 1088,
-    ID_QUICKSTARTCHOICE = 1828,
-    ID_QUICKSTARTMEMO = 1827,
-    ID_QUICKSTART = 1776,
-    ID_NOTEBOOK = 1717,
-    ID_OPENBUTTON = 1856,
-    ID_INPUTFILEEDITBOX = 1855,
-    ID_MATCHONLYBUTTON = 1854,
-    ID_MATCHONLYEDITBOX = 1853,
-    ID_MATCHONLY = 1852,
-    ID_WRITEDISABLE = 1851,
-    ID_INPUTCHOICE = 1850,
-    ID_INPUTPANEL = 1849,
-    ID_PANEL = 1001,
-    ////GUI Enum Control ID End
-    ID_DIR1 = 3001,
-    ID_DIR2 = 3002,
-    ID_DIR3 = 3003,
-    ID_DIR4 = 3004,
-    ID_DIR5 = 3005,
-    ID_DIR6 = 3006,
-    ID_DIR7 = 3007,
-    ID_DIR8 = 3008,
-    ID_DIR9 = 3009,
+  enum {
 #ifdef WIN32
-    ID_DRIVECHOICE = 3010,
+    ID_DRIVECHOICE,
 #endif
-    ID_RUNBUTTON = 3011
+    ID_SAVE_BUTTON_DISABLED,
+    ID_DOTTED_OPEN_BUTTON_DISABLED,
+    ID_LAUNCHPANEL,
+    ID_DIR1,
+    ID_DIR2,
+    ID_DIR3,
+    ID_DIR4,
+    ID_DIR5,
+    ID_DIR6,
+    ID_DIR7,
+    ID_DIR8,
+    ID_DIR9
   };
 
  private:
   wxBitmap InfoTip_BITMAP;
-  wxString openfilename, savefilename, cmd;
+  wxString open_filename, save_filename, cmd;
   void OnClose(wxCloseEvent &event);
   void assign_events();
+  wxMenuItem *create_menu_item(wxMenu *menu_parent, const std::string &text, auto event_method);
+  wxMenuItem *create_menu_item(wxMenu *menu_parent, const std::string &text, const std::string &help, auto event_method);
+  wxMenuItem *create_menu_item(int itemid, wxMenu *menu_parent, const std::string &text, const std::string &help, auto event_method);
   wxNotebook *generate_notebook(wxWindow *parent);
   wxPanel *generate_page_autofix(wxWindow *parent);
   wxPanel *generate_page_misc(wxWindow *parent);

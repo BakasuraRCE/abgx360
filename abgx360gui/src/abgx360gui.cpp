@@ -28,17 +28,9 @@ ABGX360GUI_FONT
 
 #ifdef WIN32
 #define NEWLINE "\r\n"
-#define ABGX360GUI_FACENAME wxT("Segoe UI")
 #else
 #define NEWLINE "\n"
-#ifdef __APPLE__
-#define ABGX360GUI_FACENAME wxEmptyString
-#else
-#define ABGX360GUI_FACENAME wxEmptyString
 #endif
-#endif
-
-#define ABGX360GUI_FONT wxFont(guifontpointsize, wxSWISS, wxNORMAL, wxNORMAL, false, ABGX360GUI_FACENAME)
 
 #include <list>
 #include "abgx360gui.h"
@@ -83,7 +75,7 @@ auto resource_fs = cmrc::foo::get_filesystem();
 wxBoxSizer *generate_box_sizer_with_controls(const std::list<wxWindow *> &controls, int orient = wxHORIZONTAL) {
   auto *sizer = new wxBoxSizer(orient);
   for (auto control : controls) {
-    sizer->Add(control, wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL).Border(wxRIGHT, 5));
+	sizer->Add(control, wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL).Border(wxRIGHT, 5));
   }
   return sizer;
 }
@@ -106,18 +98,18 @@ BEGIN_EVENT_TABLE(InfoTip, wxPanel)EVT_ENTER_WINDOW(InfoTip::onMouseOver) EVT_PA
 END_EVENT_TABLE()
 ////Event Table End
 
-InfoTip::InfoTip(wxWindow *parent, const wxBitmap &label, const wxString &infotext, const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize) : wxPanel(parent,
-                                                                                                                                                                          wxID_ANY,
-                                                                                                                                                                          pos,
-                                                                                                                                                                          size) {
+InfoTip::InfoTip(wxWindow *parent, const wxBitmap &label, const wxString &info_text, const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize) : wxPanel(parent,
+																																										   wxID_ANY,
+																																										   pos,
+																																										   size) {
   mLabel = label;
-  mInfotext = infotext;
+  m_info_text = info_text;
   this->SetMinSize(wxSize(16, 16));
 }
 
 void InfoTip::onMouseOver(wxMouseEvent &WXUNUSED(event)) {
-  iconbounds = this->GetScreenRect();
-  tip = new wxTipWindow(this, mInfotext, 400, NULL, &iconbounds);
+  icon_bounds = this->GetScreenRect();
+  new wxTipWindow(this, m_info_text, 400, NULL, &icon_bounds);
 }
 
 void InfoTip::onPaint(wxPaintEvent &event) {
@@ -134,36 +126,14 @@ void InfoTip::onPaint(wxPaintEvent &event) {
 ////Event Table Start
 BEGIN_EVENT_TABLE(abgx360gui, wxFrame)
 ////Manual Code Start
-        EVT_MENU_RANGE(ID_DIR1, ID_DIR9, abgx360gui::MnuDirHistoryClick)
+		EVT_MENU_RANGE(ID_DIR1, ID_DIR9, abgx360gui::MnuDirHistoryClick)
 
 ////Manual Code End
 
-        EVT_CLOSE(abgx360gui::OnClose)
+		EVT_CLOSE(abgx360gui::OnClose)
 
-        EVT_MENU_RANGE(wxID_FILE1, wxID_FILE9, abgx360gui::MnuDirHistoryClick) EVT_MENU_RANGE(wxID_FILE1, wxID_FILE9, abgx360gui::MnuFileHistoryClick)
-
-        EVT_MENU(ID_MNU_OPENINPUTFILE_1748, abgx360gui::OpenButtonClick) EVT_MENU(ID_MNU_CLEARHISTORY_1749, abgx360gui::MnuClearHistoryClick)
-        EVT_MENU(ID_MNU_CLEARDIRHISTORY_1773, abgx360gui::MnuClearDirHistoryClick) EVT_MENU(ID_MNU_LOADSETTINGS_1743, abgx360gui::MnuLoadSettingsClick)
-        EVT_MENU(ID_MNU_SAVESETTINGS_1668, abgx360gui::MnuSaveSettingsClick) EVT_MENU(ID_MNU_DELETESETTINGS_1750, abgx360gui::MnuDeleteSettingsClick)
-        EVT_MENU(ID_MNU_EXIT_1671, abgx360gui::MnuExitClick) EVT_MENU(ID_MNU_ABOUT_1678, abgx360gui::MnuAboutClick) EVT_MENU(ID_MNU_GOTOABGX360_NET_1869, abgx360gui::abgx360_netClick)
-        EVT_MENU(ID_MNU_WHERE_STEALTHFILES_1872, abgx360gui::WhereStealthFilesClick) EVT_MENU(ID_MNU_WHERE_IMAGES_1875, abgx360gui::WhereImagesClick)
-
-//        EVT_CHOICE(ID_INPUTCHOICE, abgx360gui::InputChoiceSelected)
-//        EVT_CHOICE(ID_PROGRAMOUTPUT, abgx360gui::ProgramOutputSelected)
-//        EVT_CHOICE(ID_QUICKSTARTCHOICE, abgx360gui::QuickstartChoiceSelected)
-//        EVT_BUTTON(ID_SAVEBUTTON, abgx360gui::SaveButtonClick)
-//        EVT_BUTTON(ID_OPENBUTTON, abgx360gui::OpenButtonClick)
-//        EVT_BUTTON(ID_MATCHONLYBUTTON, abgx360gui::MatchOnlyButtonClick)
-//        EVT_BUTTON(ID_RUNBUTTON, abgx360gui::RunButtonClick)
-//        EVT_BUTTON(ID_MYREGIONBUTTON, abgx360gui::MyRegionButtonClick)
-//        EVT_BUTTON(ID_EXTRACTSSSAVEBUTTON, abgx360gui::ExtractSSSaveButtonClick)
-//        EVT_BUTTON(ID_EXTRACTDMISAVEBUTTON, abgx360gui::ExtractDMISaveButtonClick)
-//        EVT_BUTTON(ID_EXTRACTPFISAVEBUTTON, abgx360gui::ExtractPFISaveButtonClick)
-//        EVT_BUTTON(ID_EXTRACTVIDEOSAVEBUTTON, abgx360gui::ExtractVideoSaveButtonClick)
-//        EVT_BUTTON(ID_PATCHSSOPENBUTTON, abgx360gui::PatchSSOpenButtonClick)
-//        EVT_BUTTON(ID_PATCHDMIOPENBUTTON, abgx360gui::PatchDMIOpenButtonClick)
-//        EVT_BUTTON(ID_PATCHPFIOPENBUTTON, abgx360gui::PatchPFIOpenButtonClick)
-//        EVT_BUTTON(ID_PATCHVIDEOOPENBUTTON, abgx360gui::PatchVideoOpenButtonClick)
+		EVT_MENU_RANGE(wxID_FILE1, wxID_FILE9, abgx360gui::MnuDirHistoryClick)
+		EVT_MENU_RANGE(wxID_FILE1, wxID_FILE9, abgx360gui::MnuFileHistoryClick)
 
 END_EVENT_TABLE()
 ////Event Table End
@@ -203,21 +173,35 @@ void abgx360gui::assign_events() {
   PatchVideoOpenButton->Bind(wxEVT_BUTTON, &abgx360gui::PatchVideoOpenButtonClick, this);
 }
 
+wxMenuItem *abgx360gui::create_menu_item(wxMenu *menu_parent, const std::string &text, auto event_method) {
+  return this->create_menu_item(wxID_ANY, menu_parent, text, "", event_method);
+}
+
+wxMenuItem *abgx360gui::create_menu_item(wxMenu *menu_parent, const std::string &text, const std::string &help, auto event_method) {
+  return this->create_menu_item(wxID_ANY, menu_parent, text, help, event_method);
+}
+
+wxMenuItem *abgx360gui::create_menu_item(int itemid, wxMenu *menu_parent, const std::string &text, const std::string &help, auto event_method) {
+  wxMenuItem *p_wx_menu_item;
+  if (help.empty()) {
+	p_wx_menu_item = new wxMenuItem(menu_parent, itemid, text, wxEmptyString, wxITEM_NORMAL);
+  } else {
+	p_wx_menu_item = new wxMenuItem(menu_parent, itemid, text, help, wxITEM_NORMAL);
+  }
+  menu_parent->Append(p_wx_menu_item);
+  menu_parent->Bind(wxEVT_COMMAND_MENU_SELECTED, event_method, this, p_wx_menu_item->GetId());
+  return p_wx_menu_item;
+}
+
 abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize &size, long style) : wxFrame(parent, id, title, position, size, style) {
 
   this->InfoTip_BITMAP = wxBitmap(InfoTip_XPM);
 
   this->SetSizeHints(wxSize(700, 800), wxDefaultSize);
 
-  int x, y;
-  wxFont tempfont;
-  guifontpointsize = 12;
-  while (guifontpointsize > 4) {
-    tempfont = ABGX360GUI_FONT;
-    GetTextExtent(wxT("The quick brown fox jumps over the lazy dog"), &x, &y, NULL, NULL, &tempfont);
-    if (x <= 237) break;
-    guifontpointsize--;
-  }
+  // /////////
+  // Controls
+  // /////////
 
   MainSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -261,8 +245,7 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   InputFileEditBox = new wxTextCtrl(InputSizer->GetStaticBox(), wxID_ANY, wxEmptyString);
   input_sub_2_sizer->Add(InputFileEditBox, 1, wxALL, 5);
 
-  wxBitmap OpenButton_BITMAP(abgx360gui_OpenButton_XPM);
-  OpenButton = new wxBitmapButton(InputSizer->GetStaticBox(), wxID_ANY, OpenButton_BITMAP);
+  OpenButton = new wxBitmapButton(InputSizer->GetStaticBox(), wxID_ANY, wxBitmap(abgx360gui_OpenButton_XPM));
   input_sub_2_sizer->Add(OpenButton, 0, wxALL, 5);
 
   Notebook = this->generate_notebook(this);
@@ -287,12 +270,12 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
 
   OutputFileEditBox = new wxTextCtrl(OutputSizer->GetStaticBox(), wxID_ANY);
   OutputFileEditBox->Enable(false);
-  wxBitmap SaveButton_BITMAP(abgx360gui_SaveButton_XPM);
-  SaveButton = new wxBitmapButton(OutputSizer->GetStaticBox(), wxID_ANY, SaveButton_BITMAP);
+
+  SaveButton = new wxBitmapButton(OutputSizer->GetStaticBox(), wxID_ANY, wxBitmap(abgx360gui_SaveButton_XPM));
   SaveButton->SetToolTip(wxT("Choose the file where program output will be saved"));
   SaveButton->Enable(false);
-  wxBitmap SaveButtonDisabled_BITMAP(abgx360gui_SaveButtonDisabled_XPM);
-  SaveButtonDisabled = new wxBitmapButton(this, ID_SAVEBUTTONDISABLED, SaveButtonDisabled_BITMAP);
+  auto SaveButtonDisabled_BITMAP = wxBitmap(abgx360gui_SaveButtonDisabled_XPM);
+  SaveButtonDisabled = new wxBitmapButton(this, ID_SAVE_BUTTON_DISABLED, SaveButtonDisabled_BITMAP);
   SaveButtonDisabled->Show(false);
   OutputSizer->Add(generate_box_sizer_with_controls({OutputFileEditBox, SaveButton}), wxSizerFlags().Expand());
 
@@ -308,147 +291,146 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   MainSizer->Add(StatusBar, 0, wxEXPAND, 0);
 
   // /////////
-  // Others
+  // Menus
   // /////////
 
-  wxBitmap dottedOpenButtonDisabled_BITMAP(abgx360gui_dottedOpenButtonDisabled_XPM);
-  dottedOpenButtonDisabled = new wxBitmapButton(this, ID_DOTTEDOPENBUTTONDISABLED, dottedOpenButtonDisabled_BITMAP);
+  auto dottedOpenButtonDisabled_BITMAP = wxBitmap(abgx360gui_dottedOpenButtonDisabled_XPM);
+  dottedOpenButtonDisabled = new wxBitmapButton(this, ID_DOTTED_OPEN_BUTTON_DISABLED, dottedOpenButtonDisabled_BITMAP);
   dottedOpenButtonDisabled->Show(false);
 
-  WxMenuBar1 = new wxMenuBar();
-  wxMenu *ID_MNU_FILE_1667_Mnu_Obj = new wxMenu(0);
-  wxMenuItem *ID_MNU_OPENINPUTFILE_1748_mnuItem_obj = new wxMenuItem(ID_MNU_FILE_1667_Mnu_Obj, ID_MNU_OPENINPUTFILE_1748, wxT("&Open Input...\tCtrl+O"), wxEmptyString, wxITEM_NORMAL);
-  wxBitmap ID_MNU_OPENINPUTFILE_1748_mnuItem_obj_BMP(abgx360gui_ID_MNU_OPENINPUTFILE_1748_XPM);
-  ID_MNU_OPENINPUTFILE_1748_mnuItem_obj->SetBitmap(ID_MNU_OPENINPUTFILE_1748_mnuItem_obj_BMP);
-  ID_MNU_FILE_1667_Mnu_Obj->Append(ID_MNU_OPENINPUTFILE_1748_mnuItem_obj);
+  wx_menu_bar = new wxMenuBar();
+  auto p_wx_menu_file = new wxMenu();
+  this->create_menu_item(p_wx_menu_file, "&Open Input...\tCtrl+O", &abgx360gui::OpenButtonClick);
 
-  wxMenu *ID_MNU_REOPEN_1745_Mnu_Obj = new wxMenu(0);
-  ID_MNU_REOPEN_1745_Mnu_Obj->Append(ID_MNU_CLEARHISTORY_1749, wxT("&Clear History"), wxEmptyString, wxITEM_NORMAL);
+  auto p_wx_menu_reopen_files = new wxMenu();
+  this->create_menu_item(p_wx_menu_reopen_files, "&Clear History", &abgx360gui::MnuClearHistoryClick);
 
   m_fileHistory = new wxFileHistory(9, wxID_FILE1);
-  m_fileHistory->UseMenu(ID_MNU_REOPEN_1745_Mnu_Obj);
+  m_fileHistory->UseMenu(p_wx_menu_reopen_files);
   m_fileConfig = new wxConfig(wxT("abgx360gui"));
   wxConfigBase::Set(m_fileConfig);
   m_fileConfig->SetPath(wxT("/RecentFiles"));
   m_fileHistory->Load(*m_fileConfig);
   m_fileConfig->SetPath(wxT(".."));
-  ID_MNU_FILE_1667_Mnu_Obj->Append(ID_MNU_REOPEN_1745, wxT("&Reopen File(s)"), ID_MNU_REOPEN_1745_Mnu_Obj);
+  ID_WX_MENU_REOPEN_FILES = p_wx_menu_file->Append(wxID_ANY, wxT("&Reopen File(s)"), p_wx_menu_reopen_files)->GetId();
 
-  wxMenu *ID_MNU_REOPENDIRECTORY_1772_Mnu_Obj = new wxMenu(0);
-  ID_MNU_REOPENDIRECTORY_1772_Mnu_Obj->Append(ID_MNU_CLEARDIRHISTORY_1773, wxT("&Clear History"), wxEmptyString, wxITEM_NORMAL);
-  ID_MNU_FILE_1667_Mnu_Obj->Append(ID_MNU_REOPENDIRECTORY_1772, wxT("R&eopen Directory"), ID_MNU_REOPENDIRECTORY_1772_Mnu_Obj);
-  ID_MNU_FILE_1667_Mnu_Obj->AppendSeparator();
-  ID_MNU_FILE_1667_Mnu_Obj->Append(ID_MNU_LOADSETTINGS_1743, wxT("&Load Settings...\tCtrl+L"), wxT("Load saved settings"), wxITEM_NORMAL);
-  ID_MNU_FILE_1667_Mnu_Obj->Append(ID_MNU_SAVESETTINGS_1668, wxT("&Save Settings...\tCtrl+S"), wxT("Save current settings"), wxITEM_NORMAL);
-  ID_MNU_FILE_1667_Mnu_Obj->Append(ID_MNU_DELETESETTINGS_1750, wxT("&Delete Settings...\tCtrl+D"), wxT("Delete saved settings"), wxITEM_NORMAL);
-  ID_MNU_FILE_1667_Mnu_Obj->AppendSeparator();
-  ID_MNU_FILE_1667_Mnu_Obj->Append(ID_MNU_EXIT_1671, wxT("E&xit\tCtrl+Q"), wxT("Quit abgx360 GUI"), wxITEM_NORMAL);
-  WxMenuBar1->Append(ID_MNU_FILE_1667_Mnu_Obj, wxT("&File"));
+  auto p_wx_menu_reopen_directory = new wxMenu();
+  this->create_menu_item(p_wx_menu_reopen_directory, "&Clear History", &abgx360gui::MnuClearDirHistoryClick);
 
-  wxMenu *ID_MNU_HELP_1669_Mnu_Obj = new wxMenu(0);
-  wxMenuItem *ID_MNU_GOTOABGX360_NET_1869_mnuItem_obj = new wxMenuItem(ID_MNU_HELP_1669_Mnu_Obj,
-                                                                       ID_MNU_GOTOABGX360_NET_1869,
-                                                                       wxT("&http://abgx360.net"),
-                                                                       wxT("Go to the official home of abgx360 to get the latest news and updates or join the chat for help"),
-                                                                       wxITEM_NORMAL);
-  wxBitmap ID_MNU_GOTOABGX360_NET_1869_mnuItem_obj_BMP(abgx360gui_ID_MNU_GOTOABGX360_NET_1869_XPM);
-  ID_MNU_GOTOABGX360_NET_1869_mnuItem_obj->SetBitmap(ID_MNU_GOTOABGX360_NET_1869_mnuItem_obj_BMP);
-  ID_MNU_HELP_1669_Mnu_Obj->Append(ID_MNU_GOTOABGX360_NET_1869_mnuItem_obj);
-  ID_MNU_HELP_1669_Mnu_Obj->AppendSeparator();
-  ID_MNU_HELP_1669_Mnu_Obj->Append(ID_MNU_WHERE_STEALTHFILES_1872,
-                                   wxT("Where is my Stealth&Files folder...\tCtrl+F"),
-                                   wxT("Find out where your StealthFiles are stored and automatically open the folder if you want."),
-                                   wxITEM_NORMAL);
-  ID_MNU_HELP_1669_Mnu_Obj->Append(ID_MNU_WHERE_IMAGES_1875,
-                                   wxT("Where is my &Images folder...\tCtrl+I"),
-                                   wxT("Find out where your Images are stored and automatically open the folder if you want."),
-                                   wxITEM_NORMAL);
-  ID_MNU_HELP_1669_Mnu_Obj->AppendSeparator();
-  ID_MNU_HELP_1669_Mnu_Obj->Append(ID_MNU_ABOUT_1678, wxT("&About"), wxT("About abgx360 GUI"), wxITEM_NORMAL);
-  WxMenuBar1->Append(ID_MNU_HELP_1669_Mnu_Obj, wxT("&Help"));
-  SetMenuBar(WxMenuBar1);
+  ID_WX_MENU_REOPEN_DIRECTORY = p_wx_menu_file->Append(wxID_ANY, wxT("R&eopen Directory"), p_wx_menu_reopen_directory)->GetId();
+  p_wx_menu_file->AppendSeparator();
+  ID_WX_MENU_LOAD_SETTINGS = this->create_menu_item(p_wx_menu_file, "&Load Settings...\tCtrl+L", "Load saved settings", &abgx360gui::MnuLoadSettingsClick)->GetId();
+  this->create_menu_item(p_wx_menu_file, "&Save Settings...\tCtrl+S", "Save current settings", &abgx360gui::MnuSaveSettingsClick);
+  ID_WX_MENU_DELETE_SETTINGS = this->create_menu_item(p_wx_menu_file, "&Delete Settings...\tCtrl+D", "Delete saved settings", &abgx360gui::MnuDeleteSettingsClick)->GetId();
+  p_wx_menu_file->AppendSeparator();
+  this->create_menu_item(p_wx_menu_file, "E&xit\tCtrl+Q", "Quit abgx360 GUI", &abgx360gui::MnuExitClick);
+  wx_menu_bar->Append(p_wx_menu_file, wxT("&File"));
+
+  auto *p_wx_menu_help = new wxMenu();
+
+  this->create_menu_item(p_wx_menu_help,
+						 "&http://abgx360.net",
+						 "Go to the official home of abgx360 to get the latest news and updates or join the chat for help",
+						 &abgx360gui::abgx360_netClick)->SetBitmap(wxBitmap(abgx360gui_ID_MNU_GOTOABGX360_NET_1869_XPM));
+  p_wx_menu_help->AppendSeparator();
+  this->create_menu_item(p_wx_menu_help,
+						 "Where is my Stealth&Files folder...\tCtrl+F",
+						 "Find out where your StealthFiles are stored and automatically open the folder if you want.",
+						 &abgx360gui::WhereStealthFilesClick);
+  this->create_menu_item(p_wx_menu_help,
+						 "Where is my &Images folder...\tCtrl+I",
+						 "Find out where your Images are stored and automatically open the folder if you want.",
+						 &abgx360gui::WhereImagesClick);
+  p_wx_menu_help->AppendSeparator();
+  this->create_menu_item(p_wx_menu_help, "&About", "About abgx360 GUI", &abgx360gui::MnuAboutClick);
+  wx_menu_bar->Append(p_wx_menu_help, wxT("&Help"));
+  this->SetMenuBar(wx_menu_bar);
+
+  // /////////
+  // Others
+  // /////////
 
   SaveVideoFileDialog = new wxFileDialog(this,
-                                         wxT("Choose a file"),
-                                         wxEmptyString,
-                                         wxEmptyString,
-                                         wxT("Video Files (*video*.iso)|*video*.iso|ISO Files (*.iso)|*.iso|All Files (*.*)|*.*"),
-                                         wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+										 wxT("Choose a file"),
+										 wxEmptyString,
+										 wxEmptyString,
+										 wxT("Video Files (*video*.iso)|*video*.iso|ISO Files (*.iso)|*.iso|All Files (*.*)|*.*"),
+										 wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 
   OpenVideoFileDialog = new wxFileDialog(this,
-                                         wxT("Choose a file"),
-                                         wxEmptyString,
-                                         wxEmptyString,
-                                         wxT("Video Files (*video*.iso)|*video*.iso|ISO Files (*.iso)|*.iso|All Files (*.*)|*.*"),
-                                         wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+										 wxT("Choose a file"),
+										 wxEmptyString,
+										 wxEmptyString,
+										 wxT("Video Files (*video*.iso)|*video*.iso|ISO Files (*.iso)|*.iso|All Files (*.*)|*.*"),
+										 wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
   OpenFileDialog = new wxFileDialog(this,
-                                    wxT("Choose a file"),
-                                    wxEmptyString,
-                                    wxEmptyString,
-                                    wxT("ISO/Stealth/Xex files (*.360, *.000, *.iso, *.bin, *.xex)|*.360;*.000;*.iso;*.bin;*.xex|ISO files (*.360, *.000, *.iso)|*.360;*.000;*.iso|Stealth Files (*.bin, *video*.iso)|*.bin;*video*.iso|Xex Files (*.xex)|*.xex|Video Files (*video*.iso)|*video*.iso|PFI Files (*pfi*.bin)|*pfi*.bin|DMI Files (*dmi*.bin)|*dmi*.bin|SS Files (*ss*.bin)|*ss*.bin|All Files (*)|*"),
-                                    wxFD_OPEN | wxFD_FILE_MUST_EXIST | wxFD_MULTIPLE);
+									wxT("Choose a file"),
+									wxEmptyString,
+									wxEmptyString,
+									wxT("ISO/Stealth/Xex files (*.360, *.000, *.iso, *.bin, *.xex)|*.360;*.000;*.iso;*.bin;*.xex|ISO files (*.360, *.000, *.iso)|*.360;*.000;*.iso|Stealth Files (*.bin, *video*.iso)|*.bin;*video*.iso|Xex Files (*.xex)|*.xex|Video Files (*video*.iso)|*video*.iso|PFI Files (*pfi*.bin)|*pfi*.bin|DMI Files (*dmi*.bin)|*dmi*.bin|SS Files (*ss*.bin)|*ss*.bin|All Files (*)|*"),
+									wxFD_OPEN | wxFD_FILE_MUST_EXIST | wxFD_MULTIPLE);
 
   SavePFIFileDialogClobber =
-      new wxFileDialog(this, wxT("Choose a file"), wxEmptyString, wxEmptyString, wxT("PFI Files (*pfi*.bin)|*pfi*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"), wxFD_SAVE);
+	  new wxFileDialog(this, wxT("Choose a file"), wxEmptyString, wxEmptyString, wxT("PFI Files (*pfi*.bin)|*pfi*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"), wxFD_SAVE);
 
   OpenSSFileDialog = new wxFileDialog(this,
-                                      wxT("Choose a file"),
-                                      wxEmptyString,
-                                      wxEmptyString,
-                                      wxT("SS Files (*ss*.bin)|*ss*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
-                                      wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+									  wxT("Choose a file"),
+									  wxEmptyString,
+									  wxEmptyString,
+									  wxT("SS Files (*ss*.bin)|*ss*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
+									  wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
   OpenPFIFileDialog = new wxFileDialog(this,
-                                       wxT("Choose a file"),
-                                       wxEmptyString,
-                                       wxEmptyString,
-                                       wxT("PFI Files (*pfi*.bin)|*pfi*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
-                                       wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+									   wxT("Choose a file"),
+									   wxEmptyString,
+									   wxEmptyString,
+									   wxT("PFI Files (*pfi*.bin)|*pfi*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
+									   wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
   SaveDMIFileDialog = new wxFileDialog(this,
-                                       wxT("Choose a file"),
-                                       wxEmptyString,
-                                       wxEmptyString,
-                                       wxT("DMI Files (*dmi*.bin)|*dmi*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
-                                       wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+									   wxT("Choose a file"),
+									   wxEmptyString,
+									   wxEmptyString,
+									   wxT("DMI Files (*dmi*.bin)|*dmi*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
+									   wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 
   SaveVideoFileDialogClobber =
-      new wxFileDialog(this, wxT("Choose a file"), wxEmptyString, wxEmptyString, wxT("Video Files (*video*.iso)|*video*.iso|ISO Files (*.iso)|*.iso|All Files (*.*)|*.*"), wxFD_SAVE);
+	  new wxFileDialog(this, wxT("Choose a file"), wxEmptyString, wxEmptyString, wxT("Video Files (*video*.iso)|*video*.iso|ISO Files (*.iso)|*.iso|All Files (*.*)|*.*"), wxFD_SAVE);
 
   OpenDMIFileDialog = new wxFileDialog(this,
-                                       wxT("Choose a file"),
-                                       wxEmptyString,
-                                       wxEmptyString,
-                                       wxT("DMI Files (*dmi*.bin)|*dmi*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
-                                       wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+									   wxT("Choose a file"),
+									   wxEmptyString,
+									   wxEmptyString,
+									   wxT("DMI Files (*dmi*.bin)|*dmi*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
+									   wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
   SavePFIFileDialog = new wxFileDialog(this,
-                                       wxT("Choose a file"),
-                                       wxEmptyString,
-                                       wxEmptyString,
-                                       wxT("PFI Files (*pfi*.bin)|*pfi*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
-                                       wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+									   wxT("Choose a file"),
+									   wxEmptyString,
+									   wxEmptyString,
+									   wxT("PFI Files (*pfi*.bin)|*pfi*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
+									   wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 
   SaveHTMLFileDialog =
-      new wxFileDialog(this, wxT("Choose a file"), wxEmptyString, wxEmptyString, wxT("HTML Files (*.html, *.htm)|*.html;*.htm|All Files (*.*)|*.*"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	  new wxFileDialog(this, wxT("Choose a file"), wxEmptyString, wxEmptyString, wxT("HTML Files (*.html, *.htm)|*.html;*.htm|All Files (*.*)|*.*"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 
   SaveTextFileDialog = new wxFileDialog(this, wxT("Choose a file"), wxEmptyString, wxEmptyString, wxT("Text Files (*.txt)|*.txt|All Files (*.*)|*.*"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 
   InputDirDialog = new wxDirDialog(this, wxT("Choose a directory"), wxEmptyString);
 
   SaveDMIFileDialogClobber =
-      new wxFileDialog(this, wxT("Choose a file"), wxEmptyString, wxEmptyString, wxT("DMI Files (*dmi*.bin)|*dmi*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"), wxFD_SAVE);
+	  new wxFileDialog(this, wxT("Choose a file"), wxEmptyString, wxEmptyString, wxT("DMI Files (*dmi*.bin)|*dmi*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"), wxFD_SAVE);
 
   SaveSSFileDialogClobber =
-      new wxFileDialog(this, wxT("Choose a file"), wxEmptyString, wxEmptyString, wxT("SS Files (*ss*.bin)|*ss*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"), wxFD_SAVE);
+	  new wxFileDialog(this, wxT("Choose a file"), wxEmptyString, wxEmptyString, wxT("SS Files (*ss*.bin)|*ss*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"), wxFD_SAVE);
 
   SaveSSFileDialog = new wxFileDialog(this,
-                                      wxT("Choose a file"),
-                                      wxEmptyString,
-                                      wxEmptyString,
-                                      wxT("SS Files (*ss*.bin)|*ss*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
-                                      wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+									  wxT("Choose a file"),
+									  wxEmptyString,
+									  wxEmptyString,
+									  wxT("SS Files (*ss*.bin)|*ss*.bin|.bin Files (*.bin)|*.bin|All Files (*.*)|*.*"),
+									  wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 
   this->SetTitle(wxT("abgx360 GUI"));
   this->SetIcon(Self_abgx360gui_XPM);
@@ -465,7 +447,7 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
 
   // wxT("abgx360gui")
   m_folderHistory = new wxFileHistory(9, ID_DIR1);
-  m_folderHistory->UseMenu(ID_MNU_REOPENDIRECTORY_1772_Mnu_Obj);
+  m_folderHistory->UseMenu(p_wx_menu_reopen_directory);
   m_fileConfig->SetPath(wxT("/RecentFolders"));
   m_folderHistory->Load(*m_fileConfig);
   m_fileConfig->SetPath(wxT(".."));
@@ -491,66 +473,66 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   PUCHAR p;
   ULONG i, j;
   for (cDrive='A';cDrive<='Z';cDrive++) {
-      memset(outBuf, 0, 1024);
-      memset(lpDeviceNameBuffer, 0, 1024);
-      sprintf(lpszDrive, "%c:\\", cDrive);
-      // get the drive type, if it's a CD-ROM insert it into the list
-      if (GetDriveType(lpszDrive) == DRIVE_CDROM) {
-          sprintf(lpszDriveForCreateFile, "\\\\.\\%c:", cDrive);
-          hDevice = CreateFile(lpszDriveForCreateFile, GENERIC_READ | GENERIC_WRITE,
-                               FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-          if (hDevice != INVALID_HANDLE_VALUE) {
-              // try to get the device name
-              query.PropertyId = StorageDeviceProperty;
-              query.QueryType = PropertyStandardQuery;
-              if (DeviceIoControl(hDevice, IOCTL_STORAGE_QUERY_PROPERTY, &query,
-                                  sizeof(STORAGE_PROPERTY_QUERY), &outBuf, 1024, &returnedLength, NULL)) {
-                  devDesc = (PSTORAGE_DEVICE_DESCRIPTOR) outBuf;
-                  p = (PUCHAR) outBuf;
-                  j = 0;
-                  if (devDesc->VendorIdOffset && p[devDesc->VendorIdOffset]) {
-                      for (i = devDesc->VendorIdOffset; p[i] != (UCHAR) NULL && i < returnedLength; i++) {
-                          lpDeviceNameBuffer[j] = (CHAR) p[i];
-                          j++;
-                      }
-                      // backspace over trailing spaces
-                      for (i=j-1;i>0;i--) {
-                          if (lpDeviceNameBuffer[i] == ' ') j--;
-                          else break;
-                      }
-                      lpDeviceNameBuffer[j] = ' ';
-                      j++;
-                  }
-                  if (devDesc->ProductIdOffset && p[devDesc->ProductIdOffset]) {
-                      for (i = devDesc->ProductIdOffset; p[i] != (UCHAR) NULL && i < returnedLength; i++) {
-                          lpDeviceNameBuffer[j] = (CHAR) p[i];
-                          j++;
-                      }
-                      for (i=j-1;i>0;i--) {
-                          if (lpDeviceNameBuffer[i] == ' ') j--;
-                          else break;
-                      }
-                      lpDeviceNameBuffer[j] = ' ';
-                      j++;
-                  }
-                  if (devDesc->ProductRevisionOffset && p[devDesc->ProductRevisionOffset]) {
-                      for (i = devDesc->ProductRevisionOffset; p[i] != (UCHAR) NULL && i < returnedLength; i++) {
-                          lpDeviceNameBuffer[j] = (CHAR) p[i];
-                          j++;
-                      }
-                      for (i=j-1;i>0;i--) {
-                          if (lpDeviceNameBuffer[i] == ' ') j--;
-                          else break;
-                      }
-                  }
-                  lpDeviceNameBuffer[j] = 0x0;
-              }
-              CloseHandle(hDevice);
-          }
-          if (strlen(lpDeviceNameBuffer)) volumestuff.Printf(wxT("%s (%c:)"), lpDeviceNameBuffer, cDrive);
-          else volumestuff.Printf(wxT("(%c:)"), cDrive);
-          arrayStringFor_DriveChoice.Add(wxT(volumestuff));
-      }
+	  memset(outBuf, 0, 1024);
+	  memset(lpDeviceNameBuffer, 0, 1024);
+	  sprintf(lpszDrive, "%c:\\", cDrive);
+	  // get the drive type, if it's a CD-ROM insert it into the list
+	  if (GetDriveType(lpszDrive) == DRIVE_CDROM) {
+		  sprintf(lpszDriveForCreateFile, "\\\\.\\%c:", cDrive);
+		  hDevice = CreateFile(lpszDriveForCreateFile, GENERIC_READ | GENERIC_WRITE,
+							   FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+		  if (hDevice != INVALID_HANDLE_VALUE) {
+			  // try to get the device name
+			  query.PropertyId = StorageDeviceProperty;
+			  query.QueryType = PropertyStandardQuery;
+			  if (DeviceIoControl(hDevice, IOCTL_STORAGE_QUERY_PROPERTY, &query,
+								  sizeof(STORAGE_PROPERTY_QUERY), &outBuf, 1024, &returnedLength, NULL)) {
+				  devDesc = (PSTORAGE_DEVICE_DESCRIPTOR) outBuf;
+				  p = (PUCHAR) outBuf;
+				  j = 0;
+				  if (devDesc->VendorIdOffset && p[devDesc->VendorIdOffset]) {
+					  for (i = devDesc->VendorIdOffset; p[i] != (UCHAR) NULL && i < returnedLength; i++) {
+						  lpDeviceNameBuffer[j] = (CHAR) p[i];
+						  j++;
+					  }
+					  // backspace over trailing spaces
+					  for (i=j-1;i>0;i--) {
+						  if (lpDeviceNameBuffer[i] == ' ') j--;
+						  else break;
+					  }
+					  lpDeviceNameBuffer[j] = ' ';
+					  j++;
+				  }
+				  if (devDesc->ProductIdOffset && p[devDesc->ProductIdOffset]) {
+					  for (i = devDesc->ProductIdOffset; p[i] != (UCHAR) NULL && i < returnedLength; i++) {
+						  lpDeviceNameBuffer[j] = (CHAR) p[i];
+						  j++;
+					  }
+					  for (i=j-1;i>0;i--) {
+						  if (lpDeviceNameBuffer[i] == ' ') j--;
+						  else break;
+					  }
+					  lpDeviceNameBuffer[j] = ' ';
+					  j++;
+				  }
+				  if (devDesc->ProductRevisionOffset && p[devDesc->ProductRevisionOffset]) {
+					  for (i = devDesc->ProductRevisionOffset; p[i] != (UCHAR) NULL && i < returnedLength; i++) {
+						  lpDeviceNameBuffer[j] = (CHAR) p[i];
+						  j++;
+					  }
+					  for (i=j-1;i>0;i--) {
+						  if (lpDeviceNameBuffer[i] == ' ') j--;
+						  else break;
+					  }
+				  }
+				  lpDeviceNameBuffer[j] = 0x0;
+			  }
+			  CloseHandle(hDevice);
+		  }
+		  if (strlen(lpDeviceNameBuffer)) volumestuff.Printf(wxT("%s (%c:)"), lpDeviceNameBuffer, cDrive);
+		  else volumestuff.Printf(wxT("(%c:)"), cDrive);
+		  arrayStringFor_DriveChoice.Add(wxT(volumestuff));
+	  }
   }
   DriveChoice = new wxChoice(InputPanel, ID_DRIVECHOICE, wxPoint(2,30), wxSize(475,23), arrayStringFor_DriveChoice, 0, wxDefaultValidator, wxT("DriveChoice"));
   DriveChoice->Show(false);
@@ -574,17 +556,17 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   // load default settings if they exist
   m_fileConfig->SetPath(wxT("/Settings"));
   if (m_fileConfig->HasGroup(wxT("Default"))) {
-    m_fileConfig->SetPath(wxT("Default"));
-    doLoadSettings();
-    m_fileConfig->SetPath(wxT(".."));
+	m_fileConfig->SetPath(wxT("Default"));
+	doLoadSettings();
+	m_fileConfig->SetPath(wxT(".."));
   } else {
-    wxString str;
-    long dummy;
-    if (!m_fileConfig->GetFirstGroup(str, dummy)) {
-      // no settings to load/delete
-      WxMenuBar1->Enable(ID_MNU_LOADSETTINGS_1743, false);
-      WxMenuBar1->Enable(ID_MNU_DELETESETTINGS_1750, false);
-    }
+	wxString str;
+	long dummy;
+	if (!m_fileConfig->GetFirstGroup(str, dummy)) {
+	  // no settings to load/delete
+	  wx_menu_bar->Enable(ID_WX_MENU_LOAD_SETTINGS, false);
+	  wx_menu_bar->Enable(ID_WX_MENU_DELETE_SETTINGS, false);
+	}
   }
   m_fileConfig->SetPath(wxT(".."));
 
@@ -625,8 +607,8 @@ wxPanel *abgx360gui::generate_page_autofix(wxWindow *parent) {
   auto *sizer_left = new wxBoxSizer(wxVERTICAL);
 
   AutoFixTip = new InfoTip(panel,
-                           InfoTip_BITMAP,
-                           wxT("Choose the threshold at which abgx360 will attempt to find verified stealth files and automatically patch them if found. Level 1 or 2 is recommended for your own rips and Level 3 is recommended for someone else's rips that you don't fully trust."));
+						   InfoTip_BITMAP,
+						   wxT("Choose the threshold at which abgx360 will attempt to find verified stealth files and automatically patch them if found. Level 1 or 2 is recommended for your own rips and Level 3 is recommended for someone else's rips that you don't fully trust."));
   AutoFixText = new wxStaticText(panel, wxID_ANY, wxT("AutoFix Threshold:"));
   wxArrayString arrayStringFor_AutoFix;
   arrayStringFor_AutoFix.Add(wxT("Level 3 - AutoFix if stealth passes but fails verification"));
@@ -646,20 +628,20 @@ wxPanel *abgx360gui::generate_page_autofix(wxWindow *parent) {
 
   FixAngle359 = new wxCheckBox(ss_sizer->GetStaticBox(), wxID_ANY, wxT("Adjust SS v1 angle 359 for iXtreme < v1.4"));
   FixAngle359Tip = new InfoTip(ss_sizer->GetStaticBox(),
-                               InfoTip_BITMAP,
-                               wxT("iXtreme versions previous to v1.4 have a bug that will cause a valid angle of 359 degrees to be jittered to an invalid angle of 360 degrees (NOT safe for XBL). It is recommended to upgrade your firmware to the latest iXtreme version to fix this issue instead of relying on this option, but enabling it will adjust 359 to 0 for compatibility with older firmwares. Also note that enabling this option is harmless on newer firmwares (iXtreme v1.4 and later) as it merely changes the SS v1 angle deviation by 1 degree."));
+							   InfoTip_BITMAP,
+							   wxT("iXtreme versions previous to v1.4 have a bug that will cause a valid angle of 359 degrees to be jittered to an invalid angle of 360 degrees (NOT safe for XBL). It is recommended to upgrade your firmware to the latest iXtreme version to fix this issue instead of relying on this option, but enabling it will adjust 359 to 0 for compatibility with older firmwares. Also note that enabling this option is harmless on newer firmwares (iXtreme v1.4 and later) as it merely changes the SS v1 angle deviation by 1 degree."));
   ss_sizer->Add(generate_box_sizer_with_controls({FixAngle359, FixAngle359Tip}), wxSizerFlags().Expand());
 
   FixDRTTip = new InfoTip(ss_sizer->GetStaticBox(),
-                          InfoTip_BITMAP,
-                          wxT("abgx360 decrypts the host's CCRT (Crypted Challenge Response Table) and combines it with the drive's deobfuscated table in order to validate or invalidate the data stored in an additional table used by hacked firmwares to replay responses to challenges issued by the host. Some invalid conditions can't or shouldn't be fixed, but enabling this option will fix the most common conditions like missing C/R data caused by old buggy ripping firmwares or worn out drives. This data is always checked whether this option is enabled or not and an error message will appear if any data is missing or invalid. This option applies to SS v1 only and has no effect on SS v2."));
+						  InfoTip_BITMAP,
+						  wxT("abgx360 decrypts the host's CCRT (Crypted Challenge Response Table) and combines it with the drive's deobfuscated table in order to validate or invalidate the data stored in an additional table used by hacked firmwares to replay responses to challenges issued by the host. Some invalid conditions can't or shouldn't be fixed, but enabling this option will fix the most common conditions like missing C/R data caused by old buggy ripping firmwares or worn out drives. This data is always checked whether this option is enabled or not and an error message will appear if any data is missing or invalid. This option applies to SS v1 only and has no effect on SS v2."));
   FixDRT = new wxCheckBox(ss_sizer->GetStaticBox(), wxID_ANY, wxT("Fix C/R Table if data is invalid"));
   FixDRT->SetValue(true);
   ss_sizer->Add(generate_box_sizer_with_controls({FixDRT, FixDRTTip}), wxSizerFlags().Expand());
 
   FixBadAnglesTip = new InfoTip(ss_sizer->GetStaticBox(),
-                                InfoTip_BITMAP,
-                                wxT("Enabling this option will adjust the replay angles for Challenge Types 24 and 25 (Response Types 7 and 5) back to their CCRT targets if they deviate more than X degrees (default = 3). See \"Angle Deviation and You\" under the Quickstart tab for more on this. Deviation is always checked whether this option is enabled or not and a warning message will appear if any angle deviates more than 3 degrees (message is yellow - stealth is uncertain) or 9 degrees (message is red - stealth failed). This option applies to SS v1 only and has no effect on SS v2."));
+								InfoTip_BITMAP,
+								wxT("Enabling this option will adjust the replay angles for Challenge Types 24 and 25 (Response Types 7 and 5) back to their CCRT targets if they deviate more than X degrees (default = 3). See \"Angle Deviation and You\" under the Quickstart tab for more on this. Deviation is always checked whether this option is enabled or not and a warning message will appear if any angle deviates more than 3 degrees (message is yellow - stealth is uncertain) or 9 degrees (message is red - stealth failed). This option applies to SS v1 only and has no effect on SS v2."));
   FixBadAngles = new wxCheckBox(ss_sizer->GetStaticBox(), wxID_ANY, wxT("Adjust angles that deviate more than"));
   FixBadAngles->SetValue(true);
   wxArrayString arrayStringFor_FixBadAnglesValue;
@@ -707,7 +689,7 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
   // //////
 
   PatchIfStealthPassesTip =
-      new InfoTip(panel, InfoTip_BITMAP, wxT("The default behavior is to patch only if stealth fails and isn't AutoFixed, or stealth is uncertain and isn't verified/AutoFixed"));
+	  new InfoTip(panel, InfoTip_BITMAP, wxT("The default behavior is to patch only if stealth fails and isn't AutoFixed, or stealth is uncertain and isn't verified/AutoFixed"));
   PatchIfStealthPasses = new wxCheckBox(panel, wxID_ANY, wxT("Patch even if stealth passes"), wxDefaultPosition, wxDefaultSize);
   sizer_left->Add(generate_box_sizer_with_controls({PatchIfStealthPasses, PatchIfStealthPassesTip}), wxSizerFlags().Expand());
 
@@ -717,32 +699,32 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
   PatchVideo = new wxCheckBox(panel, wxID_ANY, wxT("Patch Video"), wxDefaultPosition, wxDefaultSize);
   PatchVideoEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
   PatchVideoEditBox->Enable(false);
-  wxBitmap PatchVideoOpenButton_BITMAP(abgx360gui_PatchVideoOpenButton_XPM);
-  PatchVideoOpenButton = new wxBitmapButton(panel, wxID_ANY, PatchVideoOpenButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+
+  PatchVideoOpenButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_PatchVideoOpenButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   PatchVideoOpenButton->Enable(false);
   sizer_left->Add(generate_box_sizer_with_controls({PatchVideo, PatchVideoEditBox, PatchVideoOpenButton}), wxSizerFlags().Expand());
 
   PatchPFI = new wxCheckBox(panel, wxID_ANY, wxT("Patch PFI"), wxDefaultPosition, wxDefaultSize);
   PatchPFIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
   PatchPFIEditBox->Enable(false);
-  wxBitmap PatchPFIOpenButton_BITMAP(abgx360gui_PatchPFIOpenButton_XPM);
-  PatchPFIOpenButton = new wxBitmapButton(panel, wxID_ANY, PatchPFIOpenButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+
+  PatchPFIOpenButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_PatchPFIOpenButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   PatchPFIOpenButton->Enable(false);
   sizer_left->Add(generate_box_sizer_with_controls({PatchPFI, PatchPFIEditBox, PatchPFIOpenButton}), wxSizerFlags().Expand());
 
   PatchDMI = new wxCheckBox(panel, wxID_ANY, wxT("Patch DMI"), wxDefaultPosition, wxDefaultSize);
   PatchDMIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
   PatchDMIEditBox->Enable(false);
-  wxBitmap PatchDMIOpenButton_BITMAP(abgx360gui_PatchDMIOpenButton_XPM);
-  PatchDMIOpenButton = new wxBitmapButton(panel, wxID_ANY, PatchDMIOpenButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+
+  PatchDMIOpenButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_PatchDMIOpenButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   PatchDMIOpenButton->Enable(false);
   sizer_left->Add(generate_box_sizer_with_controls({PatchDMI, PatchDMIEditBox, PatchDMIOpenButton}), wxSizerFlags().Expand());
 
   PatchSS = new wxCheckBox(panel, wxID_ANY, wxT("Patch SS"), wxDefaultPosition, wxDefaultSize);
   PatchSSEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
   PatchSSEditBox->Enable(false);
-  wxBitmap PatchSSOpenButton_BITMAP(abgx360gui_PatchSSOpenButton_XPM);
-  PatchSSOpenButton = new wxBitmapButton(panel, wxID_ANY, PatchSSOpenButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator);
+
+  PatchSSOpenButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_PatchSSOpenButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator);
   PatchSSOpenButton->Enable(false);
   sizer_left->Add(generate_box_sizer_with_controls({PatchSS, PatchSSEditBox, PatchSSOpenButton}), wxSizerFlags().Expand());
 
@@ -756,8 +738,8 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
   ExtractVideo = new wxCheckBox(panel, wxID_ANY, wxT("Extract Video"), wxDefaultPosition, wxDefaultSize);
   ExtractVideoEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
   ExtractVideoEditBox->Enable(false);
-  wxBitmap ExtractVideoSaveButton_BITMAP(abgx360gui_ExtractVideoSaveButton_XPM);
-  ExtractVideoSaveButton = new wxBitmapButton(panel, wxID_ANY, ExtractVideoSaveButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+
+  ExtractVideoSaveButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_ExtractVideoSaveButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   ExtractVideoSaveButton->Enable(false);
   sizer_right->Add(generate_box_sizer_with_controls({ExtractVideo, ExtractVideoEditBox, ExtractVideoSaveButton}), wxSizerFlags().Expand());
 
@@ -768,24 +750,24 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
   ExtractPFI = new wxCheckBox(panel, wxID_ANY, wxT("Extract PFI"), wxDefaultPosition, wxDefaultSize);
   ExtractPFIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
   ExtractPFIEditBox->Enable(false);
-  wxBitmap ExtractPFISaveButton_BITMAP(abgx360gui_ExtractPFISaveButton_XPM);
-  ExtractPFISaveButton = new wxBitmapButton(panel, wxID_ANY, ExtractPFISaveButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+
+  ExtractPFISaveButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_ExtractPFISaveButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   ExtractPFISaveButton->Enable(false);
   sizer_right->Add(generate_box_sizer_with_controls({ExtractPFI, ExtractPFIEditBox, ExtractPFISaveButton}), wxSizerFlags().Expand());
 
   ExtractDMI = new wxCheckBox(panel, wxID_ANY, wxT("Extract DMI"), wxDefaultPosition, wxDefaultSize);
   ExtractDMIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
   ExtractDMIEditBox->Enable(false);
-  wxBitmap ExtractDMISaveButton_BITMAP(abgx360gui_ExtractDMISaveButton_XPM);
-  ExtractDMISaveButton = new wxBitmapButton(panel, wxID_ANY, ExtractDMISaveButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+
+  ExtractDMISaveButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_ExtractDMISaveButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   ExtractDMISaveButton->Enable(false);
   sizer_right->Add(generate_box_sizer_with_controls({ExtractDMI, ExtractDMIEditBox, ExtractDMISaveButton}), wxSizerFlags().Expand());
 
   ExtractSS = new wxCheckBox(panel, wxID_ANY, wxT("Extract SS"), wxDefaultPosition, wxDefaultSize);
   ExtractSSEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
   ExtractSSEditBox->Enable(false);
-  wxBitmap ExtractSSSaveButton_BITMAP(abgx360gui_ExtractSSSaveButton_XPM);
-  ExtractSSSaveButton = new wxBitmapButton(panel, wxID_ANY, ExtractSSSaveButton_BITMAP, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+
+  ExtractSSSaveButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_ExtractSSSaveButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   ExtractSSSaveButton->Enable(false);
   sizer_right->Add(generate_box_sizer_with_controls({ExtractSS, ExtractSSEditBox, ExtractSSSaveButton}), wxSizerFlags().Expand());
 
@@ -811,8 +793,8 @@ wxPanel *abgx360gui::generate_page_misc(wxWindow *parent) {
   auto *sizer_left = new wxBoxSizer(wxVERTICAL);
 
   MyRegionTip = new InfoTip(panel,
-                            InfoTip_BITMAP,
-                            wxT("Optionally enter your console's region so abgx360 can display your game's region code in the appropriate color. If a game won't work on your console, the region code will be displayed in red so you won't overlook it and accidentally burn it. You can select multiple regions if you have multiple consoles."));
+							InfoTip_BITMAP,
+							wxT("Optionally enter your console's region so abgx360 can display your game's region code in the appropriate color. If a game won't work on your console, the region code will be displayed in red so you won't overlook it and accidentally burn it. You can select multiple regions if you have multiple consoles."));
   MyRegion = new wxStaticText(panel, wxID_ANY, wxT("Your console's region code:"), wxDefaultPosition, wxDefaultSize);
   MyRegionEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
   MyRegionEditBox->SetMaxLength(8);
@@ -820,8 +802,8 @@ wxPanel *abgx360gui::generate_page_misc(wxWindow *parent) {
   sizer_left->Add(generate_box_sizer_with_controls({MyRegion, MyRegionEditBox, MyRegionButton, MyRegionTip}), wxSizerFlags().Expand());
 
   PreferredLangTip = new InfoTip(panel,
-                                 InfoTip_BITMAP,
-                                 wxT("This will be the preferred language used when abgx360 displays strings from the Xex title resource such as the game description, achievements, avatar awards, etc. Languages that rely heavily on unicode characters are best viewed using HTML output. If the game does not support your preferred language, abgx360 will use the English language strings. Set the Verbosity Level under the Options tab to High if you want to see which languages are supported by an Xex."));
+								 InfoTip_BITMAP,
+								 wxT("This will be the preferred language used when abgx360 displays strings from the Xex title resource such as the game description, achievements, avatar awards, etc. Languages that rely heavily on unicode characters are best viewed using HTML output. If the game does not support your preferred language, abgx360 will use the English language strings. Set the Verbosity Level under the Options tab to High if you want to see which languages are supported by an Xex."));
   PreferredLangText = new wxStaticText(panel, wxID_ANY, wxT("Preferred Language:"), wxDefaultPosition, wxDefaultSize);
   wxArrayString arrayStringFor_PreferredLangChoice;
   arrayStringFor_PreferredLangChoice.Add(wxT("English"));
@@ -859,8 +841,8 @@ wxPanel *abgx360gui::generate_page_misc(wxWindow *parent) {
   XexImages->SetSelection(0);
   EmbedImages = new wxCheckBox(panel, wxID_ANY, wxT("Embed them in HTML"), wxDefaultPosition, wxDefaultSize);
   ImagesTip = new InfoTip(panel,
-                          InfoTip_BITMAP,
-                          wxT("This refers to the game icon, achievement icons and gamer pictures located within the Xex title resource. Images are extracted to your \"Images\" folder (Press Ctrl+I to find it) with filename \"Title ID-Image ID.png\" (the Title ID will always be displayed when extracting images so that you can find them easily; also note that the game icon will always be Image ID 00008000). Images are only displayed by abgx360 when using HTML output, but you can choose to extract them always if you're using them for your own purpose. Note that not every Xex has a title resource (most bonus discs don't) and therefore images (as well as various strings and achievements) are not always available." NEWLINE NEWLINE "You can optionally choose to embed them in the HTML source code as data URIs for better portability (when using HTML output), otherwise the HTML source will contain absolute links to the images in your local \"Images\" folder."));
+						  InfoTip_BITMAP,
+						  wxT("This refers to the game icon, achievement icons and gamer pictures located within the Xex title resource. Images are extracted to your \"Images\" folder (Press Ctrl+I to find it) with filename \"Title ID-Image ID.png\" (the Title ID will always be displayed when extracting images so that you can find them easily; also note that the game icon will always be Image ID 00008000). Images are only displayed by abgx360 when using HTML output, but you can choose to extract them always if you're using them for your own purpose. Note that not every Xex has a title resource (most bonus discs don't) and therefore images (as well as various strings and achievements) are not always available." NEWLINE NEWLINE "You can optionally choose to embed them in the HTML source code as data URIs for better portability (when using HTML output), otherwise the HTML source will contain absolute links to the images in your local \"Images\" folder."));
   sizer_left->Add(generate_box_sizer_with_controls({XexImagesText, XexImages, EmbedImages, ImagesTip}), wxSizerFlags().Expand());
 
   WxStaticText10 = new wxStaticText(panel, wxID_ANY, wxT("Add extra command line options here (for advanced users only):"), wxDefaultPosition, wxDefaultSize);
@@ -891,29 +873,29 @@ wxPanel *abgx360gui::generate_page_options(wxWindow *parent) {
   // //////
 
   CheckDVDFileTip = new InfoTip(panel,
-                                InfoTip_BITMAP,
-                                wxT("Checks that your ISO has a matching .dvd file with the correct layerbreak and iso filename and corrects it if not. If the .dvd file does not exist, it is created."));
+								InfoTip_BITMAP,
+								wxT("Checks that your ISO has a matching .dvd file with the correct layerbreak and iso filename and corrects it if not. If the .dvd file does not exist, it is created."));
   CheckDVDFile = new wxCheckBox(panel, wxID_ANY, wxT("Check/Create .dvd file"), wxDefaultPosition, wxDefaultSize);
   CheckDVDFile->SetValue(true);
   sizer_left->Add(generate_box_sizer_with_controls({CheckDVDFile, CheckDVDFileTip}), wxSizerFlags().Expand());
 
   CheckStealthTip = new InfoTip(panel,
-                                InfoTip_BITMAP,
-                                wxT("Checks that your game appears to have a valid SS (which is required for it to boot on ANY firmware) and appears to have valid stealth files which match the Xex (which are required for it to boot on iXtreme firmware)."));
+								InfoTip_BITMAP,
+								wxT("Checks that your game appears to have a valid SS (which is required for it to boot on ANY firmware) and appears to have valid stealth files which match the Xex (which are required for it to boot on iXtreme firmware)."));
   CheckStealth = new wxCheckBox(panel, wxID_ANY, wxT("Check Stealth"), wxDefaultPosition, wxDefaultSize);
   CheckStealth->SetValue(true);
   sizer_left->Add(generate_box_sizer_with_controls({CheckStealth, CheckStealthTip}), wxSizerFlags().Expand());
 
   VerifyTip = new InfoTip(panel,
-                          InfoTip_BITMAP,
-                          wxT("Verifies that your SS, stealth files and game data match a verified rip in the abgx360 online database. (Do not confuse this with the abgx.net database; that's just a database of scene releases and has nothing to do with verification.) In order for a rip to become verified in the abgx360 database there must be two different uploads from rips which match in every way except for the RawSS CRC (which changes every time you rip a disc due to angle deviation). Verification will fail if no one has uploaded rips which share your Xex/SS/DMI combination (which changes for discs pressed on different equipment and from different masters). It shouldn't worry you if verification fails on your own rip; in that case you should be fine as long as stealth passes, AnyDVD corruption is not detected and your system is stable. However, if you're checking someone else's rip that you don't fully trust then it's recommended to set AutoFix to Level 3, and if verification fails, abgx360 will attempt to find a new set of verified stealth files that match your Xex (and automatically patch them if found)."));
+						  InfoTip_BITMAP,
+						  wxT("Verifies that your SS, stealth files and game data match a verified rip in the abgx360 online database. (Do not confuse this with the abgx.net database; that's just a database of scene releases and has nothing to do with verification.) In order for a rip to become verified in the abgx360 database there must be two different uploads from rips which match in every way except for the RawSS CRC (which changes every time you rip a disc due to angle deviation). Verification will fail if no one has uploaded rips which share your Xex/SS/DMI combination (which changes for discs pressed on different equipment and from different masters). It shouldn't worry you if verification fails on your own rip; in that case you should be fine as long as stealth passes, AnyDVD corruption is not detected and your system is stable. However, if you're checking someone else's rip that you don't fully trust then it's recommended to set AutoFix to Level 3, and if verification fails, abgx360 will attempt to find a new set of verified stealth files that match your Xex (and automatically patch them if found)."));
   Verify = new wxCheckBox(panel, wxID_ANY, wxT("Verify if Stealth passes"), wxDefaultPosition, wxDefaultSize);
   Verify->SetValue(true);
   sizer_left->Add(generate_box_sizer_with_controls({Verify, VerifyTip}), wxSizerFlags().Expand());
 
   CheckVideoPaddingTip = new InfoTip(panel,
-                                     InfoTip_BITMAP,
-                                     wxT("Checks that Video partitions are zero padded and pads them with zeros if not. This does not affect stealth and is most definitely a waste of time because whatever data is in the padding area is not even visible to the Xbox 360 host. So it doesn't matter if you enable this option or not, but you'll save some time if you leave it disabled. This should not be confused with the random padding check which is always performed on the game partition; that data IS visible to the Xbox 360 host and an ISO without random padding in the game partition will probably not even boot."));
+									 InfoTip_BITMAP,
+									 wxT("Checks that Video partitions are zero padded and pads them with zeros if not. This does not affect stealth and is most definitely a waste of time because whatever data is in the padding area is not even visible to the Xbox 360 host. So it doesn't matter if you enable this option or not, but you'll save some time if you leave it disabled. This should not be confused with the random padding check which is always performed on the game partition; that data IS visible to the Xbox 360 host and an ISO without random padding in the game partition will probably not even boot."));
   CheckVideoPadding = new wxCheckBox(panel, wxID_ANY, wxT("Check/Fix Video padding"), wxDefaultPosition, wxDefaultSize);
   sizer_left->Add(generate_box_sizer_with_controls({CheckVideoPadding, CheckVideoPaddingTip}), wxSizerFlags().Expand());
 
@@ -938,8 +920,8 @@ wxPanel *abgx360gui::generate_page_options(wxWindow *parent) {
   // //////
 
   CheckCorruptionTip = new InfoTip(panel,
-                                   InfoTip_BITMAP,
-                                   wxT("Searches game data sectors for video files inserted by AnyDVD or any other application that does on-the-fly DVD copy protection removal. This check is performed automatically whenever the game CRC is checked so the only purpose of this option is to cause a game CRC check if nothing else did. See \"What is AnyDVD style corruption\" under the Quickstart tab for more info on game data corruption."));
+								   InfoTip_BITMAP,
+								   wxT("Searches game data sectors for video files inserted by AnyDVD or any other application that does on-the-fly DVD copy protection removal. This check is performed automatically whenever the game CRC is checked so the only purpose of this option is to cause a game CRC check if nothing else did. See \"What is AnyDVD style corruption\" under the Quickstart tab for more info on game data corruption."));
   CheckCorruption = new wxCheckBox(panel, wxID_ANY, wxT("Check for AnyDVD style game data corruption"), wxDefaultPosition, wxDefaultSize);
   sizer_right->Add(generate_box_sizer_with_controls({CheckCorruption, CheckCorruptionTip}), wxSizerFlags().Expand());
 
@@ -947,8 +929,8 @@ wxPanel *abgx360gui::generate_page_options(wxWindow *parent) {
   sizer_right->Add(DisplayFilesystem, wxSizerFlags().Expand());
 
   CheckForUpdatesTip = new InfoTip(panel,
-                                   InfoTip_BITMAP,
-                                   wxT("\"Check for updates\" will check for updates to abgx360.dat, which contains things like the latest version available and the most current known PFI/Video wave exceptions. Disabling this option is not recommended because you won't be notified when a new version of abgx360 is available and abgx360 might not be using the latest list of PFI/Video exceptions." NEWLINE NEWLINE "The \"Include the CSV\" option will check for updates to GameNameLookup.csv, which is used to look up the full verbose game name entered in the online database. This isn't really necessary since abgx360 can retrieve the game name directly from the default.xex, but you may still find it useful when the Xex's game name is heavily abbreviated (developers can only use a maximum of 22 characters) or there's no title resource present, or maybe you're just checking SS/DMI files and would like to know which game they're from."));
+								   InfoTip_BITMAP,
+								   wxT("\"Check for updates\" will check for updates to abgx360.dat, which contains things like the latest version available and the most current known PFI/Video wave exceptions. Disabling this option is not recommended because you won't be notified when a new version of abgx360 is available and abgx360 might not be using the latest list of PFI/Video exceptions." NEWLINE NEWLINE "The \"Include the CSV\" option will check for updates to GameNameLookup.csv, which is used to look up the full verbose game name entered in the online database. This isn't really necessary since abgx360 can retrieve the game name directly from the default.xex, but you may still find it useful when the Xex's game name is heavily abbreviated (developers can only use a maximum of 22 characters) or there's no title resource present, or maybe you're just checking SS/DMI files and would like to know which game they're from."));
   OnlineUpdate = new wxCheckBox(panel, wxID_ANY, wxT("Check for updates"), wxDefaultPosition, wxDefaultSize);
   OnlineUpdate->SetHelpText(wxT("Download updated versions of GameNameLookup.csv and abgx360.dat from the online database if newer than existing files"));
   OnlineUpdate->SetValue(true);
@@ -960,8 +942,8 @@ wxPanel *abgx360gui::generate_page_options(wxWindow *parent) {
   sizer_right->Add(StayOffline, wxSizerFlags().Expand());
 
   GameCRCTip = new InfoTip(panel,
-                           InfoTip_BITMAP,
-                           wxT("Checks the game data CRC if a verified ini is found to make sure that your game data isn't corrupt. Disabling this option is not recommended. If you want the game CRC to be checked always, you should also enable the option \"Check for AnyDVD style game data corruption\", which will cause a game CRC check if nothing else did and will search for the obvious signs of AnyDVD style corruption. This is the only good reason why you'd want to check the game CRC always, but note that in order for other types of corruption to be detected (for example: single bit errors commonly caused by unstable CPU/RAM), a verified ini must be found."));
+						   InfoTip_BITMAP,
+						   wxT("Checks the game data CRC if a verified ini is found to make sure that your game data isn't corrupt. Disabling this option is not recommended. If you want the game CRC to be checked always, you should also enable the option \"Check for AnyDVD style game data corruption\", which will cause a game CRC check if nothing else did and will search for the obvious signs of AnyDVD style corruption. This is the only good reason why you'd want to check the game CRC always, but note that in order for other types of corruption to be detected (for example: single bit errors commonly caused by unstable CPU/RAM), a verified ini must be found."));
   CheckGameCRCWhenNeeded = new wxCheckBox(panel, wxID_ANY, wxT("Check Game Partition CRC when needed"), wxDefaultPosition, wxDefaultSize);
   CheckGameCRCWhenNeeded->SetValue(true);
   sizer_right->Add(generate_box_sizer_with_controls({CheckGameCRCWhenNeeded, GameCRCTip}), wxSizerFlags().Expand());
@@ -1035,7 +1017,7 @@ wxPanel *abgx360gui::generate_page_rebuilding(wxWindow *parent) {
   sizer_left->Add(generate_box_sizer_with_controls({RebuildDefault, RebuildDefaultTip}), wxSizerFlags().Expand());
 
   RebuildLowSpaceTip =
-      new InfoTip(panel, InfoTip_BITMAP, wxT("Only requires 253 MB free space but will corrupt your ISO if it fails during the rebuilding process."), wxDefaultPosition, wxDefaultSize);
+	  new InfoTip(panel, InfoTip_BITMAP, wxT("Only requires 253 MB free space but will corrupt your ISO if it fails during the rebuilding process."), wxDefaultPosition, wxDefaultSize);
   RebuildLowSpace = new wxRadioButton(panel, wxID_ANY, wxT("Low Disk Space Method"), wxDefaultPosition, wxDefaultSize);
   sizer_left->Add(generate_box_sizer_with_controls({RebuildLowSpace, RebuildLowSpaceTip}), wxSizerFlags().Expand());
 
@@ -1061,8 +1043,8 @@ wxPanel *abgx360gui::generate_page_rebuilding(wxWindow *parent) {
 void abgx360gui::MnuSaveSettingsClick(wxCommandEvent &WXUNUSED(event)) {
   wxString name = wxT("/Settings/");
   name += wxGetTextFromUser(wxT("Enter a name for these settings. Saving them as \"Default\" will" NEWLINE"cause them to be loaded every time abgx360 GUI is launched."),
-                            wxT("Save Settings"),
-                            wxT("Default"));
+							wxT("Save Settings"),
+							wxT("Default"));
 
   if (name.Cmp(wxT("/Settings/")) == 0) return;
 
@@ -1075,7 +1057,7 @@ void abgx360gui::MnuSaveSettingsClick(wxCommandEvent &WXUNUSED(event)) {
   m_fileConfig->Write(wxT("MatchOnlyEditBox"), MatchOnlyEditBox->GetValue());
 #ifdef WIN32
   if (arrayStringFor_DriveChoice.GetCount())
-      m_fileConfig->Write(wxT("DriveChoice"), DriveChoice->GetCurrentSelection());
+	  m_fileConfig->Write(wxT("DriveChoice"), DriveChoice->GetCurrentSelection());
 #endif
   m_fileConfig->Write(wxT("WriteDisable"), WriteDisable->IsChecked());
 
@@ -1151,8 +1133,8 @@ void abgx360gui::MnuSaveSettingsClick(wxCommandEvent &WXUNUSED(event)) {
 
   m_fileConfig->SetPath(wxT("../.."));
 
-  WxMenuBar1->Enable(ID_MNU_LOADSETTINGS_1743, true);
-  WxMenuBar1->Enable(ID_MNU_DELETESETTINGS_1750, true);
+  wx_menu_bar->Enable(ID_WX_MENU_LOAD_SETTINGS, true);
+  wx_menu_bar->Enable(ID_WX_MENU_DELETE_SETTINGS, true);
 }
 
 /*
@@ -1170,20 +1152,20 @@ void abgx360gui::MnuDeleteSettingsClick(wxCommandEvent &WXUNUSED(event)) {
   // enumerate all groups
   bool bCont = m_fileConfig->GetFirstGroup(str, dummy);
   while (bCont) {
-    aNames.Add(str);
-    bCont = m_fileConfig->GetNextGroup(str, dummy);
+	aNames.Add(str);
+	bCont = m_fileConfig->GetNextGroup(str, dummy);
   }
 
   wxGetMultipleChoices(aDelete, wxT("Check the box next to any saved settings you want to delete"), wxT("Delete Settings"), aNames);
 
   for (i = 0; i < aDelete.GetCount(); i++) {
-    m_fileConfig->DeleteGroup(aNames[aDelete[i]]);
+	m_fileConfig->DeleteGroup(aNames[aDelete[i]]);
   }
 
   if (!m_fileConfig->GetFirstGroup(str, dummy)) {
-    // no more settings to load/delete
-    WxMenuBar1->Enable(ID_MNU_LOADSETTINGS_1743, false);
-    WxMenuBar1->Enable(ID_MNU_DELETESETTINGS_1750, false);
+	// no more settings to load/delete
+	wx_menu_bar->Enable(ID_WX_MENU_LOAD_SETTINGS, false);
+	wx_menu_bar->Enable(ID_WX_MENU_DELETE_SETTINGS, false);
   }
 
   m_fileConfig->SetPath(wxT(".."));
@@ -1200,7 +1182,7 @@ void abgx360gui::doLoadSettings() {
   MatchOnlyEditBox->SetValue(m_fileConfig->Read(wxT("MatchOnlyEditBox")));
 #ifdef WIN32
   if (m_fileConfig->Read(wxT("DriveChoice"), &l) &&
-      arrayStringFor_DriveChoice.GetCount() > (size_t) l) DriveChoice->SetSelection(l);
+	  arrayStringFor_DriveChoice.GetCount() > (size_t) l) DriveChoice->SetSelection(l);
 #endif
   if (m_fileConfig->Read(wxT("WriteDisable"), &b)) WriteDisable->SetValue(b);
 
@@ -1276,67 +1258,67 @@ void abgx360gui::doLoadSettings() {
 
   // show/hide output options that would normally only be shown/hidden when ProgramOutput is clicked on
   if (ProgramOutput->GetCurrentSelection() == 0) {  // command prompt
-    Maximize->Show();
-    OpenFileWhenDone->Hide();
-    OutputFileEditBox->Enable(false);
-    SaveButton->Enable(false);
+	Maximize->Show();
+	OpenFileWhenDone->Hide();
+	OutputFileEditBox->Enable(false);
+	SaveButton->Enable(false);
   } else {
-    Maximize->Hide();
+	Maximize->Hide();
 #ifndef __APPLE__
-    OpenFileWhenDone->Show();
+	OpenFileWhenDone->Show();
 #endif
-    OutputFileEditBox->Enable(true);
-    SaveButton->Enable(true);
+	OutputFileEditBox->Enable(true);
+	SaveButton->Enable(true);
   }
 
   if (InputChoice->GetCurrentSelection() == 1) {  // directory
-    OpenButton->SetToolTip(wxT("Open Directory"));
-    MatchOnly->Show();
-    MatchOnlyEditBox->Show();
-    MatchOnlyButton->Show();
-    WriteDisable->Show();
+	OpenButton->SetToolTip(wxT("Open Directory"));
+	MatchOnly->Show();
+	MatchOnlyEditBox->Show();
+	MatchOnlyButton->Show();
+	WriteDisable->Show();
 #ifdef WIN32
-    DriveChoice->Hide();
-    InputFileEditBox->Show();
-    OpenButton->Show();
+	DriveChoice->Hide();
+	InputFileEditBox->Show();
+	OpenButton->Show();
 #endif
   }
 #ifdef WIN32
-    else if (InputChoice->GetCurrentSelection() == 2) {  // burned dvd
-        MatchOnly->Hide();
-        MatchOnlyEditBox->Hide();
-        MatchOnlyButton->Hide();
-        DriveChoice->Show();
-        InputFileEditBox->Hide();
-        OpenButton->Hide();
-        WriteDisable->Hide();
-    }
+	else if (InputChoice->GetCurrentSelection() == 2) {  // burned dvd
+		MatchOnly->Hide();
+		MatchOnlyEditBox->Hide();
+		MatchOnlyButton->Hide();
+		DriveChoice->Show();
+		InputFileEditBox->Hide();
+		OpenButton->Hide();
+		WriteDisable->Hide();
+	}
 #endif
-    /*
-    else if (InputChoice->GetCurrentSelection() == 3) {  // original disc
-        WriteDisable->Hide();
-        MatchOnly->Hide();
-        MatchOnlyEditBox->Hide();
-        MatchOnlyButton->Hide();
-        #ifdef WIN32
-            DriveChoice->Show();
-            InputFileEditBox->Hide();
-            OpenButton->Hide();
-        #else
-            OpenButton->SetToolTip(wxT("Open Ripper Device"));
-        #endif
-    }
-    */
+	/*
+	else if (InputChoice->GetCurrentSelection() == 3) {  // original disc
+		WriteDisable->Hide();
+		MatchOnly->Hide();
+		MatchOnlyEditBox->Hide();
+		MatchOnlyButton->Hide();
+		#ifdef WIN32
+			DriveChoice->Show();
+			InputFileEditBox->Hide();
+			OpenButton->Hide();
+		#else
+			OpenButton->SetToolTip(wxT("Open Ripper Device"));
+		#endif
+	}
+	*/
   else {  // file(s)
-    OpenButton->SetToolTip(wxT("Open File(s)"));
-    MatchOnly->Hide();
-    MatchOnlyEditBox->Hide();
-    MatchOnlyButton->Hide();
-    WriteDisable->Show();
+	OpenButton->SetToolTip(wxT("Open File(s)"));
+	MatchOnly->Hide();
+	MatchOnlyEditBox->Hide();
+	MatchOnlyButton->Hide();
+	WriteDisable->Show();
 #ifdef WIN32
-    DriveChoice->Hide();
-    InputFileEditBox->Show();
-    OpenButton->Show();
+	DriveChoice->Hide();
+	InputFileEditBox->Show();
+	OpenButton->Show();
 #endif
   }
 }
@@ -1355,15 +1337,15 @@ void abgx360gui::MnuLoadSettingsClick(wxCommandEvent &WXUNUSED(event)) {
   // enumerate all groups
   bool bCont = m_fileConfig->GetFirstGroup(str, dummy);
   while (bCont) {
-    aNames.Add(str);
-    bCont = m_fileConfig->GetNextGroup(str, dummy);
+	aNames.Add(str);
+	bCont = m_fileConfig->GetNextGroup(str, dummy);
   }
 
   choice = wxGetSingleChoiceIndex(wxT("Choose settings to load"), wxT("Load Settings"), aNames);
 
   if (choice == -1) {
-    m_fileConfig->SetPath(wxT(".."));
-    return;
+	m_fileConfig->SetPath(wxT(".."));
+	return;
   }
 
   m_fileConfig->SetPath(aNames[choice]);
@@ -1372,27 +1354,27 @@ void abgx360gui::MnuLoadSettingsClick(wxCommandEvent &WXUNUSED(event)) {
 }
 
 void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
-  if (m_fileHistory->GetCount()) WxMenuBar1->Enable(ID_MNU_REOPEN_1745, true);
-  else WxMenuBar1->Enable(ID_MNU_REOPEN_1745, false);
-  if (m_folderHistory->GetCount()) WxMenuBar1->Enable(ID_MNU_REOPENDIRECTORY_1772, true);
-  else WxMenuBar1->Enable(ID_MNU_REOPENDIRECTORY_1772, false);
+  if (m_fileHistory->GetCount()) wx_menu_bar->Enable(ID_WX_MENU_REOPEN_FILES, true);
+  else wx_menu_bar->Enable(ID_WX_MENU_REOPEN_FILES, false);
+  if (m_folderHistory->GetCount()) wx_menu_bar->Enable(ID_WX_MENU_REOPEN_DIRECTORY, true);
+  else wx_menu_bar->Enable(ID_WX_MENU_REOPEN_DIRECTORY, false);
 
   if (StayOffline->IsChecked()) {
-    OnlineUpdate->SetValue(false);
-    OnlineUpdate->Enable(false);
+	OnlineUpdate->SetValue(false);
+	OnlineUpdate->Enable(false);
   } else OnlineUpdate->Enable(true);
   if (!OnlineUpdate->IsChecked()) {
-    CSVUpdate->SetValue(false);
-    CSVUpdate->Enable(false);
+	CSVUpdate->SetValue(false);
+	CSVUpdate->Enable(false);
   } else CSVUpdate->Enable(true);
   if (!CheckStealth->IsChecked()) {
-    Verify->Enable(false);
-    Verify->SetValue(false);
+	Verify->Enable(false);
+	Verify->SetValue(false);
   } else Verify->Enable(true);
 
   if (XexImages->GetSelection() == 2) { // Don't extract images
-    EmbedImages->Enable(false);
-    EmbedImages->SetValue(false);
+	EmbedImages->Enable(false);
+	EmbedImages->SetValue(false);
   } else EmbedImages->Enable(true);
 
   cmd.Empty();
@@ -1407,12 +1389,12 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
   // locate abgx360 binary within an OSX .app bundle
 #if defined(__APPLE__)
   CFURLRef abgx360url = CFBundleCopyAuxiliaryExecutableURL(CFBundleGetMainBundle(), CFSTR("abgx360"));
-      char abgx360path[512]; // large size, just in case
-      abgx360path[0] = '\"'; // double quote at start, to escape all spaces in binary path
-      CFURLGetFileSystemRepresentation(abgx360url, true, reinterpret_cast<UInt8*>(&abgx360path[1]), 511);
-      if(abgx360path[1] != '\0')
-          cmd = cmd + abgx360path + "\" -"; // full path to abgx360 binary, plus end double quote, plus hyphen
-      else // string is empty (e.g. not started from an app bundle), use default value. abgx360 binary must be in PATH
+	  char abgx360path[512]; // large size, just in case
+	  abgx360path[0] = '\"'; // double quote at start, to escape all spaces in binary path
+	  CFURLGetFileSystemRepresentation(abgx360url, true, reinterpret_cast<UInt8*>(&abgx360path[1]), 511);
+	  if(abgx360path[1] != '\0')
+		  cmd = cmd + abgx360path + "\" -"; // full path to abgx360 binary, plus end double quote, plus hyphen
+	  else // string is empty (e.g. not started from an app bundle), use default value. abgx360 binary must be in PATH
 #endif
 
   cmd += wxT("abgx360 -");
@@ -1423,28 +1405,28 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
   if (CheckCorruption->IsChecked()) cmd += wxT("c");
   if (!UseColors->IsChecked() || ProgramOutput->GetCurrentSelection() == 2) cmd += wxT("s"); // ProgramOutput 2 = text file
   if (!CheckGameCRCWhenNeeded->IsChecked()) {
-    cmd += wxT("g"); // check game crc never
-    CheckCorruption->Enable(false);
-    CheckCorruption->SetValue(false);
+	cmd += wxT("g"); // check game crc never
+	CheckCorruption->Enable(false);
+	CheckCorruption->SetValue(false);
   } else CheckCorruption->Enable(true);
   if (RebuildLowSpace->GetValue()) {
-    cmd += wxT("l");
-    KeepOriginalISO->Enable(false);
-    KeepOriginalISO->SetValue(false);
+	cmd += wxT("l");
+	KeepOriginalISO->Enable(false);
+	KeepOriginalISO->SetValue(false);
   } else if (RebuildDefault->GetValue()) {
-    KeepOriginalISO->Enable(true);
+	KeepOriginalISO->Enable(true);
   } else if (NoRebuild->GetValue()) {
-    cmd += wxT("b");
-    KeepOriginalISO->Enable(false);
-    KeepOriginalISO->SetValue(false);
+	cmd += wxT("b");
+	KeepOriginalISO->Enable(false);
+	KeepOriginalISO->SetValue(false);
   }
   if (TerminalFont->IsChecked()) cmd += wxT("t");
   if (StayOffline->IsChecked()) cmd += wxT("o");
   if (ProgramOutput->GetCurrentSelection() == 1) {
-    // html output
-    cmd += wxT("h");
-    if (XexImages->GetCurrentSelection() != 2)
-      cmd += wxT("i"); // selection 0 = extract images when doing html output, selection 1 = extract images always, selection 2 = extract images never
+	// html output
+	cmd += wxT("h");
+	if (XexImages->GetCurrentSelection() != 2)
+	  cmd += wxT("i"); // selection 0 = extract images when doing html output, selection 1 = extract images always, selection 2 = extract images never
   } else if (XexImages->GetCurrentSelection() == 1) cmd += wxT("i");
   if (CheckDVDFile->IsChecked() == false) cmd += wxT("d");
   if (FixAngle359->IsChecked()) cmd += wxT("x");
@@ -1454,25 +1436,25 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
   if (DisplayFilesystem->IsChecked()) cmd += wxT(" --showfiles");
   if (ShowAvatarAwards->IsChecked()) cmd += wxT(" --aa");
   if (ShowAchievements->IsChecked()) {
-    if (HideSecretAchievements->IsChecked()) cmd += wxT(" --achs");
-    else cmd += wxT(" --ach");
+	if (HideSecretAchievements->IsChecked()) cmd += wxT(" --achs");
+	else cmd += wxT(" --ach");
   }
   if (AutoFix->GetCurrentSelection() != 1) {  // level 2 (default)
-    if (AutoFix->GetCurrentSelection() == 0) // level 3
-      cmd += wxT(" --af3");
-    else if (AutoFix->GetCurrentSelection() == 2) // level 1
-      cmd += wxT(" --af1");
-    else if (AutoFix->GetCurrentSelection() == 3) // level 0
-      cmd += wxT(" --af0");
+	if (AutoFix->GetCurrentSelection() == 0) // level 3
+	  cmd += wxT(" --af3");
+	else if (AutoFix->GetCurrentSelection() == 2) // level 1
+	  cmd += wxT(" --af1");
+	else if (AutoFix->GetCurrentSelection() == 3) // level 0
+	  cmd += wxT(" --af0");
   }
   //if (LocalOnly->IsChecked()) cmd += wxT(" --localonly");
   if (!FixDRT->IsChecked()) cmd += wxT(" --nofixdrt");
   if (!FixBadAngles->IsChecked()) cmd += wxT(" --nofixdev");
   else if (FixBadAnglesValue->GetCurrentSelection() != 3) {
-    cmd += wxT(" --dev ");
-    wxString dev;
-    dev.Printf(wxT("%d"), FixBadAnglesValue->GetCurrentSelection());
-    cmd += dev;
+	cmd += wxT(" --dev ");
+	wxString dev;
+	dev.Printf(wxT("%d"), FixBadAnglesValue->GetCurrentSelection());
+	cmd += dev;
   }
   if (!TrustSSv2->IsChecked()) cmd += wxT(" --notrust");
 
@@ -1481,29 +1463,29 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
   if (CSVUpdate->IsChecked()) cmd += wxT(" --csv");
 
   if (MatchOnly->IsChecked()) {
-    MatchOnlyEditBox->Enable(true);
-    MatchOnlyButton->Enable(true);
-    if (InputChoice->GetCurrentSelection() == 1) { // dir
-      cmd += wxT(" --match \"");
-      if (MatchOnlyEditBox->GetValue().Find(',') == wxNOT_FOUND)
-        cmd += wxT(","); // helps to keep the shell from automatically expanding match args based on the cwd
-      cmd += MatchOnlyEditBox->GetValue();
-      cmd += wxT("\"");
-    }
+	MatchOnlyEditBox->Enable(true);
+	MatchOnlyButton->Enable(true);
+	if (InputChoice->GetCurrentSelection() == 1) { // dir
+	  cmd += wxT(" --match \"");
+	  if (MatchOnlyEditBox->GetValue().Find(',') == wxNOT_FOUND)
+		cmd += wxT(","); // helps to keep the shell from automatically expanding match args based on the cwd
+	  cmd += MatchOnlyEditBox->GetValue();
+	  cmd += wxT("\"");
+	}
   } else {
-    MatchOnlyEditBox->Enable(false);
-    MatchOnlyButton->Enable(false);
+	MatchOnlyEditBox->Enable(false);
+	MatchOnlyButton->Enable(false);
   }
 
   if (!MyRegionEditBox->IsEmpty()) {
-    cmd += wxT(" --rgn ");
-    cmd += MyRegionEditBox->GetValue();
+	cmd += wxT(" --rgn ");
+	cmd += MyRegionEditBox->GetValue();
   }
   if (PreferredLangChoice->GetCurrentSelection() != 0) {
-    cmd += wxT(" --lang ");
-    wxString lang;
-    lang.Printf(wxT("%d"), PreferredLangChoice->GetCurrentSelection() + 1);
-    cmd += lang;
+	cmd += wxT(" --lang ");
+	wxString lang;
+	lang.Printf(wxT("%d"), PreferredLangChoice->GetCurrentSelection() + 1);
+	cmd += lang;
   }
   if (SplitVid->GetCurrentSelection() == 0) cmd += wxT(" --splitvid"); // want splitvid
   else if (SplitVid->GetCurrentSelection() == 1) cmd += wxT(" --removesplitvid"); // don't want splitvid
@@ -1513,102 +1495,102 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
   if (PatchIfInvalid->IsChecked()) cmd += wxT(" --patchgarbage");
 
   if (PatchVideo->IsChecked()) {
-    PatchVideoEditBox->Enable(true);
-    PatchVideoOpenButton->Enable(true);
-    cmd += wxT(" --p-video \"");
-    cmd += PatchVideoEditBox->GetValue();
-    cmd += wxT("\"");
+	PatchVideoEditBox->Enable(true);
+	PatchVideoOpenButton->Enable(true);
+	cmd += wxT(" --p-video \"");
+	cmd += PatchVideoEditBox->GetValue();
+	cmd += wxT("\"");
   } else {
-    PatchVideoEditBox->Enable(false);
-    PatchVideoOpenButton->Enable(false);
+	PatchVideoEditBox->Enable(false);
+	PatchVideoOpenButton->Enable(false);
   }
 
   if (PatchPFI->IsChecked()) {
-    PatchPFIEditBox->Enable(true);
-    PatchPFIOpenButton->Enable(true);
-    cmd += wxT(" --p-pfi \"");
-    cmd += PatchPFIEditBox->GetValue();
-    cmd += wxT("\"");
+	PatchPFIEditBox->Enable(true);
+	PatchPFIOpenButton->Enable(true);
+	cmd += wxT(" --p-pfi \"");
+	cmd += PatchPFIEditBox->GetValue();
+	cmd += wxT("\"");
   } else {
-    PatchPFIEditBox->Enable(false);
-    PatchPFIOpenButton->Enable(false);
+	PatchPFIEditBox->Enable(false);
+	PatchPFIOpenButton->Enable(false);
   }
 
   if (PatchDMI->IsChecked()) {
-    PatchDMIEditBox->Enable(true);
-    PatchDMIOpenButton->Enable(true);
-    cmd += wxT(" --p-dmi \"");
-    cmd += PatchDMIEditBox->GetValue();
-    cmd += wxT("\"");
+	PatchDMIEditBox->Enable(true);
+	PatchDMIOpenButton->Enable(true);
+	cmd += wxT(" --p-dmi \"");
+	cmd += PatchDMIEditBox->GetValue();
+	cmd += wxT("\"");
   } else {
-    PatchDMIEditBox->Enable(false);
-    PatchDMIOpenButton->Enable(false);
+	PatchDMIEditBox->Enable(false);
+	PatchDMIOpenButton->Enable(false);
   }
 
   if (PatchSS->IsChecked()) {
-    PatchSSEditBox->Enable(true);
-    PatchSSOpenButton->Enable(true);
-    cmd += wxT(" --p-ss \"");
-    cmd += PatchSSEditBox->GetValue();
-    cmd += wxT("\"");
+	PatchSSEditBox->Enable(true);
+	PatchSSOpenButton->Enable(true);
+	cmd += wxT(" --p-ss \"");
+	cmd += PatchSSEditBox->GetValue();
+	cmd += wxT("\"");
   } else {
-    PatchSSEditBox->Enable(false);
-    PatchSSOpenButton->Enable(false);
+	PatchSSEditBox->Enable(false);
+	PatchSSOpenButton->Enable(false);
   }
 
   if (Clobber->IsChecked()) cmd += wxT(" --clobber");
 
   if (ExtractVideo->IsChecked()) {
-    ExtractVideoEditBox->Enable(true);
-    ExtractVideoSaveButton->Enable(true);
-    ExtractEntireVideoPartition->Enable(true);
-    if (ExtractEntireVideoPartition->IsChecked()) cmd += wxT(" --e-videopartition \"");
-    else cmd += wxT(" --e-video \"");
-    cmd += ExtractVideoEditBox->GetValue();
-    cmd += wxT("\"");
+	ExtractVideoEditBox->Enable(true);
+	ExtractVideoSaveButton->Enable(true);
+	ExtractEntireVideoPartition->Enable(true);
+	if (ExtractEntireVideoPartition->IsChecked()) cmd += wxT(" --e-videopartition \"");
+	else cmd += wxT(" --e-video \"");
+	cmd += ExtractVideoEditBox->GetValue();
+	cmd += wxT("\"");
   } else {
-    ExtractVideoEditBox->Enable(false);
-    ExtractVideoSaveButton->Enable(false);
-    ExtractEntireVideoPartition->Enable(false);
-    ExtractEntireVideoPartition->SetValue(false);
+	ExtractVideoEditBox->Enable(false);
+	ExtractVideoSaveButton->Enable(false);
+	ExtractEntireVideoPartition->Enable(false);
+	ExtractEntireVideoPartition->SetValue(false);
   }
 
   if (ExtractPFI->IsChecked()) {
-    ExtractPFIEditBox->Enable(true);
-    ExtractPFISaveButton->Enable(true);
-    cmd += wxT(" --e-pfi \"");
-    cmd += ExtractPFIEditBox->GetValue();
-    cmd += wxT("\"");
+	ExtractPFIEditBox->Enable(true);
+	ExtractPFISaveButton->Enable(true);
+	cmd += wxT(" --e-pfi \"");
+	cmd += ExtractPFIEditBox->GetValue();
+	cmd += wxT("\"");
   } else {
-    ExtractPFIEditBox->Enable(false);
-    ExtractPFISaveButton->Enable(false);
+	ExtractPFIEditBox->Enable(false);
+	ExtractPFISaveButton->Enable(false);
   }
 
   if (ExtractDMI->IsChecked()) {
-    ExtractDMIEditBox->Enable(true);
-    ExtractDMISaveButton->Enable(true);
-    cmd += wxT(" --e-dmi \"");
-    cmd += ExtractDMIEditBox->GetValue();
-    cmd += wxT("\"");
+	ExtractDMIEditBox->Enable(true);
+	ExtractDMISaveButton->Enable(true);
+	cmd += wxT(" --e-dmi \"");
+	cmd += ExtractDMIEditBox->GetValue();
+	cmd += wxT("\"");
   } else {
-    ExtractDMIEditBox->Enable(false);
-    ExtractDMISaveButton->Enable(false);
+	ExtractDMIEditBox->Enable(false);
+	ExtractDMISaveButton->Enable(false);
   }
 
   if (ExtractSS->IsChecked()) {
-    ExtractSSEditBox->Enable(true);
-    ExtractSSSaveButton->Enable(true);
-    cmd += wxT(" --e-ss \"");
-    cmd += ExtractSSEditBox->GetValue();
-    cmd += wxT("\"");
+	ExtractSSEditBox->Enable(true);
+	ExtractSSSaveButton->Enable(true);
+	cmd += wxT(" --e-ss \"");
+	cmd += ExtractSSEditBox->GetValue();
+	cmd += wxT("\"");
   } else {
-    ExtractSSEditBox->Enable(false);
-    ExtractSSSaveButton->Enable(false);
+	ExtractSSEditBox->Enable(false);
+	ExtractSSSaveButton->Enable(false);
   }
 
   if (!ExtraOptionsEditBox->IsEmpty()) {
-    cmd += wxT(" ");
-    cmd += ExtraOptionsEditBox->GetValue();
+	cmd += wxT(" ");
+	cmd += ExtraOptionsEditBox->GetValue();
   }
 
 #ifndef __APPLE__
@@ -1619,28 +1601,28 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 #endif
 
   if (InputChoice->GetCurrentSelection() == 0) {  // file(s)
-    cmd += wxT(" -- "); // -- is a special argument that will end option parsing and all following arguments will be treated as filenames in case a filename begins with a hyphen
-    if (!InputFileEditBox->GetValue().StartsWith(wxT("\""), NULL)) cmd += wxT("\"");
-    cmd += InputFileEditBox->GetValue();
-    if (!InputFileEditBox->GetValue().EndsWith(wxT("\""), NULL)) cmd += wxT("\"");
+	cmd += wxT(" -- "); // -- is a special argument that will end option parsing and all following arguments will be treated as filenames in case a filename begins with a hyphen
+	if (!InputFileEditBox->GetValue().StartsWith(wxT("\""), NULL)) cmd += wxT("\"");
+	cmd += InputFileEditBox->GetValue();
+	if (!InputFileEditBox->GetValue().EndsWith(wxT("\""), NULL)) cmd += wxT("\"");
   } else if (InputChoice->GetCurrentSelection() == 1) {  // dir
-    if (RecurseSubdirs->IsChecked()) cmd += wxT(" --rec --dir ");
-    else cmd += wxT(" --dir ");
-    if (!InputFileEditBox->GetValue().StartsWith(wxT("\""), NULL)) cmd += wxT("\"");
-    cmd += InputFileEditBox->GetValue();
-    if (InputFileEditBox->GetValue().EndsWith(wxT("\\"), NULL))
-      cmd += wxT("\\\""); // asdf\ will be changed to asdf\\ so the shell sees it as asdf\ instead of asdf" ("asdf\" vs "asdf\\" when quoted by app)
-    else if (InputFileEditBox->GetValue().EndsWith(wxT("\\\""), NULL)) {
-      cmd.RemoveLast();
-      cmd += wxT("\\\""); // "asdf\" will be changed to "asdf\\" if already quoted by user
-    } else if (!InputFileEditBox->GetValue().EndsWith(wxT("\""), NULL)) cmd += wxT("\"");
+	if (RecurseSubdirs->IsChecked()) cmd += wxT(" --rec --dir ");
+	else cmd += wxT(" --dir ");
+	if (!InputFileEditBox->GetValue().StartsWith(wxT("\""), NULL)) cmd += wxT("\"");
+	cmd += InputFileEditBox->GetValue();
+	if (InputFileEditBox->GetValue().EndsWith(wxT("\\"), NULL))
+	  cmd += wxT("\\\""); // asdf\ will be changed to asdf\\ so the shell sees it as asdf\ instead of asdf" ("asdf\" vs "asdf\\" when quoted by app)
+	else if (InputFileEditBox->GetValue().EndsWith(wxT("\\\""), NULL)) {
+	  cmd.RemoveLast();
+	  cmd += wxT("\\\""); // "asdf\" will be changed to "asdf\\" if already quoted by user
+	} else if (!InputFileEditBox->GetValue().EndsWith(wxT("\""), NULL)) cmd += wxT("\"");
   }
 #ifdef WIN32
   else if (InputChoice->GetCurrentSelection() == 2) {  // burned dvd
-      if (arrayStringFor_DriveChoice.GetCount() > 0) {
-          cmd += wxT(" --dvd ");
-          cmd += arrayStringFor_DriveChoice.Item((size_t) DriveChoice->GetCurrentSelection()).Mid(arrayStringFor_DriveChoice.Item((size_t) DriveChoice->GetCurrentSelection()).Len() - 3, 1);
-      }
+	  if (arrayStringFor_DriveChoice.GetCount() > 0) {
+		  cmd += wxT(" --dvd ");
+		  cmd += arrayStringFor_DriveChoice.Item((size_t) DriveChoice->GetCurrentSelection()).Mid(arrayStringFor_DriveChoice.Item((size_t) DriveChoice->GetCurrentSelection()).Len() - 3, 1);
+	  }
   }
 #endif
   /*
@@ -1667,9 +1649,9 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
   }
   */
   if (ProgramOutput->GetCurrentSelection() != 0) {
-    cmd += wxT(" > \"");
-    cmd += OutputFileEditBox->GetValue();
-    cmd += wxT("\"");
+	cmd += wxT(" > \"");
+	cmd += OutputFileEditBox->GetValue();
+	cmd += wxT("\"");
   }
 #if (!defined(WIN32) && !defined(__APPLE__))
   // change single quotes/apostrophes to \' but change the first one back for xterm -e ... 'abgx360 ...
@@ -1681,10 +1663,10 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 
   //wxLogStatus(wxT("%s"), cmd);
   if (cmd.Find(wxT(" --user ")) == wxNOT_FOUND && cmd.Find(wxT(" --pass ")) == wxNOT_FOUND) {
-    if (StatusBar->GetValue() != cmd)
-      StatusBar->SetValue(cmd);
+	if (StatusBar->GetValue() != cmd)
+	  StatusBar->SetValue(cmd);
   } else {
-    StatusBar->SetValue(wxEmptyString);
+	StatusBar->SetValue(wxEmptyString);
   }
 }
 
@@ -1697,24 +1679,24 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
 #ifndef WIN32
   if (InputChoice->GetCurrentSelection() == 2) {
 #ifdef __APPLE__
-    wxMessageBox(wxT("Mac OS X Burned DVD Input is not currently supported."),
-                     wxT("Mac OS X DVD Input"), wxOK);
+	wxMessageBox(wxT("Mac OS X Burned DVD Input is not currently supported."),
+					 wxT("Mac OS X DVD Input"), wxOK);
 #else
-    wxMessageBox(wxT("For Unix based operating systems: Devices are files!\n"
-                     "Select \"File(s)\" as Input and enter the device name.\n"
-                     "Linux Example: /dev/cdrom (requires read permissions).\n"
-                     "Writes are automatically disabled for block devices."), wxT("Unix DVD Input"), wxOK);
+	wxMessageBox(wxT("For Unix based operating systems: Devices are files!\n"
+					 "Select \"File(s)\" as Input and enter the device name.\n"
+					 "Linux Example: /dev/cdrom (requires read permissions).\n"
+					 "Writes are automatically disabled for block devices."), wxT("Unix DVD Input"), wxOK);
 #endif
-    return;
+	return;
   }
 #endif
   if (InputChoice->GetCurrentSelection() == 0 && InputFileEditBox->IsEmpty()) {
-    wxMessageBox(wxT("You forgot to choose the file(s) for input!"), wxT("WTF"), wxICON_EXCLAMATION);
-    return;
+	wxMessageBox(wxT("You forgot to choose the file(s) for input!"), wxT("WTF"), wxICON_EXCLAMATION);
+	return;
   }
   if (InputChoice->GetCurrentSelection() == 1 && InputFileEditBox->IsEmpty()) {
-    wxMessageBox(wxT("You forgot to choose the directory for input!"), wxT("WTF"), wxICON_EXCLAMATION);
-    return;
+	wxMessageBox(wxT("You forgot to choose the directory for input!"), wxT("WTF"), wxICON_EXCLAMATION);
+	return;
   }
   /*
   if (InputChoice->GetCurrentSelection() == 3) {  // original disc
@@ -1731,106 +1713,106 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
   }
   */
   if (ProgramOutput->GetCurrentSelection() != 0 && OutputFileEditBox->IsEmpty()) {
-    wxMessageBox(wxT("You forgot to choose an output file!"), wxT("WTF"), wxICON_EXCLAMATION);
-    return;
+	wxMessageBox(wxT("You forgot to choose an output file!"), wxT("WTF"), wxICON_EXCLAMATION);
+	return;
   }
   if (ProgramOutput->GetCurrentSelection() != 0 && (OutputFileEditBox->GetValue().Find('/') == wxNOT_FOUND && OutputFileEditBox->GetValue().Find('\\') == wxNOT_FOUND)) {
-    wxMessageBox(wxT("You forgot to choose a directory for the output file!"), wxT("WTF"), wxICON_EXCLAMATION);
-    return;
+	wxMessageBox(wxT("You forgot to choose a directory for the output file!"), wxT("WTF"), wxICON_EXCLAMATION);
+	return;
   }
   if (PatchVideo->IsChecked()) {
-    if (PatchVideoEditBox->IsEmpty()) {
-      wxMessageBox(wxT("You forgot to choose a file to manually patch video from!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    } else if (PatchVideoEditBox->GetValue().EndsWith(wxT("\\")) || PatchVideoEditBox->GetValue().EndsWith(wxT("/"))) {
-      wxMessageBox(wxT("You forgot to choose a file to manually patch video from!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    }
+	if (PatchVideoEditBox->IsEmpty()) {
+	  wxMessageBox(wxT("You forgot to choose a file to manually patch video from!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	} else if (PatchVideoEditBox->GetValue().EndsWith(wxT("\\")) || PatchVideoEditBox->GetValue().EndsWith(wxT("/"))) {
+	  wxMessageBox(wxT("You forgot to choose a file to manually patch video from!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	}
   }
   if (PatchPFI->IsChecked()) {
-    if (PatchPFIEditBox->IsEmpty()) {
-      wxMessageBox(wxT("You forgot to choose a file to manually patch PFI from!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    } else if (PatchPFIEditBox->GetValue().EndsWith(wxT("\\")) || PatchPFIEditBox->GetValue().EndsWith(wxT("/"))) {
-      wxMessageBox(wxT("You forgot to choose a file to manually patch PFI from!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    }
+	if (PatchPFIEditBox->IsEmpty()) {
+	  wxMessageBox(wxT("You forgot to choose a file to manually patch PFI from!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	} else if (PatchPFIEditBox->GetValue().EndsWith(wxT("\\")) || PatchPFIEditBox->GetValue().EndsWith(wxT("/"))) {
+	  wxMessageBox(wxT("You forgot to choose a file to manually patch PFI from!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	}
   }
   if (PatchDMI->IsChecked()) {
-    if (PatchDMIEditBox->IsEmpty()) {
-      wxMessageBox(wxT("You forgot to choose a file to manually patch DMI from!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    } else if (PatchDMIEditBox->GetValue().EndsWith(wxT("\\")) || PatchDMIEditBox->GetValue().EndsWith(wxT("/"))) {
-      wxMessageBox(wxT("You forgot to choose a file to manually patch DMI from!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    }
+	if (PatchDMIEditBox->IsEmpty()) {
+	  wxMessageBox(wxT("You forgot to choose a file to manually patch DMI from!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	} else if (PatchDMIEditBox->GetValue().EndsWith(wxT("\\")) || PatchDMIEditBox->GetValue().EndsWith(wxT("/"))) {
+	  wxMessageBox(wxT("You forgot to choose a file to manually patch DMI from!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	}
   }
   if (PatchSS->IsChecked()) {
-    if (PatchSSEditBox->IsEmpty()) {
-      wxMessageBox(wxT("You forgot to choose a file to manually patch SS from!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    } else if (PatchSSEditBox->GetValue().EndsWith(wxT("\\")) || PatchSSEditBox->GetValue().EndsWith(wxT("/"))) {
-      wxMessageBox(wxT("You forgot to choose a file to manually patch SS from!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    }
+	if (PatchSSEditBox->IsEmpty()) {
+	  wxMessageBox(wxT("You forgot to choose a file to manually patch SS from!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	} else if (PatchSSEditBox->GetValue().EndsWith(wxT("\\")) || PatchSSEditBox->GetValue().EndsWith(wxT("/"))) {
+	  wxMessageBox(wxT("You forgot to choose a file to manually patch SS from!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	}
   }
   if (ExtractVideo->IsChecked()) {
-    if (ExtractVideoEditBox->IsEmpty()) {
-      wxMessageBox(wxT("You forgot to choose a filename to manually extract video!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    } else if (ExtractVideoEditBox->GetValue().EndsWith(wxT("\\")) || ExtractVideoEditBox->GetValue().EndsWith(wxT("/"))) {
-      wxMessageBox(wxT("You forgot to choose a filename to manually extract video!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    }
+	if (ExtractVideoEditBox->IsEmpty()) {
+	  wxMessageBox(wxT("You forgot to choose a filename to manually extract video!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	} else if (ExtractVideoEditBox->GetValue().EndsWith(wxT("\\")) || ExtractVideoEditBox->GetValue().EndsWith(wxT("/"))) {
+	  wxMessageBox(wxT("You forgot to choose a filename to manually extract video!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	}
   }
   if (ExtractPFI->IsChecked()) {
-    if (ExtractPFIEditBox->IsEmpty()) {
-      wxMessageBox(wxT("You forgot to choose a filename to manually extract PFI!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    } else if (ExtractPFIEditBox->GetValue().EndsWith(wxT("\\")) || ExtractPFIEditBox->GetValue().EndsWith(wxT("/"))) {
-      wxMessageBox(wxT("You forgot to choose a filename to manually extract PFI!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    }
+	if (ExtractPFIEditBox->IsEmpty()) {
+	  wxMessageBox(wxT("You forgot to choose a filename to manually extract PFI!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	} else if (ExtractPFIEditBox->GetValue().EndsWith(wxT("\\")) || ExtractPFIEditBox->GetValue().EndsWith(wxT("/"))) {
+	  wxMessageBox(wxT("You forgot to choose a filename to manually extract PFI!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	}
   }
   if (ExtractDMI->IsChecked()) {
-    if (ExtractDMIEditBox->IsEmpty()) {
-      wxMessageBox(wxT("You forgot to choose a filename to manually extract DMI!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    } else if (ExtractDMIEditBox->GetValue().EndsWith(wxT("\\")) || ExtractDMIEditBox->GetValue().EndsWith(wxT("/"))) {
-      wxMessageBox(wxT("You forgot to choose a filename to manually extract DMI!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    }
+	if (ExtractDMIEditBox->IsEmpty()) {
+	  wxMessageBox(wxT("You forgot to choose a filename to manually extract DMI!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	} else if (ExtractDMIEditBox->GetValue().EndsWith(wxT("\\")) || ExtractDMIEditBox->GetValue().EndsWith(wxT("/"))) {
+	  wxMessageBox(wxT("You forgot to choose a filename to manually extract DMI!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	}
   }
   if (ExtractSS->IsChecked()) {
-    if (ExtractSSEditBox->IsEmpty()) {
-      wxMessageBox(wxT("You forgot to choose a filename to manually extract SS!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    } else if (ExtractSSEditBox->GetValue().EndsWith(wxT("\\")) || ExtractSSEditBox->GetValue().EndsWith(wxT("/"))) {
-      wxMessageBox(wxT("You forgot to choose a filename to manually extract SS!"), wxT("WTF"), wxICON_EXCLAMATION);
-      return;
-    }
+	if (ExtractSSEditBox->IsEmpty()) {
+	  wxMessageBox(wxT("You forgot to choose a filename to manually extract SS!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	} else if (ExtractSSEditBox->GetValue().EndsWith(wxT("\\")) || ExtractSSEditBox->GetValue().EndsWith(wxT("/"))) {
+	  wxMessageBox(wxT("You forgot to choose a filename to manually extract SS!"), wxT("WTF"), wxICON_EXCLAMATION);
+	  return;
+	}
   }
   size_t i, count;
   if (InputChoice->GetCurrentSelection() == 0) {
-    m_fileHistory->AddFileToHistory(InputFileEditBox->GetValue());
-    m_fileConfig->SetPath(wxT("/RecentFiles"));
-    m_fileHistory->Save(*m_fileConfig);
-    count = m_fileHistory->GetCount();
-    for (i = 0; i < count; i++) {
-      m_fileHistory->RemoveFileFromHistory(0);
-    }
-    m_fileHistory->Load(*m_fileConfig);
-    m_fileConfig->SetPath(wxT(".."));
+	m_fileHistory->AddFileToHistory(InputFileEditBox->GetValue());
+	m_fileConfig->SetPath(wxT("/RecentFiles"));
+	m_fileHistory->Save(*m_fileConfig);
+	count = m_fileHistory->GetCount();
+	for (i = 0; i < count; i++) {
+	  m_fileHistory->RemoveFileFromHistory(0);
+	}
+	m_fileHistory->Load(*m_fileConfig);
+	m_fileConfig->SetPath(wxT(".."));
   } else if (InputChoice->GetCurrentSelection() == 1) {
-    m_folderHistory->AddFileToHistory(InputFileEditBox->GetValue());
-    m_fileConfig->SetPath(wxT("/RecentFolders"));
-    m_folderHistory->Save(*m_fileConfig);
-    count = m_folderHistory->GetCount();
-    for (i = 0; i < count; i++) {
-      m_folderHistory->RemoveFileFromHistory(0);
-    }
-    m_folderHistory->Load(*m_fileConfig);
-    m_fileConfig->SetPath(wxT(".."));
+	m_folderHistory->AddFileToHistory(InputFileEditBox->GetValue());
+	m_fileConfig->SetPath(wxT("/RecentFolders"));
+	m_folderHistory->Save(*m_fileConfig);
+	count = m_folderHistory->GetCount();
+	for (i = 0; i < count; i++) {
+	  m_folderHistory->RemoveFileFromHistory(0);
+	}
+	m_folderHistory->Load(*m_fileConfig);
+	m_fileConfig->SetPath(wxT(".."));
   }
 
 #ifdef __APPLE__
@@ -1850,30 +1832,30 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
   cmd.Replace(wxT("\""), wxT("\\\""), true);
   wxFile *abgx360script = new wxFile("/tmp/abgx360.scpt", wxFile::write);
   if (abgx360script->IsOpened()) {
-      cmd.Prepend(wxT("tell application \"Terminal\"\n"
-                      "do script \""));
-      cmd +=  wxT("\"\nset background color of window 1 to \"black\"\n"
-                      "set normal text color of window 1 to \"white\"\n"
-                      "set bold text color of window 1 to \"white\"\n"
-                      "set cursor color of window 1 to \"white\"\n");
-      if (Maximize->IsChecked())
-           cmd += wxT("set the position of window 1 to {0, 20}\n"
-                      "set the number of rows of window 1 to 300\n"
-                      "set the number of columns of window 1 to 100\n");
-      cmd +=      wxT("end tell\n");
-      if (abgx360script->Write(cmd)) {
-          abgx360script->Flush();
-          abgx360script->Close();
-          cmd = wxT("osascript /tmp/abgx360.scpt");
-      }
-      else {
-          wxMessageBox(wxT("ERROR: Failed to write to '/tmp/abgx360.scpt'! Unable to launch abgx360."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
-        return;
-      }
+	  cmd.Prepend(wxT("tell application \"Terminal\"\n"
+					  "do script \""));
+	  cmd +=  wxT("\"\nset background color of window 1 to \"black\"\n"
+					  "set normal text color of window 1 to \"white\"\n"
+					  "set bold text color of window 1 to \"white\"\n"
+					  "set cursor color of window 1 to \"white\"\n");
+	  if (Maximize->IsChecked())
+		   cmd += wxT("set the position of window 1 to {0, 20}\n"
+					  "set the number of rows of window 1 to 300\n"
+					  "set the number of columns of window 1 to 100\n");
+	  cmd +=      wxT("end tell\n");
+	  if (abgx360script->Write(cmd)) {
+		  abgx360script->Flush();
+		  abgx360script->Close();
+		  cmd = wxT("osascript /tmp/abgx360.scpt");
+	  }
+	  else {
+		  wxMessageBox(wxT("ERROR: Failed to write to '/tmp/abgx360.scpt'! Unable to launch abgx360."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+		return;
+	  }
   }
   else {
-      wxMessageBox(wxT("ERROR: Failed to open '/tmp/abgx360.scpt' for writing! Unable to launch abgx360."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
-    return;
+	  wxMessageBox(wxT("ERROR: Failed to open '/tmp/abgx360.scpt' for writing! Unable to launch abgx360."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+	return;
   }
 #endif
 
@@ -1881,51 +1863,51 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
   StatusBar->SetValue(wxT("and away we go..."));
 
   if (ProgramOutput->GetCurrentSelection() == 0) {  // CLI Window
-    returnvalue = wxExecute(cmd, wxEXEC_ASYNC);
-    if (returnvalue == 0) {  // couldn't start the process
+	returnvalue = wxExecute(cmd, wxEXEC_ASYNC);
+	if (returnvalue == 0) {  // couldn't start the process
 #ifdef __APPLE__
-      wxMessageBox(wxT("ERROR: The command could not be executed! You're probably missing osascript"), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+	  wxMessageBox(wxT("ERROR: The command could not be executed! You're probably missing osascript"), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 #else
 #ifdef WIN32
-      wxMessageBox(wxT("ERROR: The command could not be executed! Most likely the abgx360 command line app isn't in your PATH... reinstalling abgx360 will fix this."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+	  wxMessageBox(wxT("ERROR: The command could not be executed! Most likely the abgx360 command line app isn't in your PATH... reinstalling abgx360 will fix this."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 #else
-      wxMessageBox(wxT("ERROR: The command could not be executed! You probably don't have xterm installed."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+	  wxMessageBox(wxT("ERROR: The command could not be executed! You probably don't have xterm installed."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 #endif
 #endif
-      return;
-    }
+	  return;
+	}
   } else {
 #ifdef __APPLE__
-    // wxMac does not support wxEXEC_SYNC
-    returnvalue = wxExecute(cmd, wxEXEC_ASYNC);
-    if (returnvalue == 0) {  // couldn't start the process
-        wxMessageBox(wxT("ERROR: The command could not be executed! You're probably missing osascript"), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
-      return;
-    }
+	// wxMac does not support wxEXEC_SYNC
+	returnvalue = wxExecute(cmd, wxEXEC_ASYNC);
+	if (returnvalue == 0) {  // couldn't start the process
+		wxMessageBox(wxT("ERROR: The command could not be executed! You're probably missing osascript"), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+	  return;
+	}
 #else
 #ifdef WIN32
-    wxString shellcmd;
+	wxString shellcmd;
 #ifdef __WXWINCE__
-        shellcmd = cmd;
+		shellcmd = cmd;
 #else
-        wxChar *shell = wxGetenv(wxT("COMSPEC"));
-        if (!shell) shell = (wxChar*) wxT("\\COMMAND.COM");
-        if (!cmd) shellcmd = shell;
-        else shellcmd.Printf(wxT("%s /c %s"), shell, cmd.c_str());
+		wxChar *shell = wxGetenv(wxT("COMSPEC"));
+		if (!shell) shell = (wxChar*) wxT("\\COMMAND.COM");
+		if (!cmd) shellcmd = shell;
+		else shellcmd.Printf(wxT("%s /c %s"), shell, cmd.c_str());
 #endif
-    returnvalue = wxExecute(shellcmd, wxEXEC_SYNC);
-    if (returnvalue == -1) {  // couldn't start the process
-        wxMessageBox(wxT("ERROR: The command could not be executed! Most likely the abgx360 command line app isn't in your PATH... reinstalling abgx360 will fix this."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
-      return;
-    }
+	returnvalue = wxExecute(shellcmd, wxEXEC_SYNC);
+	if (returnvalue == -1) {  // couldn't start the process
+		wxMessageBox(wxT("ERROR: The command could not be executed! Most likely the abgx360 command line app isn't in your PATH... reinstalling abgx360 will fix this."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+	  return;
+	}
 #else
-    returnvalue = wxExecute(cmd, wxEXEC_SYNC);
-    if (returnvalue == -1) {  // couldn't start the process
-      wxMessageBox(wxT("ERROR: The command could not be executed! You probably don't have xterm installed."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
-      return;
-    }
+	returnvalue = wxExecute(cmd, wxEXEC_SYNC);
+	if (returnvalue == -1) {  // couldn't start the process
+	  wxMessageBox(wxT("ERROR: The command could not be executed! You probably don't have xterm installed."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
+	  return;
+	}
 #endif
-    if (OpenFileWhenDone->IsChecked()) wxLaunchDefaultBrowser(OutputFileEditBox->GetValue());
+	if (OpenFileWhenDone->IsChecked()) wxLaunchDefaultBrowser(OutputFileEditBox->GetValue());
 #endif
   }
 }
@@ -1936,52 +1918,52 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
 void abgx360gui::OpenButtonClick(wxCommandEvent &WXUNUSED(event)) {
   size_t i, count;
   if (InputChoice->GetCurrentSelection() == 0) {
-    if (OpenFileDialog->ShowModal() == wxID_OK) {
-      wxArrayString arrayStringFor_OpenFileDialog;
-      OpenFileDialog->GetPaths(arrayStringFor_OpenFileDialog);
-      //openfilename = OpenFileDialog->GetPath();
-      //InputFileEditBox->ChangeValue(openfilename);
-      //m_fileHistory->AddFileToHistory(openfilename);
-      count = arrayStringFor_OpenFileDialog.GetCount();
-      if (count > 100) {
-        wxMessageBox(wxT("You have selected over 100 files!" NEWLINE"This will probably exceed maximum command line length limits so try using directory input instead."),
-                     wxT("Doh!"),
-                     wxICON_EXCLAMATION);
-        return;
-      }
-      if (count) {
-        InputFileEditBox->Clear();
-        for (i = 0; i < count; i++) {
-          InputFileEditBox->AppendText(wxT("\""));
-          InputFileEditBox->AppendText(arrayStringFor_OpenFileDialog.Item(i));
-          InputFileEditBox->AppendText(wxT("\""));
-          if (i + 1 < count) InputFileEditBox->AppendText(wxT(" "));
-        }
-        m_fileHistory->AddFileToHistory(InputFileEditBox->GetValue());
-        m_fileConfig->SetPath(wxT("/RecentFiles"));
-        m_fileHistory->Save(*m_fileConfig);
-        count = m_fileHistory->GetCount();
-        for (i = 0; i < count; i++) {
-          m_fileHistory->RemoveFileFromHistory(0);
-        }
-        m_fileHistory->Load(*m_fileConfig);
-        m_fileConfig->SetPath(wxT(".."));
-      }
-    }
+	if (OpenFileDialog->ShowModal() == wxID_OK) {
+	  wxArrayString arrayStringFor_OpenFileDialog;
+	  OpenFileDialog->GetPaths(arrayStringFor_OpenFileDialog);
+	  //open_filename = OpenFileDialog->GetPath();
+	  //InputFileEditBox->ChangeValue(open_filename);
+	  //m_fileHistory->AddFileToHistory(open_filename);
+	  count = arrayStringFor_OpenFileDialog.GetCount();
+	  if (count > 100) {
+		wxMessageBox(wxT("You have selected over 100 files!" NEWLINE"This will probably exceed maximum command line length limits so try using directory input instead."),
+					 wxT("Doh!"),
+					 wxICON_EXCLAMATION);
+		return;
+	  }
+	  if (count) {
+		InputFileEditBox->Clear();
+		for (i = 0; i < count; i++) {
+		  InputFileEditBox->AppendText(wxT("\""));
+		  InputFileEditBox->AppendText(arrayStringFor_OpenFileDialog.Item(i));
+		  InputFileEditBox->AppendText(wxT("\""));
+		  if (i + 1 < count) InputFileEditBox->AppendText(wxT(" "));
+		}
+		m_fileHistory->AddFileToHistory(InputFileEditBox->GetValue());
+		m_fileConfig->SetPath(wxT("/RecentFiles"));
+		m_fileHistory->Save(*m_fileConfig);
+		count = m_fileHistory->GetCount();
+		for (i = 0; i < count; i++) {
+		  m_fileHistory->RemoveFileFromHistory(0);
+		}
+		m_fileHistory->Load(*m_fileConfig);
+		m_fileConfig->SetPath(wxT(".."));
+	  }
+	}
   } else if (InputChoice->GetCurrentSelection() == 1) {
-    if (InputDirDialog->ShowModal() == wxID_OK) {
-      openfilename = InputDirDialog->GetPath();
-      InputFileEditBox->ChangeValue(openfilename);
-      m_folderHistory->AddFileToHistory(openfilename);
-      m_fileConfig->SetPath(wxT("/RecentFolders"));
-      m_folderHistory->Save(*m_fileConfig);
-      count = m_folderHistory->GetCount();
-      for (i = 0; i < count; i++) {
-        m_folderHistory->RemoveFileFromHistory(0);
-      }
-      m_folderHistory->Load(*m_fileConfig);
-      m_fileConfig->SetPath(wxT(".."));
-    }
+	if (InputDirDialog->ShowModal() == wxID_OK) {
+	  open_filename = InputDirDialog->GetPath();
+	  InputFileEditBox->ChangeValue(open_filename);
+	  m_folderHistory->AddFileToHistory(open_filename);
+	  m_fileConfig->SetPath(wxT("/RecentFolders"));
+	  m_folderHistory->Save(*m_fileConfig);
+	  count = m_folderHistory->GetCount();
+	  for (i = 0; i < count; i++) {
+		m_folderHistory->RemoveFileFromHistory(0);
+	  }
+	  m_folderHistory->Load(*m_fileConfig);
+	  m_fileConfig->SetPath(wxT(".."));
+	}
   }
 }
 
@@ -1990,15 +1972,15 @@ void abgx360gui::OpenButtonClick(wxCommandEvent &WXUNUSED(event)) {
  */
 void abgx360gui::SaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
   if (ProgramOutput->GetCurrentSelection() == 1) {
-    if (SaveHTMLFileDialog->ShowModal() == wxID_OK) {
-      savefilename = SaveHTMLFileDialog->GetPath();
-      OutputFileEditBox->ChangeValue(savefilename);
-    }
+	if (SaveHTMLFileDialog->ShowModal() == wxID_OK) {
+	  save_filename = SaveHTMLFileDialog->GetPath();
+	  OutputFileEditBox->ChangeValue(save_filename);
+	}
   } else if (ProgramOutput->GetCurrentSelection() == 2) {
-    if (SaveTextFileDialog->ShowModal() == wxID_OK) {
-      savefilename = SaveTextFileDialog->GetPath();
-      OutputFileEditBox->ChangeValue(savefilename);
-    }
+	if (SaveTextFileDialog->ShowModal() == wxID_OK) {
+	  save_filename = SaveTextFileDialog->GetPath();
+	  OutputFileEditBox->ChangeValue(save_filename);
+	}
   }
 }
 
@@ -2007,27 +1989,27 @@ void abgx360gui::SaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
  */
 void abgx360gui::ProgramOutputSelected(wxCommandEvent &WXUNUSED(event)) {
   if (ProgramOutput->GetCurrentSelection() == 0) {  // command prompt
-    Maximize->Show();
-    Maximize->SetValue(true);
-    OpenFileWhenDone->Hide();
-    OpenFileWhenDone->SetValue(false);
-    OutputFileEditBox->Enable(false);
-    SaveButton->Enable(false);
+	Maximize->Show();
+	Maximize->SetValue(true);
+	OpenFileWhenDone->Hide();
+	OpenFileWhenDone->SetValue(false);
+	OutputFileEditBox->Enable(false);
+	SaveButton->Enable(false);
 #ifdef WIN32
-    TerminalFont->SetValue(true);
+	TerminalFont->SetValue(true);
 #else
-    TerminalFont->SetValue(false);
+	TerminalFont->SetValue(false);
 #endif
   } else {
-    Maximize->Hide();
-    Maximize->SetValue(false);
+	Maximize->Hide();
+	Maximize->SetValue(false);
 #ifndef __APPLE__
-    OpenFileWhenDone->Show();
-    OpenFileWhenDone->SetValue(true);
+	OpenFileWhenDone->Show();
+	OpenFileWhenDone->SetValue(true);
 #endif
-    OutputFileEditBox->Enable(true);
-    SaveButton->Enable(true);
-    TerminalFont->SetValue(false);
+	OutputFileEditBox->Enable(true);
+	SaveButton->Enable(true);
+	TerminalFont->SetValue(false);
   }
 }
 
@@ -2036,8 +2018,8 @@ void abgx360gui::ProgramOutputSelected(wxCommandEvent &WXUNUSED(event)) {
  */
 void abgx360gui::PatchVideoOpenButtonClick(wxCommandEvent &WXUNUSED(event)) {
   if (OpenVideoFileDialog->ShowModal() == wxID_OK) {
-    openfilename = OpenVideoFileDialog->GetPath();
-    PatchVideoEditBox->ChangeValue(openfilename);
+	open_filename = OpenVideoFileDialog->GetPath();
+	PatchVideoEditBox->ChangeValue(open_filename);
   }
 }
 
@@ -2046,8 +2028,8 @@ void abgx360gui::PatchVideoOpenButtonClick(wxCommandEvent &WXUNUSED(event)) {
  */
 void abgx360gui::PatchPFIOpenButtonClick(wxCommandEvent &WXUNUSED(event)) {
   if (OpenPFIFileDialog->ShowModal() == wxID_OK) {
-    openfilename = OpenPFIFileDialog->GetPath();
-    PatchPFIEditBox->ChangeValue(openfilename);
+	open_filename = OpenPFIFileDialog->GetPath();
+	PatchPFIEditBox->ChangeValue(open_filename);
   }
 }
 
@@ -2056,8 +2038,8 @@ void abgx360gui::PatchPFIOpenButtonClick(wxCommandEvent &WXUNUSED(event)) {
  */
 void abgx360gui::PatchDMIOpenButtonClick(wxCommandEvent &WXUNUSED(event)) {
   if (OpenDMIFileDialog->ShowModal() == wxID_OK) {
-    openfilename = OpenDMIFileDialog->GetPath();
-    PatchDMIEditBox->ChangeValue(openfilename);
+	open_filename = OpenDMIFileDialog->GetPath();
+	PatchDMIEditBox->ChangeValue(open_filename);
   }
 }
 
@@ -2066,8 +2048,8 @@ void abgx360gui::PatchDMIOpenButtonClick(wxCommandEvent &WXUNUSED(event)) {
  */
 void abgx360gui::PatchSSOpenButtonClick(wxCommandEvent &WXUNUSED(event)) {
   if (OpenSSFileDialog->ShowModal() == wxID_OK) {
-    openfilename = OpenSSFileDialog->GetPath();
-    PatchSSEditBox->ChangeValue(openfilename);
+	open_filename = OpenSSFileDialog->GetPath();
+	PatchSSEditBox->ChangeValue(open_filename);
   }
 }
 
@@ -2076,15 +2058,15 @@ void abgx360gui::PatchSSOpenButtonClick(wxCommandEvent &WXUNUSED(event)) {
  */
 void abgx360gui::ExtractVideoSaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
   if (Clobber->IsChecked()) {
-    if (SaveVideoFileDialogClobber->ShowModal() == wxID_OK) {
-      savefilename = SaveVideoFileDialogClobber->GetPath();
-      ExtractVideoEditBox->ChangeValue(savefilename);
-    }
+	if (SaveVideoFileDialogClobber->ShowModal() == wxID_OK) {
+	  save_filename = SaveVideoFileDialogClobber->GetPath();
+	  ExtractVideoEditBox->ChangeValue(save_filename);
+	}
   } else {
-    if (SaveVideoFileDialog->ShowModal() == wxID_OK) {
-      savefilename = SaveVideoFileDialog->GetPath();
-      ExtractVideoEditBox->ChangeValue(savefilename);
-    }
+	if (SaveVideoFileDialog->ShowModal() == wxID_OK) {
+	  save_filename = SaveVideoFileDialog->GetPath();
+	  ExtractVideoEditBox->ChangeValue(save_filename);
+	}
   }
 }
 
@@ -2093,15 +2075,15 @@ void abgx360gui::ExtractVideoSaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
  */
 void abgx360gui::ExtractPFISaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
   if (Clobber->IsChecked()) {
-    if (SavePFIFileDialogClobber->ShowModal() == wxID_OK) {
-      savefilename = SavePFIFileDialogClobber->GetPath();
-      ExtractPFIEditBox->ChangeValue(savefilename);
-    }
+	if (SavePFIFileDialogClobber->ShowModal() == wxID_OK) {
+	  save_filename = SavePFIFileDialogClobber->GetPath();
+	  ExtractPFIEditBox->ChangeValue(save_filename);
+	}
   } else {
-    if (SavePFIFileDialog->ShowModal() == wxID_OK) {
-      savefilename = SavePFIFileDialog->GetPath();
-      ExtractPFIEditBox->ChangeValue(savefilename);
-    }
+	if (SavePFIFileDialog->ShowModal() == wxID_OK) {
+	  save_filename = SavePFIFileDialog->GetPath();
+	  ExtractPFIEditBox->ChangeValue(save_filename);
+	}
   }
 }
 
@@ -2110,15 +2092,15 @@ void abgx360gui::ExtractPFISaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
  */
 void abgx360gui::ExtractDMISaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
   if (Clobber->IsChecked()) {
-    if (SaveDMIFileDialogClobber->ShowModal() == wxID_OK) {
-      savefilename = SaveDMIFileDialogClobber->GetPath();
-      ExtractDMIEditBox->ChangeValue(savefilename);
-    }
+	if (SaveDMIFileDialogClobber->ShowModal() == wxID_OK) {
+	  save_filename = SaveDMIFileDialogClobber->GetPath();
+	  ExtractDMIEditBox->ChangeValue(save_filename);
+	}
   } else {
-    if (SaveDMIFileDialog->ShowModal() == wxID_OK) {
-      savefilename = SaveDMIFileDialog->GetPath();
-      ExtractDMIEditBox->ChangeValue(savefilename);
-    }
+	if (SaveDMIFileDialog->ShowModal() == wxID_OK) {
+	  save_filename = SaveDMIFileDialog->GetPath();
+	  ExtractDMIEditBox->ChangeValue(save_filename);
+	}
   }
 }
 
@@ -2127,15 +2109,15 @@ void abgx360gui::ExtractDMISaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
  */
 void abgx360gui::ExtractSSSaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
   if (Clobber->IsChecked()) {
-    if (SaveSSFileDialogClobber->ShowModal() == wxID_OK) {
-      savefilename = SaveSSFileDialogClobber->GetPath();
-      ExtractSSEditBox->ChangeValue(savefilename);
-    }
+	if (SaveSSFileDialogClobber->ShowModal() == wxID_OK) {
+	  save_filename = SaveSSFileDialogClobber->GetPath();
+	  ExtractSSEditBox->ChangeValue(save_filename);
+	}
   } else {
-    if (SaveSSFileDialog->ShowModal() == wxID_OK) {
-      savefilename = SaveSSFileDialog->GetPath();
-      ExtractSSEditBox->ChangeValue(savefilename);
-    }
+	if (SaveSSFileDialog->ShowModal() == wxID_OK) {
+	  save_filename = SaveSSFileDialog->GetPath();
+	  ExtractSSEditBox->ChangeValue(save_filename);
+	}
   }
 }
 
@@ -2191,31 +2173,31 @@ void abgx360gui::MyRegionButtonClick(wxCommandEvent &WXUNUSED(event)) {
 
   str = MyRegionEditBox->GetValue();
   if (str.Len() == 8) {
-    str.Mid(2, 2).ToULong(&pal, 16);
-    str.Mid(4, 2).ToULong(&ntscj, 16);
-    str.Mid(6, 2).ToULong(&ntscu, 16);
-    if (ntscu == 0xFF) aRegionSelections.Add(0);
-    if (pal & 0x01) aRegionSelections.Add(1);
-    if ((pal & 0xFE) == 0xFE) aRegionSelections.Add(2);
-    if (ntscj & 0x01) aRegionSelections.Add(3);
-    if (ntscj & 0x02) aRegionSelections.Add(4);
-    if ((ntscj & 0xFC) == 0xFC) aRegionSelections.Add(5);
+	str.Mid(2, 2).ToULong(&pal, 16);
+	str.Mid(4, 2).ToULong(&ntscj, 16);
+	str.Mid(6, 2).ToULong(&ntscu, 16);
+	if (ntscu == 0xFF) aRegionSelections.Add(0);
+	if (pal & 0x01) aRegionSelections.Add(1);
+	if ((pal & 0xFE) == 0xFE) aRegionSelections.Add(2);
+	if (ntscj & 0x01) aRegionSelections.Add(3);
+	if (ntscj & 0x02) aRegionSelections.Add(4);
+	if ((ntscj & 0xFC) == 0xFC) aRegionSelections.Add(5);
   }
 
   wxGetMultipleChoices(aRegionSelections, wxT("Check the box next to the region of any and all consoles you own"), wxT("Select regions"), aRegions);
 
   if (aRegionSelections.GetCount()) {
-    ntscu = 0;
-    pal = 0;
-    ntscj = 0;
-    if (aRegionSelections.Index(0) != wxNOT_FOUND) ntscu = 0xFF;
-    if (aRegionSelections.Index(1) != wxNOT_FOUND) pal |= 0x01;
-    if (aRegionSelections.Index(2) != wxNOT_FOUND) pal |= 0xFE;
-    if (aRegionSelections.Index(3) != wxNOT_FOUND) ntscj |= 0x01;
-    if (aRegionSelections.Index(4) != wxNOT_FOUND) ntscj |= 0x02;
-    if (aRegionSelections.Index(5) != wxNOT_FOUND) ntscj |= 0xFC;
-    regioncode.Printf(wxT("00%02lX%02lX%02lX"), pal, ntscj, ntscu);
-    MyRegionEditBox->SetValue(regioncode);
+	ntscu = 0;
+	pal = 0;
+	ntscj = 0;
+	if (aRegionSelections.Index(0) != wxNOT_FOUND) ntscu = 0xFF;
+	if (aRegionSelections.Index(1) != wxNOT_FOUND) pal |= 0x01;
+	if (aRegionSelections.Index(2) != wxNOT_FOUND) pal |= 0xFE;
+	if (aRegionSelections.Index(3) != wxNOT_FOUND) ntscj |= 0x01;
+	if (aRegionSelections.Index(4) != wxNOT_FOUND) ntscj |= 0x02;
+	if (aRegionSelections.Index(5) != wxNOT_FOUND) ntscj |= 0xFC;
+	regioncode.Printf(wxT("00%02lX%02lX%02lX"), pal, ntscj, ntscu);
+	MyRegionEditBox->SetValue(regioncode);
   }
 }
 
@@ -2243,23 +2225,23 @@ void abgx360gui::MatchOnlyButtonClick(wxCommandEvent &WXUNUSED(event)) {
 
   str = MatchOnlyEditBox->GetValue();
   if (str.Len()) {
-    for (i = 0; i < aMatches.GetCount(); i++) {
-      if (str.Find(aMatches.Item(i)) == 0 || str.Find(wxT(",") + aMatches.Item(i)) != wxNOT_FOUND || str.Find(wxT(", ") + aMatches.Item(i)) != wxNOT_FOUND)
-        aMatchSelections.Add(i);
-    }
+	for (i = 0; i < aMatches.GetCount(); i++) {
+	  if (str.Find(aMatches.Item(i)) == 0 || str.Find(wxT(",") + aMatches.Item(i)) != wxNOT_FOUND || str.Find(wxT(", ") + aMatches.Item(i)) != wxNOT_FOUND)
+		aMatchSelections.Add(i);
+	}
   }
 
   wxGetMultipleChoices(aMatchSelections, wxT("Check the box next to the type of files you want to match"), wxT("Select matches"), aMatches);
 
   if (aMatchSelections.GetCount()) {
-    for (i = 0; i < aMatches.GetCount(); i++) {
-      if (aMatchSelections.Index(i) != wxNOT_FOUND) {
-        if (Matches.Len()) Matches += wxT(", ");
-        Matches += aMatches.Item(i);
-      }
-    }
-    MatchOnlyEditBox->SetValue(Matches);
-    MatchOnly->SetValue(true);
+	for (i = 0; i < aMatches.GetCount(); i++) {
+	  if (aMatchSelections.Index(i) != wxNOT_FOUND) {
+		if (Matches.Len()) Matches += wxT(", ");
+		Matches += aMatches.Item(i);
+	  }
+	}
+	MatchOnlyEditBox->SetValue(Matches);
+	MatchOnly->SetValue(true);
   }
 }
 
@@ -2268,58 +2250,58 @@ void abgx360gui::MatchOnlyButtonClick(wxCommandEvent &WXUNUSED(event)) {
  */
 void abgx360gui::InputChoiceSelected(wxCommandEvent &WXUNUSED(event)) {
   if (InputChoice->GetCurrentSelection() == 1) {  // directory
-    OpenButton->SetToolTip(wxT("Open Directory"));
-    WriteDisable->Show();
-    MatchOnly->Show();
-    MatchOnlyEditBox->Show();
-    MatchOnlyButton->Show();
+	OpenButton->SetToolTip(wxT("Open Directory"));
+	WriteDisable->Show();
+	MatchOnly->Show();
+	MatchOnlyEditBox->Show();
+	MatchOnlyButton->Show();
 #ifdef WIN32
-    DriveChoice->Hide();
-    InputFileEditBox->Show();
-    OpenButton->Show();
+	DriveChoice->Hide();
+	InputFileEditBox->Show();
+	OpenButton->Show();
 #endif
   } else if (InputChoice->GetCurrentSelection() == 2) {  // burned dvd
 #ifdef WIN32
-    MatchOnly->Hide();
-    MatchOnlyEditBox->Hide();
-    MatchOnlyButton->Hide();
-    DriveChoice->Show();
-    InputFileEditBox->Hide();
-    OpenButton->Hide();
-    WriteDisable->Hide();
+	MatchOnly->Hide();
+	MatchOnlyEditBox->Hide();
+	MatchOnlyButton->Hide();
+	DriveChoice->Show();
+	InputFileEditBox->Hide();
+	OpenButton->Hide();
+	WriteDisable->Hide();
 #else
-    wxMessageBox(wxT("For Unix based operating systems: Devices are files!\n"
-                     "Select \"File(s)\" as Input and enter the device name.\n"
-                     "Linux Example: /dev/cdrom (requires read permissions).\n"
-                     "Writes are automatically disabled for block devices."), wxT("Unix Burned DVD Input"), wxOK);
-    return;
+	wxMessageBox(wxT("For Unix based operating systems: Devices are files!\n"
+					 "Select \"File(s)\" as Input and enter the device name.\n"
+					 "Linux Example: /dev/cdrom (requires read permissions).\n"
+					 "Writes are automatically disabled for block devices."), wxT("Unix Burned DVD Input"), wxOK);
+	return;
 #endif
   }
-    /*
-    else if (InputChoice->GetCurrentSelection() == 3) {  // original disc
-        WriteDisable->Hide();
-        MatchOnly->Hide();
-        MatchOnlyEditBox->Hide();
-        MatchOnlyButton->Hide();
-        #ifdef WIN32
-            DriveChoice->Show();
-            InputFileEditBox->Hide();
-            OpenButton->Hide();
-        #else
-            OpenButton->SetToolTip(wxT("Open Ripper Device"));
-        #endif
-    }
-    */
+	/*
+	else if (InputChoice->GetCurrentSelection() == 3) {  // original disc
+		WriteDisable->Hide();
+		MatchOnly->Hide();
+		MatchOnlyEditBox->Hide();
+		MatchOnlyButton->Hide();
+		#ifdef WIN32
+			DriveChoice->Show();
+			InputFileEditBox->Hide();
+			OpenButton->Hide();
+		#else
+			OpenButton->SetToolTip(wxT("Open Ripper Device"));
+		#endif
+	}
+	*/
   else {  // file(s)
-    OpenButton->SetToolTip(wxT("Open File(s)"));
-    WriteDisable->Show();
-    MatchOnly->Hide();
-    MatchOnlyEditBox->Hide();
-    MatchOnlyButton->Hide();
+	OpenButton->SetToolTip(wxT("Open File(s)"));
+	WriteDisable->Show();
+	MatchOnly->Hide();
+	MatchOnlyEditBox->Hide();
+	MatchOnlyButton->Hide();
 #ifdef WIN32
-    DriveChoice->Hide();
-    InputFileEditBox->Show();
-    OpenButton->Show();
+	DriveChoice->Hide();
+	InputFileEditBox->Show();
+	OpenButton->Show();
 #endif
   }
 }
@@ -2331,7 +2313,7 @@ void abgx360gui::MnuClearHistoryClick(wxCommandEvent &WXUNUSED(event)) {
   size_t i;
   size_t count = m_fileHistory->GetCount();
   for (i = 0; i < count; i++) {
-    m_fileHistory->RemoveFileFromHistory(0);
+	m_fileHistory->RemoveFileFromHistory(0);
   }
   m_fileConfig->SetPath(wxT("/RecentFiles"));
   m_fileHistory->Save(*m_fileConfig);
@@ -2363,7 +2345,7 @@ void abgx360gui::MnuClearDirHistoryClick(wxCommandEvent &WXUNUSED(event)) {
   size_t i;
   size_t count = m_folderHistory->GetCount();
   for (i = 0; i < count; i++) {
-    m_folderHistory->RemoveFileFromHistory(0);
+	m_folderHistory->RemoveFileFromHistory(0);
   }
   m_fileConfig->SetPath(wxT("/RecentFolders"));
   m_folderHistory->Save(*m_fileConfig);
@@ -2395,30 +2377,30 @@ void abgx360gui::QuickstartChoiceSelected(wxCommandEvent &WXUNUSED(event)) {
   QuickstartMemo->Clear();
 
   if (QuickstartChoice->GetCurrentSelection() == 0) {
-    QuickstartMemo->AppendText(wxT("Welcome to abgx360, the ultimate tool for Xbox 360 ISOs and Stealth files!" NEWLINE NEWLINE));
-    QuickstartMemo->AppendText(wxT("Pick an item from the dropdown list above to get detailed information or instructions displayed here."));
+	QuickstartMemo->AppendText(wxT("Welcome to abgx360, the ultimate tool for Xbox 360 ISOs and Stealth files!" NEWLINE NEWLINE));
+	QuickstartMemo->AppendText(wxT("Pick an item from the dropdown list above to get detailed information or instructions displayed here."));
   } else if (QuickstartChoice->GetCurrentSelection() == 1) {
-    QuickstartMemo->AppendText(wxT("The default settings are recommended, although you may change any settings and press Ctrl+S to save them as the new defaults or save them with a different name so that they can be loaded at any time by pressing Ctrl+L and selecting them. To delete any of your saved settings press Ctrl+D and select the ones you want to delete. These commands are also available on the menu bar under File."));
+	QuickstartMemo->AppendText(wxT("The default settings are recommended, although you may change any settings and press Ctrl+S to save them as the new defaults or save them with a different name so that they can be loaded at any time by pressing Ctrl+L and selecting them. To delete any of your saved settings press Ctrl+D and select the ones you want to delete. These commands are also available on the menu bar under File."));
   } else if (QuickstartChoice->GetCurrentSelection() == 2) {
-    QuickstartMemo->AppendText(wxT("Step 1: Press Ctrl+O to browse for the file you want to check/fix." NEWLINE));
-    QuickstartMemo->AppendText(wxT("Step 2: Select \"Disable Writes\" if you just want to check the ISO without automatically fixing it, or go to the AutoFix tab and set the threshold to Level 3 if you want your ISO to be patched with verified stealth files even if the current files look valid." NEWLINE));
-    QuickstartMemo->AppendText(wxT("Step 3: Click the Launch button and read the output. Red or yellow text is important!" NEWLINE));
-    QuickstartMemo->AppendText(wxT("Note: The .dvd file is automatically created if it doesn't exist or fixed if it's invalid unless you disabled that setting under the options tab or selected \"Disable Writes\""));
+	QuickstartMemo->AppendText(wxT("Step 1: Press Ctrl+O to browse for the file you want to check/fix." NEWLINE));
+	QuickstartMemo->AppendText(wxT("Step 2: Select \"Disable Writes\" if you just want to check the ISO without automatically fixing it, or go to the AutoFix tab and set the threshold to Level 3 if you want your ISO to be patched with verified stealth files even if the current files look valid." NEWLINE));
+	QuickstartMemo->AppendText(wxT("Step 3: Click the Launch button and read the output. Red or yellow text is important!" NEWLINE));
+	QuickstartMemo->AppendText(wxT("Note: The .dvd file is automatically created if it doesn't exist or fixed if it's invalid unless you disabled that setting under the options tab or selected \"Disable Writes\""));
   } else if (QuickstartChoice->GetCurrentSelection() == 3) {
-    QuickstartMemo->AppendText(wxT("Part of the response to Challenge Types 24 and 25 (Response Types 7 and 5) is a rotational angle between 2 sectors on an original disc. The host's CCRT (which abgx360 decrypts) contains the target angles that would occur on a perfectly mastered disc when read by a perfect drive. There is also a value in the CCRT which only occurs for Challenge Types 24 and 25 that appears to specify the maximum deviation for a given angle. Currently all Xbox 360 games have the same angles (1, 91, 181, 271) and maximum deviation (+/-15). This is a copy protection system based on the fact that we cannot control the location of physical sectors on our backups, and our angles would be hugely different compared to an original. This is a fine protection as long as you can trust the drive firmware to make the actual measurement instead of simply replaying a previous response, which is what hacked firmware does. The default setting in abgx360 (for SS v1) is to adjust the replay angles (which only hacked firmwares can see and use) that deviate more than 3 degrees back to their CCRT target values because in real world testing on a normal drive, up to 2 degrees of deviation is quite normal and deviation greater than 3 on any game is rare and could be suspicous (although it's very common to have high deviation on a dying or worn out drive). Alternatively, (paranoid scenario) a game could be intentionally mastered with a deviation far from its CCRT target and adjusting it to the target value would also be suspicious... although this would potentially cause problems for disc authentication on legitimate unmodified drives. See \"What is SS v2?\" for the solution to this scenario."));
+	QuickstartMemo->AppendText(wxT("Part of the response to Challenge Types 24 and 25 (Response Types 7 and 5) is a rotational angle between 2 sectors on an original disc. The host's CCRT (which abgx360 decrypts) contains the target angles that would occur on a perfectly mastered disc when read by a perfect drive. There is also a value in the CCRT which only occurs for Challenge Types 24 and 25 that appears to specify the maximum deviation for a given angle. Currently all Xbox 360 games have the same angles (1, 91, 181, 271) and maximum deviation (+/-15). This is a copy protection system based on the fact that we cannot control the location of physical sectors on our backups, and our angles would be hugely different compared to an original. This is a fine protection as long as you can trust the drive firmware to make the actual measurement instead of simply replaying a previous response, which is what hacked firmware does. The default setting in abgx360 (for SS v1) is to adjust the replay angles (which only hacked firmwares can see and use) that deviate more than 3 degrees back to their CCRT target values because in real world testing on a normal drive, up to 2 degrees of deviation is quite normal and deviation greater than 3 on any game is rare and could be suspicous (although it's very common to have high deviation on a dying or worn out drive). Alternatively, (paranoid scenario) a game could be intentionally mastered with a deviation far from its CCRT target and adjusting it to the target value would also be suspicious... although this would potentially cause problems for disc authentication on legitimate unmodified drives. See \"What is SS v2?\" for the solution to this scenario."));
   } else if (QuickstartChoice->GetCurrentSelection() == 4) {
-    QuickstartMemo->AppendText(wxT("If you put an Xbox 360 disc in a normal DVD video player you will see a screen that says, \"To play this disc, put it in an Xbox 360 console.\" This happens because there's a DVD video partition on the disc which is split over both layers on original discs. On normal backups the video partition is all on layer 0, and hacked firmwares are supposed to redirect reads to the layer 1 video back to layer 0. However, it was discovered that some hacked firmware versions prior to the release of iXtreme were not doing this properly, and if the Xbox 360 host tried to read the entire video partition, the second part of it would be blank because the firmware started reading from layer 1 instead of continuing to read from layer 0 like it was supposed to. One solution to this problem was called SplitVid, and it works by appending the layer 1 video to the end of an iso (padded up to the proper position based on PFI) so that when these buggy firmwares start reading from layer 1 they will actually read the layer 1 video instead of blank data. The better solution is to simply upgrade your firmware to the latest iXtreme version because these old firmwares have even more security holes, even if you have a perfectly stealthed disc. iXtreme versions prior to v1.4 also have a bug in disc jitter (see 'Is there such a thing as a \"bad kreon rip\"?' for more on this). If you still want to add SplitVid (or even if you want to remove it) you can select your preference in the Misc tab.  The default behavior is to not check for it and just leave it the way it is, because if you're using iXtreme firmware it doesn't matter if a backup has SplitVid or not; data past the game partition will not be readable by the Xbox 360 host."));
+	QuickstartMemo->AppendText(wxT("If you put an Xbox 360 disc in a normal DVD video player you will see a screen that says, \"To play this disc, put it in an Xbox 360 console.\" This happens because there's a DVD video partition on the disc which is split over both layers on original discs. On normal backups the video partition is all on layer 0, and hacked firmwares are supposed to redirect reads to the layer 1 video back to layer 0. However, it was discovered that some hacked firmware versions prior to the release of iXtreme were not doing this properly, and if the Xbox 360 host tried to read the entire video partition, the second part of it would be blank because the firmware started reading from layer 1 instead of continuing to read from layer 0 like it was supposed to. One solution to this problem was called SplitVid, and it works by appending the layer 1 video to the end of an iso (padded up to the proper position based on PFI) so that when these buggy firmwares start reading from layer 1 they will actually read the layer 1 video instead of blank data. The better solution is to simply upgrade your firmware to the latest iXtreme version because these old firmwares have even more security holes, even if you have a perfectly stealthed disc. iXtreme versions prior to v1.4 also have a bug in disc jitter (see 'Is there such a thing as a \"bad kreon rip\"?' for more on this). If you still want to add SplitVid (or even if you want to remove it) you can select your preference in the Misc tab.  The default behavior is to not check for it and just leave it the way it is, because if you're using iXtreme firmware it doesn't matter if a backup has SplitVid or not; data past the game partition will not be readable by the Xbox 360 host."));
   } else if (QuickstartChoice->GetCurrentSelection() == 5) {
-    QuickstartMemo->AppendText(wxT("AnyDVD is an app that runs in the background to remove DVD video protections on the fly. This is a nice feature when playing or ripping protected DVD movies but it causes problems when ripping Xbox 360 games because the video data (and possibly game data) will be altered in a way that is detectable on Xbox Live. Altered video will be easily detected and fixed because abgx360 knows which video partition (and matching PFI) your game should have based on the timestamp of authoring in the SS, and it knows what the CRC of that data should be. However, AnyDVD has also been observed to cause corruption in the game partition. If corruption occurs in an actual file in the game data, it could result in the game crashing or reporting an error when playing that backup. If it occurs in the random padding in between files, the corruption will not affect gameplay but could be detectable on Xbox Live. abgx360 looks for AnyDVD style corruption in the game data whenever the game CRC is checked by simply searching for \"DVDVIDEO-\" at the start of every sector (it was observed that video files inserted by AnyDVD always begin with either \"DVDVIDEO-VTS\" or \"DVDVIDEO-VMG\"). abgx360 is unable to fix game data corruption because it has no way to know what the data should be; it only knows what the resulting CRC should be (assuming a verified ini was found for that game) and the only way to fix bad game data is with a PPF. Other forms of game data corruption unrelated to AnyDVD (for example: single bit errors commonly caused by unstable CPU/RAM) will only be detected if abgx360 can find a verified ini and your game CRC doesn't match."));
+	QuickstartMemo->AppendText(wxT("AnyDVD is an app that runs in the background to remove DVD video protections on the fly. This is a nice feature when playing or ripping protected DVD movies but it causes problems when ripping Xbox 360 games because the video data (and possibly game data) will be altered in a way that is detectable on Xbox Live. Altered video will be easily detected and fixed because abgx360 knows which video partition (and matching PFI) your game should have based on the timestamp of authoring in the SS, and it knows what the CRC of that data should be. However, AnyDVD has also been observed to cause corruption in the game partition. If corruption occurs in an actual file in the game data, it could result in the game crashing or reporting an error when playing that backup. If it occurs in the random padding in between files, the corruption will not affect gameplay but could be detectable on Xbox Live. abgx360 looks for AnyDVD style corruption in the game data whenever the game CRC is checked by simply searching for \"DVDVIDEO-\" at the start of every sector (it was observed that video files inserted by AnyDVD always begin with either \"DVDVIDEO-VTS\" or \"DVDVIDEO-VMG\"). abgx360 is unable to fix game data corruption because it has no way to know what the data should be; it only knows what the resulting CRC should be (assuming a verified ini was found for that game) and the only way to fix bad game data is with a PPF. Other forms of game data corruption unrelated to AnyDVD (for example: single bit errors commonly caused by unstable CPU/RAM) will only be detected if abgx360 can find a verified ini and your game CRC doesn't match."));
   } else if (QuickstartChoice->GetCurrentSelection() == 6) {
-    QuickstartMemo->AppendText(wxT("Short Answer: No, at least not yet, and if MS changes the angles in the future, abgx360 will know (by decrypting the CCRT) and will be able to adjust bad angles." NEWLINE NEWLINE));
-    QuickstartMemo->AppendText(wxT("Long Answer: Current versions of Kreon's ripping firmware use preset values for the angle responses to Challenge Types 24 and 25 (Response Types 7 and 5) which isn't a problem because currently all Xbox 360 games use the same target angles. Kreon applies a small jitter to the preset angles, and sometimes it will give an angle of 359 degrees for CCRT target angle 1 (deviation of -2). When stored in the SS in LSB format this angle is also known as 6701, and back when the now useless KreonChecker was introduced these angles were thought to be timing values, and a value of 6701 was thought to be radically different from values like 0000 and 0100 observed when ripping the same disc with a Samsung drive. Although original firmwares may use timing to calculate the angle measurement, the difference between 6701 and 0000 is actually only 1 degree and definitely not a huge difference as originally thought. All was not in vain however, since this discussion brought about the realization that iXtreme would improperly jitter 6701 to 6801 (359 to 360), which is completely invalid and not an angle that original firmware will ever return. The proper behavior is to rollover from 359 to 0, which was implemented in iXtreme v1.4 and is a very important security update if you use or plan to use Xbox Live, even if you only play backups ripped with a Samsung drive because it can also return an angle of 359, and for some discs it's actually the most likely measurement. And yes, this means that you can stop using KreonChecker! abgx360 has an option (not enabled by default) under the AutoFix tab that will adjust 359 degree angles to 0 so that older versions of iXtreme will not exhibit this bug, but the best solution is to simply update your firmware to the newest iXtreme release for your drive, and there will be no need to reburn any of your backups."));
+	QuickstartMemo->AppendText(wxT("Short Answer: No, at least not yet, and if MS changes the angles in the future, abgx360 will know (by decrypting the CCRT) and will be able to adjust bad angles." NEWLINE NEWLINE));
+	QuickstartMemo->AppendText(wxT("Long Answer: Current versions of Kreon's ripping firmware use preset values for the angle responses to Challenge Types 24 and 25 (Response Types 7 and 5) which isn't a problem because currently all Xbox 360 games use the same target angles. Kreon applies a small jitter to the preset angles, and sometimes it will give an angle of 359 degrees for CCRT target angle 1 (deviation of -2). When stored in the SS in LSB format this angle is also known as 6701, and back when the now useless KreonChecker was introduced these angles were thought to be timing values, and a value of 6701 was thought to be radically different from values like 0000 and 0100 observed when ripping the same disc with a Samsung drive. Although original firmwares may use timing to calculate the angle measurement, the difference between 6701 and 0000 is actually only 1 degree and definitely not a huge difference as originally thought. All was not in vain however, since this discussion brought about the realization that iXtreme would improperly jitter 6701 to 6801 (359 to 360), which is completely invalid and not an angle that original firmware will ever return. The proper behavior is to rollover from 359 to 0, which was implemented in iXtreme v1.4 and is a very important security update if you use or plan to use Xbox Live, even if you only play backups ripped with a Samsung drive because it can also return an angle of 359, and for some discs it's actually the most likely measurement. And yes, this means that you can stop using KreonChecker! abgx360 has an option (not enabled by default) under the AutoFix tab that will adjust 359 degree angles to 0 so that older versions of iXtreme will not exhibit this bug, but the best solution is to simply update your firmware to the newest iXtreme release for your drive, and there will be no need to reburn any of your backups."));
   } else if (QuickstartChoice->GetCurrentSelection() == 7) {
-    QuickstartMemo->AppendText(wxT("SS v2 very simply consists of a duplicate angle value for response types 7 and 5 stored in c4eva's C/R replay table and was added in iXtreme v1.6. Older 0800 ripping firmwares and Kreon's firmware will record the angle just once, which results in SS v1. The problem is that Kreon's firmware does not do an actual measurement to get the angle, but simply uses preset angles that all games currently use and applies a small jitter to them. Storing the angle twice allows us to be fairly certain that this is a real angle measurement made by an actual Xbox 360 drive. If a game was intentionally or accidentally mastered with one or more angles that deviated far from their CCRT targets, it would need to be ripped with a drive that does actual angle measurements in order to mimic the original disc's responses. If that drive also supports SS v2 and you have the default option enabled to \"Trust SS v2 angles\", abgx360 will accept them instead of complaining about deviation from the (obviously incorrect) CCRT target. It will still check and alert you when appropriate about the v1 angle deviation from the v2 angle, which should be zero unless the v1 angle has been adjusted to its CCRT target by an older version of abgx360, or if a 359 degree v1 angle was adjusted to 0 for compatibility with iXtreme < v1.4. If you have decided not to trust SS v2 angles by unchecking that option, abgx360 will compare both the v1 and v2 angle to the CCRT target as if each was a v1 angle and alert you when appropriate; this is useful if you're paranoid and think someone has maliciously tampered with the angles. Note, however, that abgx360 v1.0.2 or later will never fix angle deviation or C/R data for an SS v2 without a verified ini and SS file (although it will still adjust any 359 degree v1 angles if you have that option enabled). If your SS v2 is fucked up, something is seriously wrong and you need to rip again or use the SS provided by AutoFix, as there is no reliable way to fix an SS v2 using decrypted CCRT data."));
+	QuickstartMemo->AppendText(wxT("SS v2 very simply consists of a duplicate angle value for response types 7 and 5 stored in c4eva's C/R replay table and was added in iXtreme v1.6. Older 0800 ripping firmwares and Kreon's firmware will record the angle just once, which results in SS v1. The problem is that Kreon's firmware does not do an actual measurement to get the angle, but simply uses preset angles that all games currently use and applies a small jitter to them. Storing the angle twice allows us to be fairly certain that this is a real angle measurement made by an actual Xbox 360 drive. If a game was intentionally or accidentally mastered with one or more angles that deviated far from their CCRT targets, it would need to be ripped with a drive that does actual angle measurements in order to mimic the original disc's responses. If that drive also supports SS v2 and you have the default option enabled to \"Trust SS v2 angles\", abgx360 will accept them instead of complaining about deviation from the (obviously incorrect) CCRT target. It will still check and alert you when appropriate about the v1 angle deviation from the v2 angle, which should be zero unless the v1 angle has been adjusted to its CCRT target by an older version of abgx360, or if a 359 degree v1 angle was adjusted to 0 for compatibility with iXtreme < v1.4. If you have decided not to trust SS v2 angles by unchecking that option, abgx360 will compare both the v1 and v2 angle to the CCRT target as if each was a v1 angle and alert you when appropriate; this is useful if you're paranoid and think someone has maliciously tampered with the angles. Note, however, that abgx360 v1.0.2 or later will never fix angle deviation or C/R data for an SS v2 without a verified ini and SS file (although it will still adjust any 359 degree v1 angles if you have that option enabled). If your SS v2 is fucked up, something is seriously wrong and you need to rip again or use the SS provided by AutoFix, as there is no reliable way to fix an SS v2 using decrypted CCRT data."));
   } else if (QuickstartChoice->GetCurrentSelection() == 8) {
-    QuickstartMemo->AppendText(wxT("You can find out where your StealthFiles are stored by pressing Ctrl+F" NEWLINE));
-    QuickstartMemo->AppendText(wxT("To find out where your Images are stored, press Ctrl+I" NEWLINE));
-    QuickstartMemo->AppendText(wxT("These commands are also available on the menu bar under Help."));
+	QuickstartMemo->AppendText(wxT("You can find out where your StealthFiles are stored by pressing Ctrl+F" NEWLINE));
+	QuickstartMemo->AppendText(wxT("To find out where your Images are stored, press Ctrl+I" NEWLINE));
+	QuickstartMemo->AppendText(wxT("These commands are also available on the menu bar under Help."));
   }
   QuickstartMemo->ShowPosition(0);
 }
@@ -2438,19 +2420,19 @@ void abgx360gui::WhereStealthFilesClick(wxCommandEvent &event) {
 
 #ifdef WIN32
   if (wxGetEnv(wxT("APPDATA"), &homedir) || wxGetEnv(wxT("ProgramData"), &homedir) || wxGetEnv(wxT("ALLUSERSPROFILE"), &homedir)) {
-      str = wxT("Your StealthFiles folder is located here:"NEWLINE);
+	  str = wxT("Your StealthFiles folder is located here:"NEWLINE);
   }
   else {
-      wxMessageBox(wxT("ERROR: Unable to find your StealthFiles folder!"), wxT("Where is my StealthFiles folder?"), wxOK);
-    return;
+	  wxMessageBox(wxT("ERROR: Unable to find your StealthFiles folder!"), wxT("Where is my StealthFiles folder?"), wxOK);
+	return;
   }
   homedir += wxT("\\abgx360\\");
 #else
   if (wxGetEnv(wxT("ABGX360_DIR"), &homedir) || wxGetEnv(wxT("HOME"), &homedir)) {
-    str = wxT("Your StealthFiles folder is located here:" NEWLINE);
+	str = wxT("Your StealthFiles folder is located here:" NEWLINE);
   } else {
-    wxMessageBox(wxT("ERROR: Unable to find your StealthFiles folder!"), wxT("Where is my StealthFiles folder?"), wxOK);
-    return;
+	wxMessageBox(wxT("ERROR: Unable to find your StealthFiles folder!"), wxT("Where is my StealthFiles folder?"), wxOK);
+	return;
   }
   homedir += wxT("/.abgx360/");
 #endif
@@ -2463,12 +2445,12 @@ void abgx360gui::WhereStealthFilesClick(wxCommandEvent &event) {
 
   if (wxMessageBox(str, wxT("Where is my StealthFiles folder?"), wxYES_NO) == wxYES) {
 #ifdef WIN32
-    wxLaunchDefaultBrowser(stealthdir);
+	wxLaunchDefaultBrowser(stealthdir);
 #else
 #ifdef __APPLE__
-    wxExecute(wxT("open ") + stealthdir, wxEXEC_ASYNC, NULL);
+	wxExecute(wxT("open ") + stealthdir, wxEXEC_ASYNC, NULL);
 #else
-    wxExecute(wxT("xdg-open ") + stealthdir, wxEXEC_ASYNC, NULL);
+	wxExecute(wxT("xdg-open ") + stealthdir, wxEXEC_ASYNC, NULL);
 #endif
 #endif
   }
@@ -2483,19 +2465,19 @@ void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
 
 #ifdef WIN32
   if (wxGetEnv(wxT("APPDATA"), &homedir) || wxGetEnv(wxT("ProgramData"), &homedir) || wxGetEnv(wxT("ALLUSERSPROFILE"), &homedir)) {
-      str = wxT("Your Images folder is located here:"NEWLINE);
+	  str = wxT("Your Images folder is located here:"NEWLINE);
   }
   else {
-      wxMessageBox(wxT("ERROR: Unable to find your Images folder!"), wxT("Where is my Images folder?"), wxOK);
-    return;
+	  wxMessageBox(wxT("ERROR: Unable to find your Images folder!"), wxT("Where is my Images folder?"), wxOK);
+	return;
   }
   homedir += wxT("\\abgx360\\");
 #else
   if (wxGetEnv(wxT("ABGX360_DIR"), &homedir) || wxGetEnv(wxT("HOME"), &homedir)) {
-    str = wxT("Your Images folder is located here:" NEWLINE);
+	str = wxT("Your Images folder is located here:" NEWLINE);
   } else {
-    wxMessageBox(wxT("ERROR: Unable to find your Images folder!"), wxT("Where is my Images folder?"), wxOK);
-    return;
+	wxMessageBox(wxT("ERROR: Unable to find your Images folder!"), wxT("Where is my Images folder?"), wxOK);
+	return;
   }
   homedir += wxT("/.abgx360/");
 #endif
@@ -2508,12 +2490,12 @@ void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
 
   if (wxMessageBox(str, wxT("Where is my Images folder?"), wxYES_NO) == wxYES) {
 #ifdef WIN32
-    wxLaunchDefaultBrowser(imagesdir);
+	wxLaunchDefaultBrowser(imagesdir);
 #else
 #ifdef __APPLE__
-    wxExecute(wxT("open ") + imagesdir, wxEXEC_ASYNC, NULL);
+	wxExecute(wxT("open ") + imagesdir, wxEXEC_ASYNC, NULL);
 #else
-    wxExecute(wxT("xdg-open ") + imagesdir, wxEXEC_ASYNC, NULL);
+	wxExecute(wxT("xdg-open ") + imagesdir, wxEXEC_ASYNC, NULL);
 #endif
 #endif
   }

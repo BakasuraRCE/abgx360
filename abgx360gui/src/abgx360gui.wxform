@@ -7967,7 +7967,7 @@ object frmNewForm: TfrmNewForm
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFF}
-      Wx_IDName = 'ID_DOTTEDOPENBUTTONDISABLED'
+      Wx_IDName = 'ID_DOTTED_OPEN_BUTTON_DISABLED'
       Wx_IDValue = 1729
     end
     object SaveButtonDisabled: TWxBitmapButton
@@ -8058,7 +8058,7 @@ object frmNewForm: TfrmNewForm
         66FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
         FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
         FF00}
-      Wx_IDName = 'ID_SAVEBUTTONDISABLED'
+      Wx_IDName = 'ID_SAVE_BUTTON_DISABLED'
       Wx_IDValue = 1023
     end
   end
@@ -8783,7 +8783,7 @@ object frmNewForm: TfrmNewForm
       '(*.*)|*.*'
     Wx_DialogStyle = []
   end
-  object WxMenuBar1: TWxMenuBar
+  object wx_menu_bar: TWxMenuBar
     Left = 578
     Top = 17
     Width = 28
