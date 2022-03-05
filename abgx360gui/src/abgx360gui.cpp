@@ -1384,6 +1384,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
   cmd.Empty();
 
 #if defined(__linux__) || defined(__CLION_IDE__)
+  // TODO: replace with https://build.i3wm.org/docs/i3-sensible-terminal.html > https://superuser.com/questions/1153988/find-the-default-terminal-emulator
   cmd += wxT("xterm ");
   if (ProgramOutput->GetCurrentSelection() == 0) cmd += wxT("-bg black ");
   if (Maximize->IsChecked()) cmd += wxT("-geometry 80x400+0+0 ");
