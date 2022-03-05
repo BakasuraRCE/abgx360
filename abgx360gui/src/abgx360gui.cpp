@@ -1390,7 +1390,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 
   cmd.Empty();
 
-#if !defined(_WIN32) && !defined(__APPLE__)
+#if defined(__linux__) || defined(__CLION_IDE__)
   cmd += wxT("xterm ");
   if (ProgramOutput->GetCurrentSelection() == 0) cmd += wxT("-bg black ");
   if (Maximize->IsChecked()) cmd += wxT("-geometry 80x400+0+0 ");
@@ -1664,7 +1664,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	cmd += OutputFileEditBox->GetValue();
 	cmd += wxT("\"");
   }
-#if (!defined(_WIN32) && !defined(__APPLE__))
+#if defined(__linux__) || defined(__CLION_IDE_)
   // change single quotes/apostrophes to \' but change the first one back for xterm -e ... 'abgx360 ...
   cmd.Replace(wxT("'"), wxT("\\'"), true);
   cmd.Replace(wxT("\\'"), wxT("'"), false);
