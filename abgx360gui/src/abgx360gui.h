@@ -8,24 +8,26 @@
 //
 //---------------------------------------------------------------------------
 
-#ifndef __ABGX360GUI_h__
-#define __ABGX360GUI_h__
+#pragma once
+
+// PRECOMPILED_HEADERS
+// https://docs.wxwidgets.org/3.0/page_multiplatform.html
+// For compilers that support precompilation, includes "wx.h".
+#include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
-#pragma hdrstop
+#   pragma hdrstop
 #endif
 
 #ifndef WX_PRECOMP
-
-#include <wx/wx.h>
-#include <wx/frame.h>
-
-#else
-#include <wx/wxprec.h>
+// Include your minimal set of headers here, or wx.h
+#   include <wx/wx.h>
 #endif
+// PRECOMPILED_HEADERS
 
 #include <random>
 #include <string>
+#include <ctime>
 
 #include <wx/dirdlg.h>
 #include <wx/filedlg.h>
@@ -52,25 +54,17 @@
 #include <wx/aboutdlg.h>
 #include <wx/choicdlg.h>
 #include <wx/event.h>
-//#include <wx/defs.h>
 #include <wx/tipwin.h>
 #include <wx/stopwatch.h>
-#include <time.h>
 #include <wx/dcbuffer.h>
-#include <wx/dnd.h>  // drag and drop
 
-#if defined(WIN32) || defined(__CLION_IDE__)
-#include <ddk/ntddstor.h>  // device i/o stuff
+#if defined(_WIN32) || defined(__CLION_IDE__)
+  #include <ddk/ntddstor.h>  // device i/o stuff
 #endif
 
-#ifdef __APPLE__
-#include <CoreFoundation/CFBundle.h> // for OSX bundle-related stuff
+#if defined(__APPLE__) || defined(__CLION_IDE__)
+  #include <CoreFoundation/CFBundle.h> // for OSX bundle-related stuff
 #endif
-
-////Dialog Style Start
-#undef abgx360gui_STYLE
-#define abgx360gui_STYLE wxCAPTION | wxSYSTEM_MENU | wxMINIMIZE_BOX | wxCLOSE_BOX
-////Dialog Style End
 
 class InfoTip : public wxPanel {
  private:
@@ -265,7 +259,7 @@ class abgx360gui : public wxFrame {
   InfoTip *MyRegionTip, *RebuildDefaultTip, *RebuildLowSpaceTip, *AutoFixTip, *TrustSSv2Tip, *FixDRTTip, *FixAngle359Tip, *FixBadAnglesTip, *PatchIfStealthPassesTip, *CheckDVDFileTip,
 	  *CheckStealthTip, *VerifyTip, *CheckVideoPaddingTip, *CheckCorruptionTip, *CheckForUpdatesTip, *GameCRCTip, *SplitVidTip, *ImagesTip, *PreferredLangTip;
   wxBitmapButton *LaunchButton;
-#if defined(WIN32) || defined(__CLION_IDE__)
+#if defined(_WIN32) || defined(__CLION_IDE__)
   wxChoice *DriveChoice;
   wxArrayString arrayStringFor_DriveChoice;
 #endif
@@ -277,7 +271,7 @@ class abgx360gui : public wxFrame {
   int ID_WX_MENU_DELETE_SETTINGS;
 
   enum {
-#if defined(WIN32) || defined(__CLION_IDE__)
+#if defined(_WIN32) || defined(__CLION_IDE__)
 	ID_DRIVECHOICE,
 #endif
 	ID_SAVE_BUTTON_DISABLED,
@@ -310,5 +304,3 @@ class abgx360gui : public wxFrame {
   wxPanel *generate_page_quickstart(wxWindow *parent);
   wxPanel *generate_page_rebuilding(wxWindow *parent);
 };
-
-#endif //__ABGX360GUI_h__
