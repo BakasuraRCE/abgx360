@@ -27,13 +27,6 @@ ABGX360GUI_FONT
 
 */
 
-#if defined(_WIN32) || defined(__CLION_IDE__)
-  #define NEWLINE "\r\n"
-#endif
-#if defined(__linux__) || defined(__APPLE__) || defined(__CLION_IDE__)
-  #define NEWLINE "\n"
-#endif
-
 #include <list>
 #include "abgx360gui.h"
 
@@ -853,7 +846,7 @@ wxPanel *abgx360gui::generate_page_misc(wxWindow *parent) {
   EmbedImages = new wxCheckBox(panel, wxID_ANY, wxT("Embed them in HTML"), wxDefaultPosition, wxDefaultSize);
   ImagesTip = new InfoTip(panel,
 						  InfoTip_BITMAP,
-						  wxT("This refers to the game icon, achievement icons and gamer pictures located within the Xex title resource. Images are extracted to your \"Images\" folder (Press Ctrl+I to find it) with filename \"Title ID-Image ID.png\" (the Title ID will always be displayed when extracting images so that you can find them easily; also note that the game icon will always be Image ID 00008000). Images are only displayed by abgx360 when using HTML output, but you can choose to extract them always if you're using them for your own purpose. Note that not every Xex has a title resource (most bonus discs don't) and therefore images (as well as various strings and achievements) are not always available." NEWLINE NEWLINE "You can optionally choose to embed them in the HTML source code as data URIs for better portability (when using HTML output), otherwise the HTML source will contain absolute links to the images in your local \"Images\" folder."));
+						  wxT("This refers to the game icon, achievement icons and gamer pictures located within the Xex title resource. Images are extracted to your \"Images\" folder (Press Ctrl+I to find it) with filename \"Title ID-Image ID.png\" (the Title ID will always be displayed when extracting images so that you can find them easily; also note that the game icon will always be Image ID 00008000). Images are only displayed by abgx360 when using HTML output, but you can choose to extract them always if you're using them for your own purpose. Note that not every Xex has a title resource (most bonus discs don't) and therefore images (as well as various strings and achievements) are not always available.\n\nYou can optionally choose to embed them in the HTML source code as data URIs for better portability (when using HTML output), otherwise the HTML source will contain absolute links to the images in your local \"Images\" folder."));
   sizer_left->Add(generate_box_sizer_with_controls({XexImagesText, XexImages, EmbedImages, ImagesTip}), wxSizerFlags().Expand());
 
   WxStaticText10 = new wxStaticText(panel, wxID_ANY, wxT("Add extra command line options here (for advanced users only):"), wxDefaultPosition, wxDefaultSize);
@@ -941,7 +934,7 @@ wxPanel *abgx360gui::generate_page_options(wxWindow *parent) {
 
   CheckForUpdatesTip = new InfoTip(panel,
 								   InfoTip_BITMAP,
-								   wxT("\"Check for updates\" will check for updates to abgx360.dat, which contains things like the latest version available and the most current known PFI/Video wave exceptions. Disabling this option is not recommended because you won't be notified when a new version of abgx360 is available and abgx360 might not be using the latest list of PFI/Video exceptions." NEWLINE NEWLINE "The \"Include the CSV\" option will check for updates to GameNameLookup.csv, which is used to look up the full verbose game name entered in the online database. This isn't really necessary since abgx360 can retrieve the game name directly from the default.xex, but you may still find it useful when the Xex's game name is heavily abbreviated (developers can only use a maximum of 22 characters) or there's no title resource present, or maybe you're just checking SS/DMI files and would like to know which game they're from."));
+								   wxT("\"Check for updates\" will check for updates to abgx360.dat, which contains things like the latest version available and the most current known PFI/Video wave exceptions. Disabling this option is not recommended because you won't be notified when a new version of abgx360 is available and abgx360 might not be using the latest list of PFI/Video exceptions.\n\nThe \"Include the CSV\" option will check for updates to GameNameLookup.csv, which is used to look up the full verbose game name entered in the online database. This isn't really necessary since abgx360 can retrieve the game name directly from the default.xex, but you may still find it useful when the Xex's game name is heavily abbreviated (developers can only use a maximum of 22 characters) or there's no title resource present, or maybe you're just checking SS/DMI files and would like to know which game they're from."));
   OnlineUpdate = new wxCheckBox(panel, wxID_ANY, wxT("Check for updates"), wxDefaultPosition, wxDefaultSize);
   OnlineUpdate->SetHelpText(wxT("Download updated versions of GameNameLookup.csv and abgx360.dat from the online database if newer than existing files"));
   OnlineUpdate->SetValue(true);
@@ -1053,7 +1046,7 @@ wxPanel *abgx360gui::generate_page_rebuilding(wxWindow *parent) {
  */
 void abgx360gui::MnuSaveSettingsClick(wxCommandEvent &WXUNUSED(event)) {
   wxString name = wxT("/Settings/");
-  name += wxGetTextFromUser(wxT("Enter a name for these settings. Saving them as \"Default\" will" NEWLINE"cause them to be loaded every time abgx360 GUI is launched."),
+  name += wxGetTextFromUser(wxT("Enter a name for these settings. Saving them as \"Default\" will\ncause them to be loaded every time abgx360 GUI is launched."),
 							wxT("Save Settings"),
 							wxT("Default"));
 
@@ -1942,7 +1935,7 @@ void abgx360gui::OpenButtonClick(wxCommandEvent &WXUNUSED(event)) {
 	  //m_fileHistory->AddFileToHistory(open_filename);
 	  count = arrayStringFor_OpenFileDialog.GetCount();
 	  if (count > 100) {
-		wxMessageBox(wxT("You have selected over 100 files!" NEWLINE"This will probably exceed maximum command line length limits so try using directory input instead."),
+		wxMessageBox(wxT("You have selected over 100 files!\nThis will probably exceed maximum command line length limits so try using directory input instead."),
 					 wxT("Doh!"),
 					 wxICON_EXCLAMATION);
 		return;
@@ -2409,14 +2402,15 @@ void abgx360gui::QuickstartChoiceSelected(wxCommandEvent &WXUNUSED(event)) {
   QuickstartMemo->Clear();
 
   if (QuickstartChoice->GetCurrentSelection() == 0) {
-	QuickstartMemo->AppendText(wxT("Welcome to " + this->name + " v" + this->version + ", the ultimate tool for Xbox 360 ISOs and Stealth files!" NEWLINE NEWLINE));
+	QuickstartMemo->AppendText(wxT("Welcome to " + this->name + " v" + this->version + ", the ultimate tool for Xbox 360 ISOs and Stealth files!\n\n"));
 	QuickstartMemo->AppendText(wxT("Pick an item from the dropdown list above to get detailed information or instructions displayed here."));
   } else if (QuickstartChoice->GetCurrentSelection() == 1) {
 	QuickstartMemo->AppendText(wxT("The default settings are recommended, although you may change any settings and press Ctrl+S to save them as the new defaults or save them with a different name so that they can be loaded at any time by pressing Ctrl+L and selecting them. To delete any of your saved settings press Ctrl+D and select the ones you want to delete. These commands are also available on the menu bar under File."));
   } else if (QuickstartChoice->GetCurrentSelection() == 2) {
-	QuickstartMemo->AppendText(wxT("Step 1: Press Ctrl+O to browse for the file you want to check/fix." NEWLINE));
-	QuickstartMemo->AppendText(wxT("Step 2: Select \"Disable Writes\" if you just want to check the ISO without automatically fixing it, or go to the AutoFix tab and set the threshold to Level 3 if you want your ISO to be patched with verified stealth files even if the current files look valid." NEWLINE));
-	QuickstartMemo->AppendText(wxT("Step 3: Click the Launch button and read the output. Red or yellow text is important!" NEWLINE));
+	QuickstartMemo->AppendText(wxT("Step 1: Press Ctrl+O to browse for the file you want to check/fix.\n"));
+	QuickstartMemo->AppendText(wxT(
+								   "Step 2: Select \"Disable Writes\" if you just want to check the ISO without automatically fixing it, or go to the AutoFix tab and set the threshold to Level 3 if you want your ISO to be patched with verified stealth files even if the current files look valid.\n"));
+	QuickstartMemo->AppendText(wxT("Step 3: Click the Launch button and read the output. Red or yellow text is important!\n"));
 	QuickstartMemo->AppendText(wxT("Note: The .dvd file is automatically created if it doesn't exist or fixed if it's invalid unless you disabled that setting under the options tab or selected \"Disable Writes\""));
   } else if (QuickstartChoice->GetCurrentSelection() == 3) {
 	QuickstartMemo->AppendText(wxT("Part of the response to Challenge Types 24 and 25 (Response Types 7 and 5) is a rotational angle between 2 sectors on an original disc. The host's CCRT (which abgx360 decrypts) contains the target angles that would occur on a perfectly mastered disc when read by a perfect drive. There is also a value in the CCRT which only occurs for Challenge Types 24 and 25 that appears to specify the maximum deviation for a given angle. Currently all Xbox 360 games have the same angles (1, 91, 181, 271) and maximum deviation (+/-15). This is a copy protection system based on the fact that we cannot control the location of physical sectors on our backups, and our angles would be hugely different compared to an original. This is a fine protection as long as you can trust the drive firmware to make the actual measurement instead of simply replaying a previous response, which is what hacked firmware does. The default setting in abgx360 (for SS v1) is to adjust the replay angles (which only hacked firmwares can see and use) that deviate more than 3 degrees back to their CCRT target values because in real world testing on a normal drive, up to 2 degrees of deviation is quite normal and deviation greater than 3 on any game is rare and could be suspicious (although it's very common to have high deviation on a dying or worn out drive). Alternatively, (paranoid scenario) a game could be intentionally mastered with a deviation far from its CCRT target and adjusting it to the target value would also be suspicious... although this would potentially cause problems for disc authentication on legitimate unmodified drives. See \"What is SS v2?\" for the solution to this scenario."));
@@ -2425,13 +2419,14 @@ void abgx360gui::QuickstartChoiceSelected(wxCommandEvent &WXUNUSED(event)) {
   } else if (QuickstartChoice->GetCurrentSelection() == 5) {
 	QuickstartMemo->AppendText(wxT("AnyDVD is an app that runs in the background to remove DVD video protections on the fly. This is a nice feature when playing or ripping protected DVD movies but it causes problems when ripping Xbox 360 games because the video data (and possibly game data) will be altered in a way that is detectable on Xbox Live. Altered video will be easily detected and fixed because abgx360 knows which video partition (and matching PFI) your game should have based on the timestamp of authoring in the SS, and it knows what the CRC of that data should be. However, AnyDVD has also been observed to cause corruption in the game partition. If corruption occurs in an actual file in the game data, it could result in the game crashing or reporting an error when playing that backup. If it occurs in the random padding in between files, the corruption will not affect gameplay but could be detectable on Xbox Live. abgx360 looks for AnyDVD style corruption in the game data whenever the game CRC is checked by simply searching for \"DVDVIDEO-\" at the start of every sector (it was observed that video files inserted by AnyDVD always begin with either \"DVDVIDEO-VTS\" or \"DVDVIDEO-VMG\"). abgx360 is unable to fix game data corruption because it has no way to know what the data should be; it only knows what the resulting CRC should be (assuming a verified ini was found for that game) and the only way to fix bad game data is with a PPF. Other forms of game data corruption unrelated to AnyDVD (for example: single bit errors commonly caused by unstable CPU/RAM) will only be detected if abgx360 can find a verified ini and your game CRC doesn't match."));
   } else if (QuickstartChoice->GetCurrentSelection() == 6) {
-	QuickstartMemo->AppendText(wxT("Short Answer: No, at least not yet, and if MS changes the angles in the future, abgx360 will know (by decrypting the CCRT) and will be able to adjust bad angles." NEWLINE NEWLINE));
+	QuickstartMemo->AppendText(wxT(
+								   "Short Answer: No, at least not yet, and if MS changes the angles in the future, abgx360 will know (by decrypting the CCRT) and will be able to adjust bad angles.\n\n"));
 	QuickstartMemo->AppendText(wxT("Long Answer: Current versions of Kreon's ripping firmware use preset values for the angle responses to Challenge Types 24 and 25 (Response Types 7 and 5) which isn't a problem because currently all Xbox 360 games use the same target angles. Kreon applies a small jitter to the preset angles, and sometimes it will give an angle of 359 degrees for CCRT target angle 1 (deviation of -2). When stored in the SS in LSB format this angle is also known as 6701, and back when the now useless KreonChecker was introduced these angles were thought to be timing values, and a value of 6701 was thought to be radically different from values like 0000 and 0100 observed when ripping the same disc with a Samsung drive. Although original firmwares may use timing to calculate the angle measurement, the difference between 6701 and 0000 is actually only 1 degree and definitely not a huge difference as originally thought. All was not in vain however, since this discussion brought about the realization that iXtreme would improperly jitter 6701 to 6801 (359 to 360), which is completely invalid and not an angle that original firmware will ever return. The proper behavior is to rollover from 359 to 0, which was implemented in iXtreme v1.4 and is a very important security update if you use or plan to use Xbox Live, even if you only play backups ripped with a Samsung drive because it can also return an angle of 359, and for some discs it's actually the most likely measurement. And yes, this means that you can stop using KreonChecker! abgx360 has an option (not enabled by default) under the AutoFix tab that will adjust 359 degree angles to 0 so that older versions of iXtreme will not exhibit this bug, but the best solution is to simply update your firmware to the newest iXtreme release for your drive, and there will be no need to reburn any of your backups."));
   } else if (QuickstartChoice->GetCurrentSelection() == 7) {
 	QuickstartMemo->AppendText(wxT("SS v2 very simply consists of a duplicate angle value for response types 7 and 5 stored in c4eva's C/R replay table and was added in iXtreme v1.6. Older 0800 ripping firmwares and Kreon's firmware will record the angle just once, which results in SS v1. The problem is that Kreon's firmware does not do an actual measurement to get the angle, but simply uses preset angles that all games currently use and applies a small jitter to them. Storing the angle twice allows us to be fairly certain that this is a real angle measurement made by an actual Xbox 360 drive. If a game was intentionally or accidentally mastered with one or more angles that deviated far from their CCRT targets, it would need to be ripped with a drive that does actual angle measurements in order to mimic the original disc's responses. If that drive also supports SS v2 and you have the default option enabled to \"Trust SS v2 angles\", abgx360 will accept them instead of complaining about deviation from the (obviously incorrect) CCRT target. It will still check and alert you when appropriate about the v1 angle deviation from the v2 angle, which should be zero unless the v1 angle has been adjusted to its CCRT target by an older version of abgx360, or if a 359 degree v1 angle was adjusted to 0 for compatibility with iXtreme < v1.4. If you have decided not to trust SS v2 angles by unchecking that option, abgx360 will compare both the v1 and v2 angle to the CCRT target as if each was a v1 angle and alert you when appropriate; this is useful if you're paranoid and think someone has maliciously tampered with the angles. Note, however, that abgx360 v1.0.2 or later will never fix angle deviation or C/R data for an SS v2 without a verified ini and SS file (although it will still adjust any 359 degree v1 angles if you have that option enabled). If your SS v2 is fucked up, something is seriously wrong and you need to rip again or use the SS provided by AutoFix, as there is no reliable way to fix an SS v2 using decrypted CCRT data."));
   } else if (QuickstartChoice->GetCurrentSelection() == 8) {
-	QuickstartMemo->AppendText(wxT("You can find out where your StealthFiles are stored by pressing Ctrl+F" NEWLINE));
-	QuickstartMemo->AppendText(wxT("To find out where your Images are stored, press Ctrl+I" NEWLINE));
+	QuickstartMemo->AppendText(wxT("You can find out where your StealthFiles are stored by pressing Ctrl+F\n"));
+	QuickstartMemo->AppendText(wxT("To find out where your Images are stored, press Ctrl+I\n"));
 	QuickstartMemo->AppendText(wxT("These commands are also available on the menu bar under Help."));
   }
   QuickstartMemo->ShowPosition(0);
@@ -2452,7 +2447,7 @@ void abgx360gui::WhereStealthFilesClick(wxCommandEvent &event) {
 
 #if defined(_WIN32) || defined(__CLION_IDE__)
   if (wxGetEnv(wxT("APPDATA"), &homedir) || wxGetEnv(wxT("ProgramData"), &homedir) || wxGetEnv(wxT("ALLUSERSPROFILE"), &homedir)) {
-	str = wxT("Your StealthFiles folder is located here:"NEWLINE);
+	str = wxT("Your StealthFiles folder is located here:\n");
   } else {
 	wxMessageBox(wxT("ERROR: Unable to find your StealthFiles folder!"), wxT("Where is my StealthFiles folder?"), wxOK);
 	return;
@@ -2461,7 +2456,7 @@ void abgx360gui::WhereStealthFilesClick(wxCommandEvent &event) {
 #endif
 #if defined(__linux__) || defined(__APPLE__) || defined(__CLION_IDE__)
   if (wxGetEnv(wxT("ABGX360_DIR"), &homedir) || wxGetEnv(wxT("HOME"), &homedir)) {
-	str = wxT("Your StealthFiles folder is located here:" NEWLINE);
+	str = wxT("Your StealthFiles folder is located here:\n");
   } else {
 	wxMessageBox(wxT("ERROR: Unable to find your StealthFiles folder!"), wxT("Where is my StealthFiles folder?"), wxOK);
 	return;
@@ -2473,7 +2468,7 @@ void abgx360gui::WhereStealthFilesClick(wxCommandEvent &event) {
   stealth_dir = homedir + wxT("StealthFiles");
   if (!wxDirExists(stealth_dir)) wxMkdir(stealth_dir, 0755);
 
-  str += stealth_dir + wxT(NEWLINE NEWLINE"Would you like me to open it for you?");
+  str += stealth_dir + wxT("\n\nWould you like me to open it for you?");
 
   if (wxMessageBox(str, wxT("Where is my StealthFiles folder?"), wxYES_NO) == wxYES) {
 #if defined(_WIN32) || defined(__CLION_IDE__)
@@ -2496,7 +2491,7 @@ void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
 
 #if defined(_WIN32) || defined(__CLION_IDE__)
   if (wxGetEnv(wxT("APPDATA"), &homedir) || wxGetEnv(wxT("ProgramData"), &homedir) || wxGetEnv(wxT("ALLUSERSPROFILE"), &homedir)) {
-	str = wxT("Your Images folder is located here:"NEWLINE);
+	str = wxT("Your Images folder is located here:\n");
   } else {
 	wxMessageBox(wxT("ERROR: Unable to find your Images folder!"), wxT("Where is my Images folder?"), wxOK);
 	return;
@@ -2505,7 +2500,7 @@ void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
 #endif
 #if !defined(_WIN32) || defined(__CLION_IDE__)
   if (wxGetEnv(wxT("ABGX360_DIR"), &homedir) || wxGetEnv(wxT("HOME"), &homedir)) {
-	str = wxT("Your Images folder is located here:" NEWLINE);
+	str = wxT("Your Images folder is located here:\n");
   } else {
 	wxMessageBox(wxT("ERROR: Unable to find your Images folder!"), wxT("Where is my Images folder?"), wxOK);
 	return;
@@ -2517,7 +2512,7 @@ void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
   images_dir = homedir + wxT("Images");
   if (!wxDirExists(images_dir)) wxMkdir(images_dir, 0755);
 
-  str += images_dir + wxT(NEWLINE NEWLINE"Would you like me to open it for you?");
+  str += images_dir + wxT("\n\nWould you like me to open it for you?");
 
   if (wxMessageBox(str, wxT("Where is my Images folder?"), wxYES_NO) == wxYES) {
 
