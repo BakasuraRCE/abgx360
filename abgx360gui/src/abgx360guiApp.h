@@ -7,26 +7,25 @@
 //
 //---------------------------------------------------------------------------
 
-#ifndef __ABGX360GUIApp_h__
-#define __ABGX360GUIApp_h__
+#pragma once
+
+// PRECOMPILED_HEADERS
+// https://docs.wxwidgets.org/3.0/page_multiplatform.html
+// For compilers that support precompilation, includes "wx.h".
+#include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
-#pragma hdrstop
+#   pragma hdrstop
 #endif
 
 #ifndef WX_PRECOMP
-
-#include <wx/wx.h>
-
-#else
-#include <wx/wxprec.h>
+// Include your minimal set of headers here, or wx.h
+#   include <wx/wx.h>
 #endif
+// PRECOMPILED_HEADERS
 
 class abgx360guiApp : public wxApp {
-public:
-    bool OnInit();
-
-    int OnExit();
+ public:
+  bool OnInit();
+  int OnExit();
 };
-
-#endif
