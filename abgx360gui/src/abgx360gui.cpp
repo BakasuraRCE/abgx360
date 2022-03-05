@@ -28,10 +28,10 @@ ABGX360GUI_FONT
 */
 
 #if defined(_WIN32) || defined(__CLION_IDE__)
-#define NEWLINE "\r\n"
+  #define NEWLINE "\r\n"
 #endif
 #if defined(__linux__) || defined(__APPLE__) || defined(__CLION_IDE__)
-#define NEWLINE "\n"
+  #define NEWLINE "\n"
 #endif
 
 #include <list>
@@ -451,11 +451,11 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
 #if defined(__linux__) || defined(__APPLE__) || defined(__CLION_IDE__)
   TerminalFont->SetValue(false);
 
-#if defined(__APPLE__) || defined(__CLION_IDE__)
+  #if defined(__APPLE__) || defined(__CLION_IDE__)
   OpenFileWhenDone->Show(false);
   OpenFileWhenDone->SetValue(false);
   TerminalFont->Show(false);
-#endif
+  #endif
 
 #endif
 
@@ -1274,7 +1274,7 @@ void abgx360gui::doLoadSettings() {
 	SaveButton->Enable(false);
   } else {
 	Maximize->Hide();
-#ifndef __APPLE__
+#if !defined(__APPLE__) || defined(__CLION_IDE__)
 	OpenFileWhenDone->Show();
 #endif
 	OutputFileEditBox->Enable(true);
@@ -1398,17 +1398,17 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 #endif
 
   // locate abgx360 binary within an OSX .app bundle
-#if defined(__APPLE__)
+#if defined(__APPLE__) || defined(__CLION_IDE__)
   CFURLRef abgx360url = CFBundleCopyAuxiliaryExecutableURL(CFBundleGetMainBundle(), CFSTR("abgx360"));
-	  char abgx360path[512]; // large size, just in case
-	  abgx360path[0] = '\"'; // double quote at start, to escape all spaces in binary path
-	  CFURLGetFileSystemRepresentation(abgx360url, true, reinterpret_cast<UInt8*>(&abgx360path[1]), 511);
-	  if(abgx360path[1] != '\0')
-		  cmd = cmd + abgx360path + "\" -"; // full path to abgx360 binary, plus end double quote, plus hyphen
-	  else // string is empty (e.g. not started from an app bundle), use default value. abgx360 binary must be in PATH
+  char abgx360path[512]; // large size, just in case
+  abgx360path[0] = '\"'; // double quote at start, to escape all spaces in binary path
+  CFURLGetFileSystemRepresentation(abgx360url, true, reinterpret_cast<UInt8 *>(&abgx360path[1]), 511);
+  if (abgx360path[1] != '\0')
+	cmd = cmd + abgx360path + "\" -"; // full path to abgx360 binary, plus end double quote, plus hyphen
+  else // string is empty (e.g. not started from an app bundle), use default value. abgx360 binary must be in PATH
 #endif
 
-  cmd += wxT("abgx360 -");
+	cmd += wxT("abgx360 -");
   if (Verbosity->GetCurrentSelection() == 0) cmd += wxT("n"); // low verbosity
   else if (Verbosity->GetCurrentSelection() == 2) cmd += wxT("v"); // high verbosity
   if (!CheckStealth->IsChecked()) cmd += wxT("r");
@@ -1604,10 +1604,10 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	cmd += ExtraOptionsEditBox->GetValue();
   }
 
-#ifndef __APPLE__
-#if defined(_WIN32) || defined(__CLION_IDE__)
+#if !defined(__APPLE__) || defined(__CLION_IDE__)
+  #if defined(_WIN32) || defined(__CLION_IDE__)
   if (Maximize->IsChecked()) cmd += wxT(" --max");
-#endif
+  #endif
   if (ProgramOutput->GetCurrentSelection() == 0) cmd += wxT(" --pause"); // pause shell atexit
 #endif
 
@@ -1689,16 +1689,16 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
   wxString return_string;
 #if defined(__linux__) || defined(__APPLE__) || defined(__CLION_IDE__)
   if (InputChoice->GetCurrentSelection() == 2) {
-#if defined(__APPLE__) || defined(__CLION_IDE__)
+  #if defined(__APPLE__) || defined(__CLION_IDE__)
 	wxMessageBox(wxT("Mac OS X Burned DVD Input is not currently supported."),
 				 wxT("Mac OS X DVD Input"), wxOK);
-#endif
-#if defined(__linux__) || defined(__CLION_IDE__)
+  #endif
+  #if defined(__linux__) || defined(__CLION_IDE__)
 	wxMessageBox(wxT("For Unix based operating systems: Devices are files!\n"
 					 "Select \"File(s)\" as Input and enter the device name.\n"
 					 "Linux Example: /dev/cdrom (requires read permissions).\n"
 					 "Writes are automatically disabled for block devices."), wxT("Unix DVD Input"), wxOK);
-#endif
+  #endif
 	return;
   }
 #endif
@@ -1897,17 +1897,14 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
 	  wxMessageBox(wxT("ERROR: The command could not be executed! You're probably missing osascript"), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 	  return;
 	}
-#else
-#if defined(_WIN32) || defined(__CLION_IDE__)
+#endif
+#if !defined(__APPLE__) || defined(__CLION_IDE__)
+  #if defined(_WIN32) || defined(__CLION_IDE__)
 	wxString shellcmd;
-#ifdef __WXWINCE__
-	shellcmd = cmd;
-#else
 	wxChar *shell = wxGetenv(wxT("COMSPEC"));
 	if (!shell) shell = (wxChar *)wxT("\\COMMAND.COM");
 	if (!cmd) shellcmd = shell;
 	else shellcmd.Printf(wxT("%s /c %s"), shell, cmd.c_str());
-#endif
 	return_value = wxExecute(shellcmd, wxEXEC_SYNC);
 	if (return_value == -1) {  // couldn't start the process
 	  wxMessageBox(wxT("ERROR: The command could not be executed! Most likely the abgx360 command line app isn't in your PATH... reinstalling abgx360 will fix this."),
@@ -1915,14 +1912,18 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
 				   wxICON_ERROR);
 	  return;
 	}
-#else
+  #endif
+
+  #if defined(__linux__) || defined(__CLION_IDE__)
 	return_value = wxExecute(cmd, wxEXEC_SYNC);
 	if (return_value == -1) {  // couldn't start the process
 	  wxMessageBox(wxT("ERROR: The command could not be executed! You probably don't have xterm installed."), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
 	  return;
 	}
-#endif
-	if (OpenFileWhenDone->IsChecked()) wxLaunchDefaultBrowser(OutputFileEditBox->GetValue());
+  #endif
+	if (OpenFileWhenDone->IsChecked()) {
+	  wxLaunchDefaultBrowser(OutputFileEditBox->GetValue());
+	}
 #endif
   }
 }
@@ -2012,13 +2013,14 @@ void abgx360gui::ProgramOutputSelected(wxCommandEvent &WXUNUSED(event)) {
 	SaveButton->Enable(false);
 #if defined(_WIN32) || defined(__CLION_IDE__)
 	TerminalFont->SetValue(true);
-#else
+#endif
+#if !defined(_WIN32)
 	TerminalFont->SetValue(false);
 #endif
   } else {
 	Maximize->Hide();
 	Maximize->SetValue(false);
-#ifndef __APPLE__
+#if !defined(__APPLE__) || defined(__CLION_IDE__)
 	OpenFileWhenDone->Show();
 	OpenFileWhenDone->SetValue(true);
 #endif
@@ -2500,7 +2502,8 @@ void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
 	return;
   }
   homedir += wxT("\\abgx360\\");
-#else
+#endif
+#if !defined(_WIN32) || defined(__CLION_IDE__)
   if (wxGetEnv(wxT("ABGX360_DIR"), &homedir) || wxGetEnv(wxT("HOME"), &homedir)) {
 	str = wxT("Your Images folder is located here:" NEWLINE);
   } else {
@@ -2517,14 +2520,21 @@ void abgx360gui::WhereImagesClick(wxCommandEvent &event) {
   str += images_dir + wxT(NEWLINE NEWLINE"Would you like me to open it for you?");
 
   if (wxMessageBox(str, wxT("Where is my Images folder?"), wxYES_NO) == wxYES) {
+
 #if defined(_WIN32) || defined(__CLION_IDE__)
 	wxLaunchDefaultBrowser(images_dir);
-#else
-#if defined(__APPLE__) || defined(__CLION_IDE__)
-	wxExecute(wxT("open ") + images_dir, wxEXEC_ASYNC, NULL);
-#else
-	wxExecute(wxT("xdg-open ") + images_dir, wxEXEC_ASYNC, nullptr);
 #endif
+
+#if !defined(_WIN32) || defined(__CLION_IDE__)
+
+  #if defined(__APPLE__) || defined(__CLION_IDE__)
+	wxExecute(wxT("open ") + images_dir, wxEXEC_ASYNC, NULL);
+  #endif
+
+  #if defined(__linux__) || defined(__CLION_IDE__)
+	wxExecute(wxT("xdg-open ") + images_dir, wxEXEC_ASYNC, nullptr);
+  #endif
+
 #endif
   }
 }
