@@ -175,8 +175,8 @@ Copyright 2008-2012 by Seacrest <Seacrest[at]abgx360[dot]net>
 
 #define BIGBUF_SIZE 32768  // 32 KB, changing this could cause some problems
 
-#define NUM_CURRENTPFIENTRIES   15  // update this when adding new pfi entries
-#define NUM_CURRENTVIDEOENTRIES 21 // update this when adding new video entries
+#define NUM_CURRENTPFIENTRIES   9  // update this when adding new pfi entries
+#define NUM_CURRENTVIDEOENTRIES 13 // update this when adding new video entries
 
 #define NUM_CURRENTAP25MEDIAIDS       25  // update this when adding new AP25 media ids for discs that have no AP25 flag in the default.xex
 #define NUM_CURRENTAP25TITLEIDS        2  // update this when adding new AP25 title ids for discs that have no AP25 flag in the default.xex
@@ -226,14 +226,13 @@ char homedir[2048];
 #endif
 
 // load replacements from abgx360.ini if it exists (make sure to update checkini() if these addresses are changed)
-char *webinidir =            "http://hadzz.com/abgx/verified/";                       // dir that contains verified ini files
-char *webunverifiedinidir =  "http://hadzz.com/abgx/unverified/";                     // dir that contains unverified ini files
-char *webcsv =               "http://hadzz.com/abgx/GameNameLookup.csv";              // http path to GameNameLookup.csv
-char *webdat =               "http://hadzz.com/abgx/abgx360.dat";                     // http path to abgx360.dat
-char *webtopology =          "http://hadzz.com/abgx/topology.php";                    // http path to topology.php
-char *webstealthdir =        "http://hadzz.com/abgx/StealthFiles/";                   // dir that contains SS/DMI/PFI/Video stealth files
-char *autouploadwebaddress = "http://hadzz.com/abgx/Control/AutoUpload.php";          // form for submitting AutoUploads
-
+char *webinidir =            "http://abgx360.net/Apps/verified/";                       // dir that contains verified ini files
+char *webunverifiedinidir =  "http://abgx360.net/Apps/unverified/";                     // dir that contains unverified ini files
+char *webcsv =               "http://abgx360.net/Apps/Stealth360/GameNameLookup.csv";   // http path to GameNameLookup.csv
+char *webdat =               "http://abgx360.net/Apps/Stealth360/abgx360.dat";          // http path to abgx360.dat
+char *webtopology =          "http://abgx360.net/Apps/topology.php";                    // http path to topology.php
+char *webstealthdir =        "http://abgx360.net/Apps/StealthFiles/";                   // dir that contains SS/DMI/PFI/Video stealth files
+char *autouploadwebaddress = "http://abgx360.net/Apps/Control/AutoUpload.php";          // form for submitting AutoUploads
 //char *ap25autouploadwebaddress = "http://abgx360.net/Apps/Control/AP25AutoUpload.php";  // form for submitting AP25 AutoUploads
 //char *webdae = "http://abgx360.net/Apps/Stealth360/dae.bin";                            // http path to dae.bin
 
@@ -291,7 +290,6 @@ bool matchonly = false, testing = false, testingdvd = false;
 bool localonly = false, recursesubdirs = false, clobber = false;
 bool showachievements = false, hidesecretachievements = false, showavatarawards = false, unicode = false, imagedirmissing = false;
 bool skiplayerboundaryinfo = false, devkey = false, trustssv2angles = true, useinstalldir = false;
-bool skipvideoautofix = false;
 struct badshit {unsigned char c[21], d[21], data[21]; int count; char* explanation;};
 char unrecognizedRTarray[21];
 // don't forget to add new args to the list before stat()
@@ -3284,7 +3282,6 @@ void parsecmdline(int argc, char *argv[]) {
                 if (strcasecmp(argv[i], "--sizedoesntmatter") == 0) increasescreenbuffersize = false;
                 //if (strcasecmp(argv[i], "--rip") == 0 && (i+1 < argc)) riparg = i + 1;
                 //if (strcasecmp(argv[i], "--dest") == 0 && (i+1 < argc)) ripdestarg = i + 1;
-                if (strcasecmp(argv[i], "--missingpfi") == 0)  skipvideoautofix = true;
                 if (strcasecmp(argv[i], "--rec") == 0) recursesubdirs = true;
                 if (strcasecmp(argv[i], "--clobber") == 0) clobber = true;
                 if (strcasecmp(argv[i], "--ach") == 0) showachievements = true;
@@ -3421,36 +3418,6 @@ void initializeglobals() {
     memcpy(currentpfientries[8].sha1, "\x54\xc3\xeb\x44\x2f\x55\xad\xfc\x17\x9e\xf4\x4f\x81\x49\x7b\xe8\xa7\xb3\xf5\xf6", 20);
     currentpfientries[8].description = "XGD3";
     currentpfientries[8].hosted = true;
-    // 14th - 15th Wave PFI
-    currentpfientries[9].crc = 0x23A198FC;
-    memcpy(currentpfientries[9].sha1, "\x8e\xba\x74\xaf\xc5\x13\x86\xca\x27\x58\xef\xdd\xc1\x34\xca\x5c\xb6\xa4\x7b\x6b", 20);
-    currentpfientries[9].description = "14th - 15th Wave";
-    currentpfientries[9].hosted = true;
-    // 16th Wave PFI
-    currentpfientries[10].crc = 0xAB25DB47;
-    memcpy(currentpfientries[10].sha1, "\x3f\x80\x89\x49\x02\x98\xfe\xdf\xe3\x61\xf5\x0a\x5e\x47\xfc\x94\xe6\xc9\xcd\x12", 20);
-    currentpfientries[10].description = "16th Wave";
-    currentpfientries[10].hosted = true;
-    // 17th - 18th Wave PFI
-    currentpfientries[11].crc = 0x169EF597;
-    memcpy(currentpfientries[11].sha1, "\x56\x91\xb3\x2e\xf1\x2b\x3b\x44\x05\x4a\xdb\xed\x8a\xd3\x24\x9f\xcc\xe7\x59\x55", 20);
-    currentpfientries[11].description = "17th - 18th Wave";
-    currentpfientries[11].hosted = true;
-    // 19th Wave PFI
-    currentpfientries[12].crc = 0x032CCF37;
-    memcpy(currentpfientries[12].sha1, "\x34\x02\xdc\x3a\x71\x9e\x0d\x21\xf8\x52\xc1\x1b\xea\x46\xd4\xf1\xc6\xa4\x4a\x01", 20);
-    currentpfientries[12].description = "19th Wave";
-    currentpfientries[12].hosted = true;
-    // 20th Wave PFI
-    currentpfientries[13].crc = 0xF48D24B8;
-    memcpy(currentpfientries[13].sha1, "\x25\x19\x7b\x43\x41\x01\x7a\x01\x0d\xb4\xa8\xa1\xe4\x22\xef\xae\xf6\xe8\x3b\x94", 20);
-    currentpfientries[13].description = "20th Wave";
-    currentpfientries[13].hosted = true;
-    // 0th Wave PFI - Found on the first Xbox 360 Kiosk Disc
-    currentpfientries[14].crc = 0xE9B8ECFE;
-    memcpy(currentpfientries[14].sha1, "\xb9\xa3\xfd\x8c\xa2\x26\x0f\x21\x4e\xc6\x48\xb2\x4c\x38\xf8\x41\x30\x28\x49\x93", 20);
-    currentpfientries[14].description = "0th Wave";
-    currentpfientries[14].hosted = true;
     // increment NUM_CURRENTPFIENTRIES if adding more pfi entries here
     
     
@@ -3519,46 +3486,6 @@ void initializeglobals() {
     memcpy(currentvideoentries[12].sha1, "\x30\x7e\xb9\x8c\x6a\xbf\xb3\x0f\x03\xb9\xc0\x30\x51\x57\xb1\xfb\x6a\xb4\xa6\x04", 20);
     currentvideoentries[12].description = "13th Wave";
     currentvideoentries[12].hosted = false;
-    // 14th Wave Video
-    currentvideoentries[13].crc = 0x4708C97C;
-    memcpy(currentvideoentries[13].sha1, "\xfe\xed\xae\x55\xa1\x59\xdf\xa2\xb3\x15\xd0\x17\xd2\xab\x1b\x48\x30\xff\x5b\x20", 20);
-    currentvideoentries[13].description = "14th Wave";
-    currentvideoentries[13].hosted = false;
-    // 15th Wave Video
-    currentvideoentries[14].crc = 0xF0420AFA;
-    memcpy(currentvideoentries[14].sha1, "\x67\x22\xcf\x52\xe9\xaa\x39\xec\x29\xa3\x55\x3c\x9f\x2b\x61\xb7\x18\xa3\xa7\x88", 20);
-    currentvideoentries[14].description = "15th Wave";
-    currentvideoentries[14].hosted = false;
-    // 16th Wave Video
-    currentvideoentries[15].crc = 0x58FA256C;
-    memcpy(currentvideoentries[15].sha1, "\xd9\xf5\xbb\x5f\x5d\xfb\x0f\x1e\x86\x5b\xac\xff\x4f\x7b\x5b\x58\x07\xff\xfc\x85", 20);
-    currentvideoentries[15].description = "16th Wave";
-    currentvideoentries[15].hosted = false;
-    // 17th Wave Video
-    currentvideoentries[16].crc = 0x3AA1E6F0;
-    memcpy(currentvideoentries[16].sha1, "\x7e\xea\xbc\x98\xa4\xe3\x6e\xdd\x28\xed\xa1\xaf\xcb\x0d\x73\xfe\x00\x87\x8f\xee", 20);
-    currentvideoentries[16].description = "17th Wave";
-    currentvideoentries[16].hosted = false;
-    // 18th Wave Video
-    currentvideoentries[17].crc = 0xD4BF3450;
-    memcpy(currentvideoentries[17].sha1, "\xdc\xbd\xd4\xd4\x6f\x25\xef\x12\x04\x81\xfe\xc0\x09\xbd\x1b\x56\xe6\xcf\x49\xa4", 20);
-    currentvideoentries[17].description = "18th Wave";
-    currentvideoentries[17].hosted = false;
-    // 19th Wave Video
-    currentvideoentries[18].crc = 0xE3A99959;
-    memcpy(currentvideoentries[18].sha1, "\xb1\x70\x51\xf2\xfa\xe9\x18\x46\xec\xaa\xc2\x7e\x84\x86\xa3\x18\x15\x75\xd0\x8e", 20);
-    currentvideoentries[18].description = "19th Wave";
-    currentvideoentries[18].hosted = false;
-    // 20th Wave Video
-    currentvideoentries[19].crc = 0x3E92E705;
-    memcpy(currentvideoentries[19].sha1, "\x9a\xe1\xf6\x98\x96\xe2\x87\x7a\x30\xba\x77\x61\x9b\x8c\x69\x05\xa4\x10\x14\x47", 20);
-    currentvideoentries[19].description = "20th Wave";
-    currentvideoentries[19].hosted = false;
-    // 0th Wave Video - Found on the first Xbox 360 Kiosk Disc
-    currentvideoentries[20].crc = 0xDEE96A2C;
-    memcpy(currentvideoentries[19].sha1, "\x3d\xdd\x9b\x33\xc2\xc0\x09\x6f\x40\xa4\x9f\x7e\x89\x52\x29\x93\x6b\x07\x61\xab", 20);
-    currentvideoentries[20].description = "0th Wave";
-    currentvideoentries[20].hosted = true;
     // increment NUM_CURRENTVIDEOENTRIES if adding more video entries here
     
     mostrecentpfientries = currentpfientries;
@@ -3842,11 +3769,6 @@ int main(int argc, char *argv[]) {
         printf("%s --dvdtimeout %ssecs%s change the timeout for DVD Drive I/O requests to%s", sp6, lessthan, greaterthan, newline);
         printf("%s%s %ssecs%s seconds (default=20)%s", sp21, sp5, lessthan, greaterthan, newline);
         printf("%s --devkey %s use the devkit AES key when decrypting an Xex%s", sp6, sp10, newline);
-        //--missingpfi
-        //                         tell abgx360 your console's region so it can display
-        printf("%s --missingpfi %s autofix without trying to fix the video partition%s", sp6, sp6, newline);
-        printf("%s%s (for redump-style games missing PFI)%s", sp21, sp5, newline, newline);
-        
         printf("%s --help %s display this message (or just use %s%s%s%s", sp6, sp12, quotation, argv[0], quotation, newline);
         printf("%s%s with no arguments)%s%s", sp21, sp5, newline, newline);
         
@@ -9969,7 +9891,7 @@ int doautofix() {
           return 1;
         }
     }
-    if (ini_video != video_crc32 && skipvideoautofix == false) {
+    if (ini_video != video_crc32) {
         fixvideo = true;
         if (ini_video == 0) {
             printf("ERROR: Failed to find a Video CRC in '%s'%s", inifilename, newline);
@@ -10464,13 +10386,13 @@ void printheader() {
         if (terminal) printf("Ä");
         else printf("--");
         color(normal); printf("%s", headerversion); color(blue);
-        for (i=0;i<11 - (int) strlen(headerversion);i++) {
+        for (i=0;i<13 - (int) strlen(headerversion);i++) {
             if (terminal) printf("Ä");
             else printf("-");
         }
-        color(normal); printf("[http://hadzz.com/abgx]"); color(blue);
-        if (terminal) printf("ÄÄÄ");
-        else printf("---");
+        color(normal); printf("[http://abgx360.net]"); color(blue);
+        if (terminal) printf("ÄÄÄÄ");
+        else printf("----");
         printf("%s", newline);
         color(normal);
         if (terminal) printf("%s%s%s ßßß", sp10, sp10, sp2);
@@ -10644,12 +10566,12 @@ void makedat() {
         datfilebuffer[0] = (unsigned char)  (currentversion & 0xFFL);
         datfilebuffer[1] = (unsigned char) ((currentversion & 0xFF00L) >> 8);
         datfilebuffer[2] = (unsigned char) ((currentversion & 0xFF0000L) >> 16);
-        //memcpy(datfilebuffer+0x10, headerversion, strlen(headerversion));
-        //memcpy(datfilebuffer+0x20, "latestversion", 13);
+        memcpy(datfilebuffer+0x10, headerversion, strlen(headerversion));
+        memcpy(datfilebuffer+0x20, "latestversion", 13);
         // lastknown2ndwave for the benefit of v0.9.4 only
         memcpy(datfilebuffer+0x50, "\x00\x80\xD9\x5F\x6D\x77\xC9\x01", 8);
-        //memcpy(datfilebuffer+0x60, "2009/01/16", 10);
-        //memcpy(datfilebuffer+0x70, "lastknown2ndwave", 16);
+        memcpy(datfilebuffer+0x60, "2009/01/16", 10);
+        memcpy(datfilebuffer+0x70, "lastknown2ndwave", 16);
         // validation string
         memcpy(datfilebuffer+0xA0, "youmoms says hi", 15);
         // put new entries in a table - using MSB now
