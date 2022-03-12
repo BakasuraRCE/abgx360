@@ -100,11 +100,10 @@ Copyright 2008-2012 by Seacrest <Seacrest[at]abgx360[dot]net>
     char winbuffer[2048];
     HANDLE hDevice = INVALID_HANDLE_VALUE;
     #define mkdir(a,b) _mkdir(a)
-    #define strcasecmp(a,b) _stricmp(a,b)
-    #define strncasecmp(a,b,c) _strnicmp(a,b,c)
-    int myfseeko64(FILE *stream, off64_t offset, int whence);
-    #define fseeko(a,b,c) myfseeko64(a,b,c)
-    #define ftello(a) ftello64(a)
+    //#define strcasecmp(a,b) _stricmp(a,b)
+    //#define strncasecmp(a,b,c) _strnicmp(a,b,c)
+    //#define fseeko(a,b,c) myfseeko64(a,b,c)
+    //#define ftello(a) ftello64(a)
     #define DATA_NONE SCSI_IOCTL_DATA_UNSPECIFIED
     #define DATA_IN   SCSI_IOCTL_DATA_IN
     #define DATA_OUT  SCSI_IOCTL_DATA_OUT
@@ -189,7 +188,7 @@ Copyright 2008-2012 by Seacrest <Seacrest[at]abgx360[dot]net>
 
 // update version values here
 char *headerversion = "v1.0.7b";
-char *curluseragent = "abgx360 v1.0.7b ("ABGX360_OS")";
+char *curluseragent = "abgx360 v1.0.7b (\"ABGX360_OS\")";
 unsigned long currentversion = 0x010007L;  // MSB (1.2.3 = 0x010203)
 
 // this will be replaced with the value from abgx360.dat if it exists
@@ -329,6 +328,13 @@ unsigned char bigbuffer[BIGBUF_SIZE];
 unsigned long filecount = 0L;
 unsigned long seek;
 unsigned long getuint(unsigned char* ptr), getuintmsb(unsigned char* ptr), getint(char* ptr);
+#ifdef WIN32
+    LARGE_INTEGER longLongToLargeInt(long long i);
+#endif
+int mystrcasecmp(const char* str1, const char* str2);
+int mystrncasecmp(const char* str1, const char* str2, size_t n);
+int myfseeko(FILE *stream, off64_t offset, int whence);
+off_t myftello(FILE *stream);
 sha1_context ctx;
 /*
 static uchar pfisha1[3][20] =
@@ -645,7 +651,7 @@ int readblock(char* filename, char* action, FILE *fp, long long LBA, unsigned ch
         printf("reading sector: %"LL"d (0x%"LL"X) num=%u%s", LBA, LBA*2048+video, num, newline);
         color(blue);
     }
-    if (fseeko(fp, LBA*2048+video, SEEK_SET) != 0) {
+    if (myfseeko(fp, LBA*2048+video, SEEK_SET) != 0) {
         printseekerror(filename, action);
       return 1;
     }
@@ -911,7 +917,7 @@ void doexitfunction() {
 }
 
 static int filesort(const void *f1, const void *f2) {
-  return strcasecmp(* (char * const *) f1, * (char * const *) f2);
+  return mystrcasecmp(* (char * const *) f1, * (char * const *) f2);
 }
 
 int cmpangledev(const void *a, const void *b) {
@@ -1968,10 +1974,10 @@ char* cdberror(char *sense) {
 
 #ifdef WIN32
 
-int myfseeko64(FILE *stream, off64_t offset, int whence) {
-    //if ((dvdarg || riparg) && stream == NULL) return 0;
-    if (dvdarg && stream == NULL) return 0;
-  return fseeko64(stream, offset, whence);
+LARGE_INTEGER longLongToLargeInt(long long i) {
+    LARGE_INTEGER li;
+    li.QuadPart = i;
+    return li;
 }
 
 void WinError(char *action, char *textcolor) { 
@@ -3217,93 +3223,93 @@ void parsecmdline(int argc, char *argv[]) {
                     // do not parse any more options
                   return;
                 }
-                if (strcasecmp(argv[i], "--corrupt") == 0) checkcorruption = true;
-                if (strcasecmp(argv[i], "--verbose") == 0) extraverbose = true;
-                if (strcasecmp(argv[i], "--noverbose") == 0) verbose = false;
-                if (strcasecmp(argv[i], "--help") == 0) justhelp = true;
-                if (strcasecmp(argv[i], "--terminal") == 0) terminal = true;
-                if (strcasecmp(argv[i], "--stripcolors") == 0) stripcolors = true;
-                if (strcasecmp(argv[i], "--html") == 0) html = true;
+                if (mystrcasecmp(argv[i], "--corrupt") == 0) checkcorruption = true;
+                if (mystrcasecmp(argv[i], "--verbose") == 0) extraverbose = true;
+                if (mystrcasecmp(argv[i], "--noverbose") == 0) verbose = false;
+                if (mystrcasecmp(argv[i], "--help") == 0) justhelp = true;
+                if (mystrcasecmp(argv[i], "--terminal") == 0) terminal = true;
+                if (mystrcasecmp(argv[i], "--stripcolors") == 0) stripcolors = true;
+                if (mystrcasecmp(argv[i], "--html") == 0) html = true;
                 
-                if (strcasecmp(argv[i], "--noheader") == 0) noheader = true;
-                if (strcasecmp(argv[i], "--justheader") == 0) justheader = true;
-                if (strcasecmp(argv[i], "--justfooter") == 0) justfooter = true;
-                if (strcasecmp(argv[i], "--minimal") == 0) minimal = true;
-                if (strcasecmp(argv[i], "--script") == 0) script = true;
+                if (mystrcasecmp(argv[i], "--noheader") == 0) noheader = true;
+                if (mystrcasecmp(argv[i], "--justheader") == 0) justheader = true;
+                if (mystrcasecmp(argv[i], "--justfooter") == 0) justfooter = true;
+                if (mystrcasecmp(argv[i], "--minimal") == 0) minimal = true;
+                if (mystrcasecmp(argv[i], "--script") == 0) script = true;
                 
-                if (strcasecmp(argv[i], "--nodvdcheck") == 0) checkdvdfile = false;
-                if (strcasecmp(argv[i], "--noautofix") == 0) autofix = false;
-                if (strcasecmp(argv[i], "--af0") == 0) autofix = false;
-                if (strcasecmp(argv[i], "--autofixfailed") == 0) autofixuncertain = false;
-                if (strcasecmp(argv[i], "--af1") == 0) autofixuncertain = false;
-                if (strcasecmp(argv[i], "--autofixalways") == 0) autofixalways = true;
-                if (strcasecmp(argv[i], "--af3") == 0) autofixalways = true;
-                if (strcasecmp(argv[i], "--noverify") == 0) verify = false;
-                if (strcasecmp(argv[i], "--autoupload") == 0) autoupload = true;
-                if (strcasecmp(argv[i], "--noupdate") == 0) onlineupdate = false;
-                if (strcasecmp(argv[i], "--csv") == 0) csvupdate = true;
-                if (strcasecmp(argv[i], "--stayoffline") == 0) stayoffline = true;
-                if (strcasecmp(argv[i], "--regioncheck") == 0) stealthcheck = false;
-                if (strcasecmp(argv[i], "--nogamecrc") == 0) checkgamecrcnever = true;
-                if (strcasecmp(argv[i], "--gamecrc") == 0) checkgamecrcalways = true;
-                if (strcasecmp(argv[i], "--p-video") == 0 && (i+1 < argc)) { patchvideoarg = i + 1; manualpatch = true; }
-                if (strcasecmp(argv[i], "--p-pfi") == 0 && (i+1 < argc)) { patchpfiarg = i + 1; manualpatch = true; }
-                if (strcasecmp(argv[i], "--p-dmi") == 0 && (i+1 < argc)) { patchdmiarg = i + 1; manualpatch = true; }
-                if (strcasecmp(argv[i], "--p-ss") == 0 && (i+1 < argc)) { patchssarg = i + 1; manualpatch = true; }
-                if (strcasecmp(argv[i], "--e-video") == 0 && (i+1 < argc)) { extractvideoarg = i + 1; manualextract = true; }
-                if (strcasecmp(argv[i], "--e-pfi") == 0 && (i+1 < argc)) { extractpfiarg = i + 1; manualextract = true; }
-                if (strcasecmp(argv[i], "--e-dmi") == 0 && (i+1 < argc)) { extractdmiarg = i + 1; manualextract = true; }
-                if (strcasecmp(argv[i], "--e-ss") == 0 && (i+1 < argc)) { extractssarg = i + 1; manualextract = true; }
-                if (strcasecmp(argv[i], "--patchgarbage") == 0) patchvalidfilesonly = false;
-                if (strcasecmp(argv[i], "--patchitanyway") == 0) patchifstealthpasses = true;
-                if (strcasecmp(argv[i], "--debug") == 0) { extraverbose = true; debug = true; }
-                if (strcasecmp(argv[i], "--debugfs") == 0) { extraverbose = true; debug = true; debugfs = true; }
-                if (strcasecmp(argv[i], "--rebuildlowspace") == 0) rebuildlowspace = true;
-                if (strcasecmp(argv[i], "--keeporiginaliso") == 0) keeporiginaliso = true;
-                if (strcasecmp(argv[i], "--norebuild") == 0) norebuild = true;
-                if (strcasecmp(argv[i], "--truncate") == 0 && (i+1 < argc)) { truncatearg = i + 1; truncatefile = true; }
-                if (strcasecmp(argv[i], "--pause") == 0) pauseshell = true;
-                if (strcasecmp(argv[i], "--max") == 0) maximize = true;
-                if (strcasecmp(argv[i], "--padding") == 0) checkpadding = true;
-                if (strcasecmp(argv[i], "--pL0") == 0) padL0 = true;
-                if (strcasecmp(argv[i], "--showfiles") == 0) showfiles = true;
-                if (strcasecmp(argv[i], "--nofixdev") == 0) fixdeviation = false;
-                if (strcasecmp(argv[i], "--fixangle359") == 0) fixangle359 = true;
-                if (strcasecmp(argv[i], "--folder") == 0 && (i+1 < argc)) { folderarg = i + 1; foldermode = true; }
-                if (strcasecmp(argv[i], "--dir") == 0 && (i+1 < argc)) { folderarg = i + 1; foldermode = true; }
-                if (strcasecmp(argv[i], "--match") == 0 && (i+1 < argc)) { matcharg = i + 1; matchonly = true; }
-                if (strcasecmp(argv[i], "--showsstable") == 0) showsstable = true;
-                if (strcasecmp(argv[i], "--showfulltable") == 0) { showfulltable = true; showsstable = true; }
-                if (strcasecmp(argv[i], "--nofixdrt") == 0) fixDRT = false;
-                if (strcasecmp(argv[i], "--testing") == 0) testing = true;
-                if (strcasecmp(argv[i], "--testingdvd") == 0) testingdvd = true;
-                if (strcasecmp(argv[i], "--nowrite") == 0) writefile = false;
-                if (strcasecmp(argv[i], "--user") == 0 && (i+1 < argc)) { autouploaduserarg = i + 1; }
-                if (strcasecmp(argv[i], "--pass") == 0 && (i+1 < argc)) { autouploadpassarg = i + 1; }
-                if (strcasecmp(argv[i], "--localonly") == 0) localonly = true;
-                if (strcasecmp(argv[i], "--makedat") == 0) makedatfile = true;
-                if (strcasecmp(argv[i], "--dontparsefs") == 0) dontparsefs = true;
-                if (strcasecmp(argv[i], "--sizedoesntmatter") == 0) increasescreenbuffersize = false;
-                //if (strcasecmp(argv[i], "--rip") == 0 && (i+1 < argc)) riparg = i + 1;
-                //if (strcasecmp(argv[i], "--dest") == 0 && (i+1 < argc)) ripdestarg = i + 1;
-                if (strcasecmp(argv[i], "--missingpfi") == 0)  skipvideoautofix = true;
-                if (strcasecmp(argv[i], "--rec") == 0) recursesubdirs = true;
-                if (strcasecmp(argv[i], "--clobber") == 0) clobber = true;
-                if (strcasecmp(argv[i], "--ach") == 0) showachievements = true;
-                if (strcasecmp(argv[i], "--achs") == 0) { showachievements = true; hidesecretachievements = true; }
-                if (strcasecmp(argv[i], "--aa") == 0) showavatarawards = true;
-                if (strcasecmp(argv[i], "--images") == 0) { if (!imagedirmissing) extractimages = true; }
-                if (strcasecmp(argv[i], "--embed") == 0) { if (!imagedirmissing) embedimages = true; }
-                if (strcasecmp(argv[i], "--skiplb") == 0) skiplayerboundaryinfo = true;
-                if (strcasecmp(argv[i], "--devkey") == 0) devkey = true;
-                if (strcasecmp(argv[i], "--notrust") == 0) trustssv2angles = false;
-                if (strcasecmp(argv[i], "--useinstalldir") == 0) useinstalldir = true;
-                if (strcasecmp(argv[i], "--orig") == 0 && (i+1 < argc)) origarg = i + 1;
+                if (mystrcasecmp(argv[i], "--nodvdcheck") == 0) checkdvdfile = false;
+                if (mystrcasecmp(argv[i], "--noautofix") == 0) autofix = false;
+                if (mystrcasecmp(argv[i], "--af0") == 0) autofix = false;
+                if (mystrcasecmp(argv[i], "--autofixfailed") == 0) autofixuncertain = false;
+                if (mystrcasecmp(argv[i], "--af1") == 0) autofixuncertain = false;
+                if (mystrcasecmp(argv[i], "--autofixalways") == 0) autofixalways = true;
+                if (mystrcasecmp(argv[i], "--af3") == 0) autofixalways = true;
+                if (mystrcasecmp(argv[i], "--noverify") == 0) verify = false;
+                if (mystrcasecmp(argv[i], "--autoupload") == 0) autoupload = true;
+                if (mystrcasecmp(argv[i], "--noupdate") == 0) onlineupdate = false;
+                if (mystrcasecmp(argv[i], "--csv") == 0) csvupdate = true;
+                if (mystrcasecmp(argv[i], "--stayoffline") == 0) stayoffline = true;
+                if (mystrcasecmp(argv[i], "--regioncheck") == 0) stealthcheck = false;
+                if (mystrcasecmp(argv[i], "--nogamecrc") == 0) checkgamecrcnever = true;
+                if (mystrcasecmp(argv[i], "--gamecrc") == 0) checkgamecrcalways = true;
+                if (mystrcasecmp(argv[i], "--p-video") == 0 && (i+1 < argc)) { patchvideoarg = i + 1; manualpatch = true; }
+                if (mystrcasecmp(argv[i], "--p-pfi") == 0 && (i+1 < argc)) { patchpfiarg = i + 1; manualpatch = true; }
+                if (mystrcasecmp(argv[i], "--p-dmi") == 0 && (i+1 < argc)) { patchdmiarg = i + 1; manualpatch = true; }
+                if (mystrcasecmp(argv[i], "--p-ss") == 0 && (i+1 < argc)) { patchssarg = i + 1; manualpatch = true; }
+                if (mystrcasecmp(argv[i], "--e-video") == 0 && (i+1 < argc)) { extractvideoarg = i + 1; manualextract = true; }
+                if (mystrcasecmp(argv[i], "--e-pfi") == 0 && (i+1 < argc)) { extractpfiarg = i + 1; manualextract = true; }
+                if (mystrcasecmp(argv[i], "--e-dmi") == 0 && (i+1 < argc)) { extractdmiarg = i + 1; manualextract = true; }
+                if (mystrcasecmp(argv[i], "--e-ss") == 0 && (i+1 < argc)) { extractssarg = i + 1; manualextract = true; }
+                if (mystrcasecmp(argv[i], "--patchgarbage") == 0) patchvalidfilesonly = false;
+                if (mystrcasecmp(argv[i], "--patchitanyway") == 0) patchifstealthpasses = true;
+                if (mystrcasecmp(argv[i], "--debug") == 0) { extraverbose = true; debug = true; }
+                if (mystrcasecmp(argv[i], "--debugfs") == 0) { extraverbose = true; debug = true; debugfs = true; }
+                if (mystrcasecmp(argv[i], "--rebuildlowspace") == 0) rebuildlowspace = true;
+                if (mystrcasecmp(argv[i], "--keeporiginaliso") == 0) keeporiginaliso = true;
+                if (mystrcasecmp(argv[i], "--norebuild") == 0) norebuild = true;
+                if (mystrcasecmp(argv[i], "--truncate") == 0 && (i+1 < argc)) { truncatearg = i + 1; truncatefile = true; }
+                if (mystrcasecmp(argv[i], "--pause") == 0) pauseshell = true;
+                if (mystrcasecmp(argv[i], "--max") == 0) maximize = true;
+                if (mystrcasecmp(argv[i], "--padding") == 0) checkpadding = true;
+                if (mystrcasecmp(argv[i], "--pL0") == 0) padL0 = true;
+                if (mystrcasecmp(argv[i], "--showfiles") == 0) showfiles = true;
+                if (mystrcasecmp(argv[i], "--nofixdev") == 0) fixdeviation = false;
+                if (mystrcasecmp(argv[i], "--fixangle359") == 0) fixangle359 = true;
+                if (mystrcasecmp(argv[i], "--folder") == 0 && (i+1 < argc)) { folderarg = i + 1; foldermode = true; }
+                if (mystrcasecmp(argv[i], "--dir") == 0 && (i+1 < argc)) { folderarg = i + 1; foldermode = true; }
+                if (mystrcasecmp(argv[i], "--match") == 0 && (i+1 < argc)) { matcharg = i + 1; matchonly = true; }
+                if (mystrcasecmp(argv[i], "--showsstable") == 0) showsstable = true;
+                if (mystrcasecmp(argv[i], "--showfulltable") == 0) { showfulltable = true; showsstable = true; }
+                if (mystrcasecmp(argv[i], "--nofixdrt") == 0) fixDRT = false;
+                if (mystrcasecmp(argv[i], "--testing") == 0) testing = true;
+                if (mystrcasecmp(argv[i], "--testingdvd") == 0) testingdvd = true;
+                if (mystrcasecmp(argv[i], "--nowrite") == 0) writefile = false;
+                if (mystrcasecmp(argv[i], "--user") == 0 && (i+1 < argc)) { autouploaduserarg = i + 1; }
+                if (mystrcasecmp(argv[i], "--pass") == 0 && (i+1 < argc)) { autouploadpassarg = i + 1; }
+                if (mystrcasecmp(argv[i], "--localonly") == 0) localonly = true;
+                if (mystrcasecmp(argv[i], "--makedat") == 0) makedatfile = true;
+                if (mystrcasecmp(argv[i], "--dontparsefs") == 0) dontparsefs = true;
+                if (mystrcasecmp(argv[i], "--sizedoesntmatter") == 0) increasescreenbuffersize = false;
+                //if (mystrcasecmp(argv[i], "--rip") == 0 && (i+1 < argc)) riparg = i + 1;
+                //if (mystrcasecmp(argv[i], "--dest") == 0 && (i+1 < argc)) ripdestarg = i + 1;
+                if (mystrcasecmp(argv[i], "--missingpfi") == 0)  skipvideoautofix = true;
+                if (mystrcasecmp(argv[i], "--rec") == 0) recursesubdirs = true;
+                if (mystrcasecmp(argv[i], "--clobber") == 0) clobber = true;
+                if (mystrcasecmp(argv[i], "--ach") == 0) showachievements = true;
+                if (mystrcasecmp(argv[i], "--achs") == 0) { showachievements = true; hidesecretachievements = true; }
+                if (mystrcasecmp(argv[i], "--aa") == 0) showavatarawards = true;
+                if (mystrcasecmp(argv[i], "--images") == 0) { if (!imagedirmissing) extractimages = true; }
+                if (mystrcasecmp(argv[i], "--embed") == 0) { if (!imagedirmissing) embedimages = true; }
+                if (mystrcasecmp(argv[i], "--skiplb") == 0) skiplayerboundaryinfo = true;
+                if (mystrcasecmp(argv[i], "--devkey") == 0) devkey = true;
+                if (mystrcasecmp(argv[i], "--notrust") == 0) trustssv2angles = false;
+                if (mystrcasecmp(argv[i], "--useinstalldir") == 0) useinstalldir = true;
+                if (mystrcasecmp(argv[i], "--orig") == 0 && (i+1 < argc)) origarg = i + 1;
                 #ifdef WIN32
-                    if (strcasecmp(argv[i], "--dvd") == 0 && (i+1 < argc)) dvdarg = i + 1;
+                    if (mystrcasecmp(argv[i], "--dvd") == 0 && (i+1 < argc)) dvdarg = i + 1;
                 #endif
                 
-                if ((strcasecmp(argv[i], "--myregion") == 0 || strcasecmp(argv[i], "--rgn") == 0) && (i+1 < argc)) {
+                if ((mystrcasecmp(argv[i], "--myregion") == 0 || mystrcasecmp(argv[i], "--rgn") == 0) && (i+1 < argc)) {
                     userregionarg = i + 1;
                     if (strlen(argv[i+1]) == 8) {
                         userregion = strtoul(argv[i+1], &endptr, 16);
@@ -3317,59 +3323,59 @@ void parsecmdline(int argc, char *argv[]) {
                     }
                 }
                 
-                if (strcasecmp(argv[i], "--nettimeout") == 0 && (i+1 < argc)) {
+                if (mystrcasecmp(argv[i], "--nettimeout") == 0 && (i+1 < argc)) {
                     connectiontimeout = strtol(argv[i+1], NULL, 10);
                     if (connectiontimeout < 0) connectiontimeout = 20;
                     connectiontimeoutarg = i + 1;
                 }
-                if (strcasecmp(argv[i], "--dvdtimeout") == 0 && (i+1 < argc)) {
+                if (mystrcasecmp(argv[i], "--dvdtimeout") == 0 && (i+1 < argc)) {
                     dvdtimeout = strtol(argv[i+1], NULL, 10);
                     if (dvdtimeout < 0) dvdtimeout = 20;
                     dvdtimeoutarg = i + 1;
                 }
-                if (strcasecmp(argv[i], "--dev") == 0 && (i+1 < argc)) {
+                if (mystrcasecmp(argv[i], "--dev") == 0 && (i+1 < argc)) {
                     fixangledev_value = (int) strtol(argv[i+1], NULL, 10);
                     if (fixangledev_value < 0) fixangledev_value *= -1;
                     fixangledevarg = i + 1;
                 }
-                if (strcasecmp(argv[i], "--retries") == 0 && (i+1 < argc)) {
+                if (mystrcasecmp(argv[i], "--retries") == 0 && (i+1 < argc)) {
                     readretries = (int) strtol(argv[i+1], NULL, 10);
                     if (readretries < 0) readretries = 20;
                     readretryarg = i + 1;
                 }
-                if (strcasecmp(argv[i], "--lang") == 0 && (i+1 < argc)) {
+                if (mystrcasecmp(argv[i], "--lang") == 0 && (i+1 < argc)) {
                     userlang = strtol(argv[i+1], NULL, 10);
                     if (userlang < 0) userlang = 0;
                     userlangarg = i + 1;
                 }
-                if (strcasecmp(argv[i], "--speed") == 0 && (i+1 < argc)) {
+                if (mystrcasecmp(argv[i], "--speed") == 0 && (i+1 < argc)) {
                     speed = strtof(argv[i+1], NULL);
                     if (speed < 0) speed *= -1;
                     speedarg = i + 1;
                 }
             }
             else for(u=1; u<strlen(argv[i]); u++) {
-                if (strncasecmp(argv[i]+u, "c", 1) == 0) checkcorruption = true;
-                if (strncasecmp(argv[i]+u, "s", 1) == 0) stripcolors = true;
-                if (strncasecmp(argv[i]+u, "n", 1) == 0) verbose = false;
-                if (strncasecmp(argv[i]+u, "v", 1) == 0) extraverbose = true;
-                if (strncasecmp(argv[i]+u, "r", 1) == 0) stealthcheck = false;
-                if (strncasecmp(argv[i]+u, "h", 1) == 0) html = true;
-                if (strncasecmp(argv[i]+u, "g", 1) == 0) checkgamecrcnever = true;
-                if (strncasecmp(argv[i]+u, "t", 1) == 0) terminal = true;
-                if (strncasecmp(argv[i]+u, "o", 1) == 0) stayoffline = true;
-                if (strncasecmp(argv[i]+u, "u", 1) == 0) autoupload = true;
-                if (strncasecmp(argv[i]+u, "a", 1) == 0) autofixalways = true;
-                if (strncasecmp(argv[i]+u, "f", 1) == 0) autofix = false;
-                if (strncasecmp(argv[i]+u, "d", 1) == 0) checkdvdfile = false;
-                if (strncasecmp(argv[i]+u, "k", 1) == 0) keeporiginaliso = true;
-                if (strncasecmp(argv[i]+u, "l", 1) == 0) rebuildlowspace = true;
-                if (strncasecmp(argv[i]+u, "b", 1) == 0) norebuild = true;
-                if (strncasecmp(argv[i]+u, "p", 1) == 0) checkpadding = true;
-                if (strncasecmp(argv[i]+u, "x", 1) == 0) fixangle359 = true;
-                if (strncasecmp(argv[i]+u, "w", 1) == 0) writefile = false;
-                if (strncasecmp(argv[i]+u, "i", 1) == 0) { if (!imagedirmissing) extractimages = true; }
-                if (strncasecmp(argv[i]+u, "e", 1) == 0) showachievements = true;
+                if (mystrncasecmp(argv[i]+u, "c", 1) == 0) checkcorruption = true;
+                if (mystrncasecmp(argv[i]+u, "s", 1) == 0) stripcolors = true;
+                if (mystrncasecmp(argv[i]+u, "n", 1) == 0) verbose = false;
+                if (mystrncasecmp(argv[i]+u, "v", 1) == 0) extraverbose = true;
+                if (mystrncasecmp(argv[i]+u, "r", 1) == 0) stealthcheck = false;
+                if (mystrncasecmp(argv[i]+u, "h", 1) == 0) html = true;
+                if (mystrncasecmp(argv[i]+u, "g", 1) == 0) checkgamecrcnever = true;
+                if (mystrncasecmp(argv[i]+u, "t", 1) == 0) terminal = true;
+                if (mystrncasecmp(argv[i]+u, "o", 1) == 0) stayoffline = true;
+                if (mystrncasecmp(argv[i]+u, "u", 1) == 0) autoupload = true;
+                if (mystrncasecmp(argv[i]+u, "a", 1) == 0) autofixalways = true;
+                if (mystrncasecmp(argv[i]+u, "f", 1) == 0) autofix = false;
+                if (mystrncasecmp(argv[i]+u, "d", 1) == 0) checkdvdfile = false;
+                if (mystrncasecmp(argv[i]+u, "k", 1) == 0) keeporiginaliso = true;
+                if (mystrncasecmp(argv[i]+u, "l", 1) == 0) rebuildlowspace = true;
+                if (mystrncasecmp(argv[i]+u, "b", 1) == 0) norebuild = true;
+                if (mystrncasecmp(argv[i]+u, "p", 1) == 0) checkpadding = true;
+                if (mystrncasecmp(argv[i]+u, "x", 1) == 0) fixangle359 = true;
+                if (mystrncasecmp(argv[i]+u, "w", 1) == 0) writefile = false;
+                if (mystrncasecmp(argv[i]+u, "i", 1) == 0) { if (!imagedirmissing) extractimages = true; }
+                if (mystrncasecmp(argv[i]+u, "e", 1) == 0) showachievements = true;
             }
         }
     }
@@ -3905,7 +3911,7 @@ int main(int argc, char *argv[]) {
     if (debug) {
         printf("done parsing command line:%s", newline);
         for (i=0;i<argc;i++) {
-            if (i && strcasecmp(argv[i-1], "--pass") == 0) printf("argv[%d]: password%s", i, newline);  // OMG the password is "password"!
+            if (i && mystrcasecmp(argv[i-1], "--pass") == 0) printf("argv[%d]: password%s", i, newline);  // OMG the password is "password"!
             else printf("argv[%d]: %s%s", i, argv[i], newline);
         }
         #ifndef WIN32
@@ -4768,7 +4774,7 @@ int main(int argc, char *argv[]) {
         
         if (truncatefile) {
             long long truncatesize = 0;
-            if (strncasecmp(argv[truncatearg], "0x", 2) == 0) truncatesize = strtoll(argv[truncatearg], NULL, 16);
+            if (mystrncasecmp(argv[truncatearg], "0x", 2) == 0) truncatesize = strtoll(argv[truncatearg], NULL, 16);
             else truncatesize = strtoll(argv[truncatearg], NULL, 10);
             if (truncatesize > 0) {
                 if (writefile) {
@@ -4797,7 +4803,7 @@ int main(int argc, char *argv[]) {
         }
         
         // check to see if it's an spa
-        if (strlen(isofilename) > 4 && strncasecmp(isofilename+strlen(isofilename)-4, ".spa", 4) == 0) {
+        if (strlen(isofilename) > 4 && mystrncasecmp(isofilename+strlen(isofilename)-4, ".spa", 4) == 0) {
             initcheckread();
             memset(ubuffer, 0, 2048);
             if (checkreadandprinterrors(ubuffer, 1, 2048, fp, 0, 0, isofilename, "Checking .spa file") != 0) continue;
@@ -4838,7 +4844,7 @@ int main(int argc, char *argv[]) {
               exit(1);
             }
             // seek back to start of the file
-            if (fseeko(fp, 0, SEEK_SET) != 0) {
+            if (myfseeko(fp, 0, SEEK_SET) != 0) {
                 printseekerror(isofilename, "Checking .spa file");
                 free(resourcebuffer);
               continue;
@@ -4862,7 +4868,7 @@ int main(int argc, char *argv[]) {
         }
         
         // check to see if it's an xex
-        if (strlen(isofilename) > 4 && strncasecmp(isofilename+strlen(isofilename)-4, ".xex", 4) == 0) {
+        if (strlen(isofilename) > 4 && mystrncasecmp(isofilename+strlen(isofilename)-4, ".xex", 4) == 0) {
             initcheckread();
             memset(ubuffer, 0, 2048);
             if (checkreadandprinterrors(ubuffer, 1, 2048, fp, 0, 0, isofilename, "Checking .xex file") != 0) continue;
@@ -4903,7 +4909,7 @@ int main(int argc, char *argv[]) {
               exit(1);
             }
             // seek back to start of the file
-            if (fseeko(fp, 0, SEEK_SET) != 0) {
+            if (myfseeko(fp, 0, SEEK_SET) != 0) {
                 printseekerror(isofilename, "Checking .xex file");
                 free(defaultxexbuffer);
               continue;
@@ -4991,7 +4997,7 @@ int main(int argc, char *argv[]) {
         if (fpfilesize <= 265873408LL) {
             // this is the maximum size of a video partition with padding data (pre-ap25 size so that older full XGD2 video partition rips will be detected)
             // check to see if this is a video file by seeking to sector 16 and looking for magic bytes
-            if (fseeko(fp, 32768, SEEK_SET) != 0) {
+            if (myfseeko(fp, 32768, SEEK_SET) != 0) {
                 printseekerror(isofilename, "File identification check");
               continue;
             }
@@ -5023,7 +5029,7 @@ int main(int argc, char *argv[]) {
           continue;
         }
         // check to see if this is an xbox 360 iso by looking for magic bytes at sector 32
-        if (fseeko(fp, 65536, SEEK_SET) != 0) {
+        if (myfseeko(fp, 65536, SEEK_SET) != 0) {
             printseekerror(isofilename, "ISO check");
           continue;
         }
@@ -5040,7 +5046,7 @@ int main(int argc, char *argv[]) {
             // proper backups should have the game partition starting at 0xFD90000 (XGD2) or 0x2080000 (XGD3)
             video = 0xFD90000LL;
             // read sector 32 + video
-            if (fseeko(fp, 65536+video, SEEK_SET) != 0) {
+            if (myfseeko(fp, 65536+video, SEEK_SET) != 0) {
                 printseekerror(isofilename, "ISO check");
               continue;
             }
@@ -5055,7 +5061,7 @@ int main(int argc, char *argv[]) {
             if (memcmp(ubuffer, "MICROSOFT*XBOX*MEDIA", 20) != 0) {
                 video = 0x2080000LL;
                 // read sector 32 + video
-                if (fseeko(fp, 65536+video, SEEK_SET) != 0) {
+                if (myfseeko(fp, 65536+video, SEEK_SET) != 0) {
                     printseekerror(isofilename, "ISO check");
                   continue;
                 }
@@ -5084,7 +5090,7 @@ int main(int argc, char *argv[]) {
         // doesn't correspond to the video offset, assume the layerbreak based solely on the video offset
         layerbreak = -1;
         if (video != 0) {
-            if (fseeko(fp, video - (xgd3 ? 0x8800 : 0x800), SEEK_SET) != 0) {
+            if (myfseeko(fp, video - (xgd3 ? 0x8800 : 0x800), SEEK_SET) != 0) {
                 printseekerror(isofilename, "Checking alternate PFI");
               continue;
             }
@@ -5200,7 +5206,7 @@ int main(int argc, char *argv[]) {
             
             if (game_has_ap25) {
                 // check topology data
-                if (fseeko(fp, video - (xgd3 ? 0x10000 : 0x8000), SEEK_SET) != 0) {
+                if (myfseeko(fp, video - (xgd3 ? 0x10000 : 0x8000), SEEK_SET) != 0) {
                     printseekerror(isofilename, "Stealth check");
                   continue;
                 }
@@ -5238,7 +5244,7 @@ int main(int argc, char *argv[]) {
             }
             
             // check SS
-            if (fseeko(fp, video - (xgd3 ? 0x8800 : 0x800), SEEK_SET) != 0) {
+            if (myfseeko(fp, video - (xgd3 ? 0x8800 : 0x800), SEEK_SET) != 0) {
                 printseekerror(isofilename, "Stealth check");
               continue;
             }
@@ -5269,7 +5275,7 @@ int main(int argc, char *argv[]) {
             }
             
             // check DMI
-            if (fseeko(fp, video - (xgd3 ? 0x9000 : 0x1000), SEEK_SET) != 0) {
+            if (myfseeko(fp, video - (xgd3 ? 0x9000 : 0x1000), SEEK_SET) != 0) {
                 printseekerror(isofilename, "Stealth check");
               continue;
             }
@@ -5279,7 +5285,7 @@ int main(int argc, char *argv[]) {
             checkdmi(ubuffer);
             
             // check PFI
-            if (fseeko(fp, video - (xgd3 ? 0x9800 : 0x1800), SEEK_SET) != 0) {
+            if (myfseeko(fp, video - (xgd3 ? 0x9800 : 0x1800), SEEK_SET) != 0) {
                 printseekerror(isofilename, "Stealth check");
               continue;
             }
@@ -5549,7 +5555,7 @@ int dotruncate(char *filename, long long filesize, long long truncatesize, bool 
             color(normal);
           return 1;
         }
-        if (SetFilePointerEx(hFile, (LARGE_INTEGER) truncatesize, NULL, FILE_BEGIN) == 0) {
+        if (SetFilePointerEx(hFile, longLongToLargeInt(truncatesize), NULL, FILE_BEGIN) == 0) {
             color(red);
             printf("ERROR: SetFilePointerEx failed! (%s) %s file failed!%s", WinErrorString(), action, newline);
             color(normal);
@@ -5651,7 +5657,7 @@ void domanualextraction(char *argv[]) {
             }
         }
         // check pfi_sectorstotal to get the true size of video data
-        if (fseeko(fp, video - (xgd3 ? 0x9800 : 0x1800), SEEK_SET) != 0) {  // seek to pfi
+        if (myfseeko(fp, video - (xgd3 ? 0x9800 : 0x1800), SEEK_SET) != 0) {  // seek to pfi
             printseekerror(isofilename, "Extracting Video");
           goto endofextractvideo2;
         }
@@ -5713,7 +5719,7 @@ void domanualextraction(char *argv[]) {
           goto endofextractvideo2;
         }
         // seek to the start of L0 Video and start extraction
-        if (fseeko(fp, 0, SEEK_SET) != 0) {
+        if (myfseeko(fp, 0, SEEK_SET) != 0) {
             printseekerror(isofilename, "Extracting Video");
           goto endofextractvideo;
         }
@@ -5738,7 +5744,7 @@ void domanualextraction(char *argv[]) {
                 goto endofextractvideo;
         }
         // seek to the start of L1 Video and continue extraction
-        if (fseeko(fp, pfi_offsetL1, SEEK_SET) != 0) {
+        if (myfseeko(fp, pfi_offsetL1, SEEK_SET) != 0) {
             printseekerror(isofilename, "Extracting Video");
           goto endofextractvideo;
         }
@@ -5805,7 +5811,7 @@ void domanualextraction(char *argv[]) {
             color(normal);
           goto endofextractpfi2;
         }
-        if (fseeko(fp, video - (xgd3 ? 0x9800 : 0x1800), SEEK_SET) != 0) {
+        if (myfseeko(fp, video - (xgd3 ? 0x9800 : 0x1800), SEEK_SET) != 0) {
             printseekerror(isofilename, "Extracting PFI");
           goto endofextractpfi;
         }
@@ -5858,7 +5864,7 @@ void domanualextraction(char *argv[]) {
             color(normal);
           goto endofextractdmi2;
         }
-        if (fseeko(fp, video - (xgd3 ? 0x9000 : 0x1000), SEEK_SET) != 0) {
+        if (myfseeko(fp, video - (xgd3 ? 0x9000 : 0x1000), SEEK_SET) != 0) {
             printseekerror(isofilename, "Extracting DMI");
           goto endofextractdmi;
         }
@@ -5911,7 +5917,7 @@ void domanualextraction(char *argv[]) {
             color(normal);
           goto endofextractss2;
         }
-        if (fseeko(fp, video - (xgd3 ? 0x8800 : 0x800), SEEK_SET) != 0) {
+        if (myfseeko(fp, video - (xgd3 ? 0x8800 : 0x800), SEEK_SET) != 0) {
             printseekerror(isofilename, "Extracting SS");
           goto endofextractss;
         }
@@ -6242,11 +6248,11 @@ void domanualpatch(char *argv[]) {
             goto endofpatchvideo;
         }
         // seek to the start of L0 Video and start patching
-        if (fseeko(fp, 0, SEEK_SET) != 0) {
+        if (myfseeko(fp, 0, SEEK_SET) != 0) {
             printseekerror(isofilename, "Patching video file");
             goto endofpatchvideo;
         }
-        if (fseeko(patchvideofile, 0, SEEK_SET) != 0) {
+        if (myfseeko(patchvideofile, 0, SEEK_SET) != 0) {
             printseekerror(argv[patchvideoarg], "Patching video file");
             goto endofpatchvideo;
         }
@@ -6271,7 +6277,7 @@ void domanualpatch(char *argv[]) {
                 goto endofpatchvideo;
         }
         // seek to the start of L1 Video and continue patching
-        if (fseeko(fp, pfi_offsetL1, SEEK_SET) != 0) {
+        if (myfseeko(fp, pfi_offsetL1, SEEK_SET) != 0) {
             printseekerror(isofilename, "Patching video file");
           goto endofpatchvideo;
         }
@@ -6502,7 +6508,7 @@ int docheckdvdfile() {
 
 long long getfilesize(FILE *fp) {
     // store starting position so we can reset it
-    long long startoffset = (long long) ftello(fp);
+    long long startoffset = (long long) myftello(fp);
     if (startoffset == -1) {
         color(red);
         printf("ERROR: ftello returned -1! (%s) Failed to get filesize!%s", strerror(errno), newline);
@@ -6510,13 +6516,13 @@ long long getfilesize(FILE *fp) {
       return -1;
     }
     // seek to the end and store the offset
-    if (fseeko(fp, 0, SEEK_END) != 0) {
+    if (myfseeko(fp, 0, SEEK_END) != 0) {
         color(red);
         printf("ERROR: Failed to seek to new file position! (%s) Failed to get filesize!%s", strerror(errno), newline);
         color(normal);
       return -1;
     }
-    long long lastoffset = (long long) ftello(fp);
+    long long lastoffset = (long long) myftello(fp);
     if (lastoffset == -1) {
         color(red);
         printf("ERROR: ftello returned -1! (%s) Failed to get filesize!%s", strerror(errno), newline);
@@ -6524,7 +6530,7 @@ long long getfilesize(FILE *fp) {
       return -1;
     }
     // reset position
-    if (fseeko(fp, startoffset, SEEK_SET) != 0) {
+    if (myfseeko(fp, startoffset, SEEK_SET) != 0) {
         color(red);
         printf("ERROR: Failed to seek back to original file position! (%s) Failed to get filesize!%s", strerror(errno), newline);
         color(normal);
@@ -6886,7 +6892,7 @@ void closestderr() {
 
 int trytoreadstealthfile(void *ptr, size_t size, size_t nmemb, FILE *stream, char *filename, long long offset) {
     int i;
-    if (fseeko(stream, offset, SEEK_SET) != 0) {
+    if (myfseeko(stream, offset, SEEK_SET) != 0) {
         printseekerror(filename, "Reading stealth file");
       return 1;
     }
@@ -6899,7 +6905,7 @@ int trytoreadstealthfile(void *ptr, size_t size, size_t nmemb, FILE *stream, cha
             readerrorstotal++;
             resetstderr();
             charsprinted = fprintf(stderr, "ERROR: Read error while reading %s [%lu retries]", filename, readerrorstotal);
-            if (fseeko(stream, offset, SEEK_SET) != 0) {
+            if (myfseeko(stream, offset, SEEK_SET) != 0) {
                 printseekerror(filename, "Reading stealth file");
               return 1;
             }
@@ -6921,7 +6927,7 @@ int trytoreadstealthfile(void *ptr, size_t size, size_t nmemb, FILE *stream, cha
 
 int trytowritestealthfile(const void *ptr, size_t size, size_t nmemb, FILE *stream, char *filename, long long offset) {
     int i;
-    if (fseeko(stream, offset, SEEK_SET) != 0) {
+    if (myfseeko(stream, offset, SEEK_SET) != 0) {
         printseekerror(filename, "Writing stealth file");
       return 1;
     }
@@ -6934,7 +6940,7 @@ int trytowritestealthfile(const void *ptr, size_t size, size_t nmemb, FILE *stre
             writeerrorstotal++;
             resetstderr();
             charsprinted = fprintf(stderr, "ERROR: Write error while writing %s [%lu retries]", filename, writeerrorstotal);
-            if (fseeko(stream, offset, SEEK_SET) != 0) {
+            if (myfseeko(stream, offset, SEEK_SET) != 0) {
                 printstderr = false;
                 printseekerror(filename, "Writing stealth file");
               return 1;
@@ -7045,16 +7051,16 @@ int checkreadandprinterrors(void *ptr, size_t size, size_t nmemb, FILE *stream, 
                 unsigned long safereadsremainder = transferlength % 16;
                 unsigned long m;
                 for (m=0;m<safereads;m++) {
-                    if (checkreadandprinterrors(ptr+m*32768, size, 32768, stream, m, startoffset+loop*nmemb, name, action))
+                    if (checkreadandprinterrors(((char *)ptr)+m*32768, size, 32768, stream, m, startoffset+loop*nmemb, name, action))
                   return 1;
                 }
                 if (safereadsremainder) {
-                    if (checkreadandprinterrors(ptr+safereads*32768, size, safereadsremainder*2048, stream, 0,
+                    if (checkreadandprinterrors(((char *)ptr)+safereads*32768, size, safereadsremainder*2048, stream, 0,
                                                 startoffset+loop*nmemb+safereads*32768, name, action))
                   return 1;
                 }
                 if (transferlengthremainder) {
-                    if (checkreadandprinterrors(ptr+safereads*32768+safereadsremainder*2048, size, transferlengthremainder,
+                    if (checkreadandprinterrors(((char *)ptr)+safereads*32768+safereadsremainder*2048, size, transferlengthremainder,
                                                 stream, 0, startoffset+loop*nmemb+safereads*32768+safereadsremainder*2048,
                                                 name, action))
                   return 1;
@@ -7149,7 +7155,7 @@ int checkreadandprinterrors(void *ptr, size_t size, size_t nmemb, FILE *stream, 
                 resetstderr();
                 charsprinted = fprintf(stderr, "ERROR: Error reading Input [%lu recovered / %lu retries]",
                                                 readerrorsrecovered, readerrorstotal);
-                if (fseeko(stream, readoffset, SEEK_SET) != 0) {
+                if (myfseeko(stream, readoffset, SEEK_SET) != 0) {
                     closestderr();
                     printseekerror(name, action);
                   return 1;
@@ -7195,7 +7201,7 @@ int checkwriteandprinterrors(const void *ptr, size_t size, size_t nmemb, FILE *s
             writeerrorstotal++;
             resetstderr();
             charsprinted = fprintf(stderr, "ERROR: Error writing %s [%lu recovered / %lu retries]", name, writeerrorsrecovered, writeerrorstotal);
-            if (fseeko(stream, writeoffset, SEEK_SET) != 0) {
+            if (myfseeko(stream, writeoffset, SEEK_SET) != 0) {
                 closestderr();
                 printseekerror(name, action);
               return 1;
@@ -7228,7 +7234,7 @@ int padzeros(FILE *stream, char *filename, long long startoffset, long long endo
     }
     if (endoffset - startoffset < BIGBUF_SIZE) {
         memset(bigbuffer, 0, endoffset - startoffset);
-        if (fseeko(stream, startoffset, SEEK_SET) != 0) {
+        if (myfseeko(stream, startoffset, SEEK_SET) != 0) {
             printseekerror(filename, "Padding");
           return 1;
         }
@@ -7239,7 +7245,7 @@ int padzeros(FILE *stream, char *filename, long long startoffset, long long endo
     }
     else {
         memset(bigbuffer, 0, BIGBUF_SIZE);
-        if (fseeko(stream, startoffset, SEEK_SET) != 0) {
+        if (myfseeko(stream, startoffset, SEEK_SET) != 0) {
             printseekerror(filename, "Padding");
           return 1;
         }
@@ -7346,7 +7352,7 @@ int rebuildiso(char *filename) {
             blockreadoffset -= gamestartoffset;
             n = 0;  // just making sure in case this doesn't get set by the for loop if minor_iterations == 0
             for (n=0;n<minor_iterations;n++) {
-                if (fseeko(fp, blockreadoffset + (n * BIGBUF_SIZE), SEEK_SET) != 0) {
+                if (myfseeko(fp, blockreadoffset + (n * BIGBUF_SIZE), SEEK_SET) != 0) {
                     printf("%s", newline);
                     printseekerror(filename, "Rebuilding");
                   return 1;
@@ -7357,7 +7363,7 @@ int rebuildiso(char *filename) {
                 // (subtracting BIGBUF_SIZE because we just advanced the position by BIGBUF_SIZE bytes by doing the read)
                 // but don't bother seeking if gamestartoffset happens to be equal to BIGBUF_SIZE
                 // btw, we wouldn't get here if gamestartoffset was less than BIGBUF_SIZE (minor_iterations would be 0)
-                if (gamestartoffset > BIGBUF_SIZE && fseeko(fp, gamestartoffset - BIGBUF_SIZE, SEEK_CUR) != 0) {
+                if (gamestartoffset > BIGBUF_SIZE && myfseeko(fp, gamestartoffset - BIGBUF_SIZE, SEEK_CUR) != 0) {
                     printf("%s", newline);
                     printseekerror(filename, "Rebuilding");
                   return 1;
@@ -7370,7 +7376,7 @@ int rebuildiso(char *filename) {
                 }
             }
             if (minor_iterations_remainder) {
-                if (fseeko(fp, blockreadoffset + (n * BIGBUF_SIZE), SEEK_SET) != 0) {
+                if (myfseeko(fp, blockreadoffset + (n * BIGBUF_SIZE), SEEK_SET) != 0) {
                     printf("%s", newline);
                     printseekerror(filename, "Rebuilding");
                   return 1;
@@ -7384,7 +7390,7 @@ int rebuildiso(char *filename) {
                 // btw, it is impossible for gamestartoffset to be less than minor_iterations_remainder:
                 // for all X [gamestartoffset] % Y [BIGBUF_SIZE] = Z [minor_iterations_remainder], Z must be <= X
                 if (gamestartoffset > minor_iterations_remainder &&
-                    fseeko(fp, gamestartoffset - minor_iterations_remainder, SEEK_CUR) != 0) {
+                    myfseeko(fp, gamestartoffset - minor_iterations_remainder, SEEK_CUR) != 0) {
                     printf("%s", newline);
                     printseekerror(filename, "Rebuilding");
                   return 1;
@@ -7407,7 +7413,7 @@ int rebuildiso(char *filename) {
                               major_iterations_remainder_sizeoverbuffer, newline, major_iterations_remainder_bufferremainder, newline);
             m = 0;  // just making sure in case this doesn't get set by the for loop if major_iterations_remainder_sizeoverbuffer == 0
             for (m=0;m<major_iterations_remainder_sizeoverbuffer;m++) {
-                if (fseeko(fp, m * BIGBUF_SIZE, SEEK_SET) != 0) {
+                if (myfseeko(fp, m * BIGBUF_SIZE, SEEK_SET) != 0) {
                     printf("%s", newline);
                     printseekerror(filename, "Rebuilding");
                   return 1;
@@ -7421,7 +7427,7 @@ int rebuildiso(char *filename) {
                 // major_iterations_remainder must be > BIGBUF_SIZE, so
                 // (gamepartitionsize % gamestartoffset) must be > BIGBUF_SIZE, and
                 // for all X [gamepartitionsize] % Y [gamestartoffset] > Z [BIGBUF_SIZE], Y must be > Z
-                if (fseeko(fp, gamestartoffset - BIGBUF_SIZE, SEEK_CUR) != 0) {
+                if (myfseeko(fp, gamestartoffset - BIGBUF_SIZE, SEEK_CUR) != 0) {
                     printf("%s", newline);
                     printseekerror(filename, "Rebuilding");
                   return 1;
@@ -7435,7 +7441,7 @@ int rebuildiso(char *filename) {
                 }
             }
             if (major_iterations_remainder_bufferremainder) {
-                if (fseeko(fp, m * BIGBUF_SIZE, SEEK_SET) != 0) {
+                if (myfseeko(fp, m * BIGBUF_SIZE, SEEK_SET) != 0) {
                     printf("%s", newline);
                     printseekerror(filename, "Rebuilding");
                   return 1;
@@ -7448,7 +7454,7 @@ int rebuildiso(char *filename) {
                 // btw, we wouldn't get here if gamestartoffset was less than or equal to major_iterations_remainder_bufferremainder:
                 // for all X [gamepartitionsize] % Y [gamestartoffset] % Z [BIGBUF_SIZE] = T [major_iterations_remainder_bufferremainder],
                 // Y must be > T
-                if (fseeko(fp, gamestartoffset - major_iterations_remainder_bufferremainder, SEEK_CUR) != 0) {
+                if (myfseeko(fp, gamestartoffset - major_iterations_remainder_bufferremainder, SEEK_CUR) != 0) {
                     printf("%s", newline);
                     printseekerror(filename, "Rebuilding");
                   return 1;
@@ -7491,7 +7497,7 @@ int rebuildiso(char *filename) {
         if (strlen(filename) > 4) {
             // see what the original iso filename looks like
             if (memcmp(rebuiltisofilename+(strlen(filename) - 4), ".", 1) == 0) {
-                if (strncasecmp(rebuiltisofilename+(strlen(filename) - 4), ".iso", 4) == 0) {
+                if (mystrncasecmp(rebuiltisofilename+(strlen(filename) - 4), ".iso", 4) == 0) {
                     // original iso named *.iso (case insensitive)
                     // rebuilt iso will be named *.[smallest integer possible].iso until a unique filename is found
                     nametype = 1;
@@ -7542,13 +7548,13 @@ int rebuildiso(char *filename) {
         // extend rebuilt iso filesize to [gamestartoffset + 1] bytes
         if (dotruncate(rebuiltisofilename, 0, gamestartoffset + 1, true) != 0) return 1;
         // seek to gamestartoffset in rebuiltisofile
-        if (fseeko(rebuiltisofile, gamestartoffset, SEEK_SET) != 0) {
+        if (myfseeko(rebuiltisofile, gamestartoffset, SEEK_SET) != 0) {
             printf("%s", newline);
             printseekerror(rebuiltisofilename, "Rebuilding");
           return 1;
         }
         // seek to 0 in input file
-        if (fseeko(fp, 0, SEEK_SET) != 0) {
+        if (myfseeko(fp, 0, SEEK_SET) != 0) {
             printf("%s", newline);
             printseekerror(filename, "Rebuilding");
           return 1;
@@ -8921,9 +8927,9 @@ int doautoupload(char *argv[], bool upload_ss_only) {
         goto startenteringdetails;
     }
     // make sure they didn't accidentally enter their password (might as well make this case insensitive)
-    if ( (strlen(argv[autouploadpassarg]) == strlen(ini_gamertag) && strcasecmp(argv[autouploadpassarg], ini_gamertag) == 0) ||
-         (strlen(argv[autouploadpassarg]) == strlen(ini_gamename) && strcasecmp(argv[autouploadpassarg], ini_gamename) == 0) ||
-         (strlen(argv[autouploadpassarg]) <= strlen(ini_notes) && strncasecmp(argv[autouploadpassarg], ini_notes, strlen(argv[autouploadpassarg])) == 0) ) {
+    if ( (strlen(argv[autouploadpassarg]) == strlen(ini_gamertag) && mystrcasecmp(argv[autouploadpassarg], ini_gamertag) == 0) ||
+         (strlen(argv[autouploadpassarg]) == strlen(ini_gamename) && mystrcasecmp(argv[autouploadpassarg], ini_gamename) == 0) ||
+         (strlen(argv[autouploadpassarg]) <= strlen(ini_notes) && mystrncasecmp(argv[autouploadpassarg], ini_notes, strlen(argv[autouploadpassarg])) == 0) ) {
         printstderr = true;
         color(red);
         fprintf(stderr, "\nI DIDN'T ASK YOU FOR YOUR PASSWORD! PLEASE READ THIS TIME!\n");
@@ -9204,7 +9210,7 @@ int extractstealthfile(FILE *isofile, char *isofilename, long long offset, char 
       return 1;
     }
     memset(buffer, 0, 2048);
-    if (fseeko(isofile, offset, SEEK_SET) != 0) {
+    if (myfseeko(isofile, offset, SEEK_SET) != 0) {
         printseekerror(isofilename, "Extracting stealth file");
       return 1;
     }
@@ -10149,12 +10155,12 @@ int doautofix() {
           return 1;
         }
         // seek to the start of L0 Video and start patching
-        if (fseeko(fp, 0, SEEK_SET) != 0) {
+        if (myfseeko(fp, 0, SEEK_SET) != 0) {
             printseekerror(isofilename, "Patching video file");
             fclose(videofile);
           return 1;
         }
-        if (fseeko(videofile, 0, SEEK_SET) != 0) {
+        if (myfseeko(videofile, 0, SEEK_SET) != 0) {
             printseekerror(videofilename, "Patching video file");
             fclose(videofile);
           return 1;
@@ -10188,7 +10194,7 @@ int doautofix() {
             }
         }
         // seek to the start of L1 Video and continue patching
-        if (fseeko(fp, pfi_offsetL1, SEEK_SET) != 0) {
+        if (myfseeko(fp, pfi_offsetL1, SEEK_SET) != 0) {
             printseekerror(isofilename, "Patching video file");
             fclose(videofile);
           return 1;
@@ -10352,7 +10358,7 @@ void printhtmltop(int argc, char *argv[]) {
                "<title>");
         // use entire cmd line as title
         for (i=0;i<argc;i++) {
-            if (i && strcasecmp(argv[i-1], "--pass") == 0) printf("password ");  // OMG the password is "password"!
+            if (i && mystrcasecmp(argv[i-1], "--pass") == 0) printf("password ");  // OMG the password is "password"!
             else printf("%s ", argv[i]);
         }
         printf("</title>\n"
@@ -10589,6 +10595,40 @@ unsigned long getzeros(unsigned char* ptr, unsigned long firstbyte, unsigned lon
         if (ptr[pos] == 0) zeros++;
     }
   return zeros;
+}
+
+int mystrcasecmp(const char* str1, const char* str2) {
+    #ifdef WIN32
+        return _stricmp(str1, str2);
+    #else
+        return strcasecmp(str1, str2);
+    #endif
+}
+
+int mystrncasecmp(const char* str1, const char* str2, size_t n) {
+    #ifdef WIN32
+        return _strnicmp(str1, str2, n);
+    #else
+        return strncasecmp(str1, str2, n);
+    #endif
+}
+
+off_t myftello(FILE *stream) {
+    #ifdef WIN32
+        return ftello64(stream);
+    #else
+        return ftello(stream);
+    #endif
+}
+
+int myfseeko(FILE *stream, off64_t offset, int whence) {
+    #ifdef WIN32
+      //if ((dvdarg || riparg) && stream == NULL) return 0;
+      if (dvdarg && stream == NULL) return 0;
+      return fseeko64(stream, offset, whence);
+    #else
+        return fseeko(stream, offset, whence);
+    #endif
 }
 
 char *readstdin(char *dest, int size) {
@@ -11823,7 +11863,7 @@ int checkgame() {
     unsigned long long rootsector, rootaddress, defaultxexaddress, defaultxexsector = 0;
     if (verbose) printf("Checking Game%s", newline);
     // seek to sector 32 of the game partition and read it into ubuffer
-    if (fseeko(fp, 32*2048+video, SEEK_SET) != 0) {
+    if (myfseeko(fp, 32*2048+video, SEEK_SET) != 0) {
         printseekerror(isofilename, "Checking sector 32");
       return 1;
     }
@@ -11874,7 +11914,7 @@ int checkgame() {
         printf("%sRoot sector: %"LL"u (0x%"LL"X), %lu bytes%s", sp5, rootsector, rootaddress, rootsize, newline);
     }
     // seek to the rootsector
-    if (fseeko(fp, rootaddress, SEEK_SET) != 0) {
+    if (myfseeko(fp, rootaddress, SEEK_SET) != 0) {
         printseekerror(isofilename, "Checking the root sector");
       return 1;
     }
@@ -11917,10 +11957,11 @@ int checkgame() {
         free(rootbuffer);
       return 1;
     }
-    // case insensitive search of the rootsector for "default.xex" (0x80 tells us it's a file and 0x0B = 11 chars in filename)
-    char defaultxex[13] = {0x80,0x0B,'d','e','f','a','u','l','t','.','x','e','x'};
+    // case insensitive search of the rootsector for "default.xex"
+    // 0x80 (-128) tells us it's a file and 11 is length of filename
+    char defaultxex[13] = {-128,11,'d','e','f','a','u','l','t','.','x','e','x'};
     for (m=0; m<rootsize-12; m++) {
-        if (strncasecmp(rootbuffer+m, defaultxex, 13) == 0) {
+        if (mystrncasecmp(rootbuffer+m, defaultxex, 13) == 0) {
             // found it, get the location and size
             defaultxexsector = getint(rootbuffer+m-8);
             defaultxexsize = getint(rootbuffer+m-4);
@@ -12110,7 +12151,7 @@ int checkgame() {
                     }
                     // search the first and last sector of all holes up to a maximum of 20 holes for random padding
                     for (m=0;m<(holecount <= 20 ? holecount : 20);m++) {
-                        if (fseeko(fp, (unsigned long long) holes[m].datasector * 2048 + video, SEEK_SET) != 0) {
+                        if (myfseeko(fp, (unsigned long long) holes[m].datasector * 2048 + video, SEEK_SET) != 0) {
                             printseekerror(isofilename, "Random padding check");
                           break;
                         }
@@ -12130,7 +12171,7 @@ int checkgame() {
                         }
                         
                         if (holes[m].datalength > 1) {
-                            if (fseeko(fp, (unsigned long long)
+                            if (myfseeko(fp, (unsigned long long)
                                        (holes[m].datasector + holes[m].datalength - 1) * 2048 + video, SEEK_SET) != 0) {
                                 printseekerror(isofilename, "Random padding check");
                               break;
@@ -12191,7 +12232,7 @@ int checkgame() {
     skipparsingfs:
     if (verbose) printf("%s", newline);
     // seek to the default.xex
-    if (fseeko(fp, defaultxexaddress, SEEK_SET) != 0) {
+    if (myfseeko(fp, defaultxexaddress, SEEK_SET) != 0) {
         printseekerror(isofilename, "Checking the default.xex");
       return 1;
     }
@@ -16161,7 +16202,7 @@ int checkdefaultxex(unsigned char *defaultxexbuffer, unsigned long defaultxexsiz
                                         color(normal);
                                     }
                                     else {
-                                        if (fseeko(defaultpe, titleidresource_relativeaddress, SEEK_SET) != 0) {
+                                        if (myfseeko(defaultpe, titleidresource_relativeaddress, SEEK_SET) != 0) {
                                             printseekerror(defaultpepath, "Reading Title ID resource");
                                         }
                                         else if (titleidresource_size >= 4) {
@@ -16437,7 +16478,7 @@ int docheckgamecrc() {
     const unsigned long long gamesize = (xgd3 ? 8662351872LL : 7307001856LL);
     const unsigned long gamesizeoverbuffer = (unsigned long) (gamesize / BIGBUF_SIZE);
     game_crc32 = 0;
-    if (fseeko(fp, video, SEEK_SET) != 0) {
+    if (myfseeko(fp, video, SEEK_SET) != 0) {
         color(red);
         printf("ERROR: Failed to seek to new file position! (%s) Game CRC Check failed!%s", strerror(errno), newline);
         color(normal);
@@ -16640,7 +16681,7 @@ int docheckgamecrc() {
                     for(a=0;a<readerrorcharsprinted;a++) fprintf(stderr, "\b");
                     readerrorcharsprinted = fprintf(stderr, "   %8lu %8lu", gamereaderrorsrecovered, gamereaderrorstotal);
                 }
-                if (fseeko(fp, gamecrcoffset, SEEK_SET) != 0) {
+                if (myfseeko(fp, gamecrcoffset, SEEK_SET) != 0) {
                     color(red); printf("ERROR: Failed to seek to new file position! (%s) Game CRC Check failed!%s", strerror(errno), newline); color(normal);
                     game_crc32 = 0;  // reset to 0 so we don't try to autofix or verify a bad crc
                     #ifndef WIN32
@@ -20491,7 +20532,7 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
     video_stealthfailed = false;
     video_stealthuncertain = false;
     // seek to sector 16 and look for a video partition
-    if (fseeko(stream, 32768, SEEK_SET) != 0) {
+    if (myfseeko(stream, 32768, SEEK_SET) != 0) {
         printseekerror(isofilename, "Checking Video");
         video_stealthuncertain = true;
       return;
@@ -20582,7 +20623,7 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
             goto skipL0videopadding;
         }
         // (video/2048 - (number_of_stealth_sectors+(xgd3 ? 16 : 0)) - pfi_sectorsL0) sectors should be blank starting at offset pfi_sectorsL0*2048
-        if (fseeko(stream, (unsigned long long) pfi_sectorsL0*2048, SEEK_SET) != 0) {
+        if (myfseeko(stream, (unsigned long long) pfi_sectorsL0*2048, SEEK_SET) != 0) {
             printseekerror(isofilename, "Checking L0 Video padding");
             goto skipL0videopadding;
         }
@@ -20611,7 +20652,7 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
                 if (debug) {
                     printf("data found at 0x%"LL"X, current offset: 0x%"LL"X, dataloop = %ld%s",
                             (unsigned long long) m*BIGBUF_SIZE + pfi_sectorsL0*2048,
-                            (unsigned long long) ftello(stream), dataloop, newline);
+                            (unsigned long long) myftello(stream), dataloop, newline);
                 }
                 goto skipL0remainder;
             }
@@ -20628,7 +20669,7 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
                 if (debug) {
                     printf("data found at 0x%"LL"X, current offset: 0x%"LL"X, dataloop = %ld%s",
                             video - (number_of_stealth_sectors+(xgd3 ? 16 : 0))*2048 - bufferremainder,
-                            (unsigned long long) ftello(stream), dataloop, newline);
+                            (unsigned long long) myftello(stream), dataloop, newline);
                 }
                 goto skipL0remainder;
             }
@@ -20706,16 +20747,16 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
             openforwriting = true;
         }
         if (dataloop == -1) {
-            if (fseeko(stream, video - (number_of_stealth_sectors+(xgd3 ? 16 : 0))*2048 - bufferremainder, SEEK_SET) != 0) {
+            if (myfseeko(stream, video - (number_of_stealth_sectors+(xgd3 ? 16 : 0))*2048 - bufferremainder, SEEK_SET) != 0) {
                 printseekerror(isofilename, "Zero padding");
               goto skipL0videopadding;
             }
         }
-        else if (fseeko(stream, (unsigned long long) dataloop*BIGBUF_SIZE + pfi_sectorsL0*2048, SEEK_SET) != 0 ) {
+        else if (myfseeko(stream, (unsigned long long) dataloop*BIGBUF_SIZE + pfi_sectorsL0*2048, SEEK_SET) != 0 ) {
             printseekerror(isofilename, "Zero padding");
           goto skipL0videopadding;
         }
-        if (debug) printf("Current offset: 0x%"LL"X%s", (unsigned long long) ftello(stream), newline);
+        if (debug) printf("Current offset: 0x%"LL"X%s", (unsigned long long) myftello(stream), newline);
         initcheckwrite();
         memset(bigbuffer, 0, BIGBUF_SIZE);
         if (dataloop == -1) {
@@ -20783,7 +20824,7 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
             goto skipvideopadding;
         }
         // (pfi_offsetL1 - padding_offsetL1start) bytes should be blank starting at offset padding_offsetL1start
-        if (fseeko(stream, padding_offsetL1start, SEEK_SET) != 0) {
+        if (myfseeko(stream, padding_offsetL1start, SEEK_SET) != 0) {
             printseekerror(isofilename, "Checking L1 Video padding");
             goto skipvideopadding;
         }
@@ -20812,7 +20853,7 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
                 if (debug) {
                     printf("data found at 0x%"LL"X, current offset: 0x%"LL"X, dataloop = %ld%s",
                             (unsigned long long) m*BIGBUF_SIZE + padding_offsetL1start,
-                            (unsigned long long) ftello(stream), dataloop, newline);
+                            (unsigned long long) myftello(stream), dataloop, newline);
                 }
                 goto skipL1remainder;
             }
@@ -20829,7 +20870,7 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
                 if (debug) {
                     printf("data found at 0x%"LL"X, current offset: 0x%"LL"X, dataloop = %ld%s",
                             pfi_offsetL1 - bufferremainder,
-                            (unsigned long long) ftello(stream), dataloop, newline);
+                            (unsigned long long) myftello(stream), dataloop, newline);
                 }
                 goto skipL1remainder;
             }
@@ -20887,16 +20928,16 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
             openforwriting = true;
         }
         if (dataloop == -1) {
-            if (fseeko(stream, pfi_offsetL1 - bufferremainder, SEEK_SET) != 0) {
+            if (myfseeko(stream, pfi_offsetL1 - bufferremainder, SEEK_SET) != 0) {
                 printseekerror(isofilename, "Zero padding");
               goto skipvideopadding;
             }
         }
-        else if (fseeko(stream, (unsigned long long) dataloop*BIGBUF_SIZE + padding_offsetL1start, SEEK_SET) != 0 ) {
+        else if (myfseeko(stream, (unsigned long long) dataloop*BIGBUF_SIZE + padding_offsetL1start, SEEK_SET) != 0 ) {
             printseekerror(isofilename, "Zero padding");
           goto skipvideopadding;
         }
-        if (debug) printf("Current offset: 0x%"LL"X%s", (unsigned long long) ftello(stream), newline);
+        if (debug) printf("Current offset: 0x%"LL"X%s", (unsigned long long) myftello(stream), newline);
         initcheckwrite();
         memset(bigbuffer, 0, BIGBUF_SIZE);
         if (dataloop == -1) {
@@ -20944,7 +20985,7 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
                 color(normal);
                 goto skippadding;
             }
-            if (fseeko(stream, video - 32768, SEEK_SET) != 0) {
+            if (myfseeko(stream, video - 32768, SEEK_SET) != 0) {
                 printseekerror(isofilename, "Checking XGD3 Stealth padding");
                 goto skippadding;
             }
@@ -20974,7 +21015,7 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
                         if (debug) {
                             printf("data found at 0x%"LL"X, current offset: 0x%"LL"X, dataloop = %ld%s",
                                     video - 32768 + i*2048,
-                                    (unsigned long long) ftello(stream), dataloop, newline);
+                                    (unsigned long long) myftello(stream), dataloop, newline);
                         }
                         break;
                     }
@@ -21019,11 +21060,11 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
                 }
                 openforwriting = true;
             }
-            if (fseeko(stream, video - 32768, SEEK_SET) != 0 ) {
+            if (myfseeko(stream, video - 32768, SEEK_SET) != 0 ) {
                 printseekerror(isofilename, "Zero padding");
               goto skippadding;
             }
-            if (debug) printf("Current offset: 0x%"LL"X%s", (unsigned long long) ftello(stream), newline);
+            if (debug) printf("Current offset: 0x%"LL"X%s", (unsigned long long) myftello(stream), newline);
             // make sure bigbuffer isn't written to between the time the 16 sectors are read and now
             for (i=0;i<16;i++) {
                 // blank out all of the sectors for which the corresponding bit in xgd3_stealth_padding_bitfield is set
@@ -21069,7 +21110,7 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
           goto endofvideocrc;
         }
         // seek to L0 Video
-        if (fseeko(stream, 0, SEEK_SET) != 0) {
+        if (myfseeko(stream, 0, SEEK_SET) != 0) {
             printseekerror(isofilename, "Checking Video CRC");
             video_stealthuncertain = true;
           return;
@@ -21103,7 +21144,7 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
         bufferremainder = pfi_sectorsL1 * 2048 % BIGBUF_SIZE;
         if (!justavideoiso) {
             // seek to L1 Video
-            if (fseeko(stream, pfi_offsetL1, SEEK_SET) != 0) {
+            if (myfseeko(stream, pfi_offsetL1, SEEK_SET) != 0) {
                 printseekerror(isofilename, "Checking Video CRC");
                 video_stealthuncertain = true;
                 video_crc32 = 0;  // reset to 0 so we don't try to autofix or verify a bad crc
@@ -21143,7 +21184,7 @@ void checkvideo(char *isofilename, FILE *stream, bool justavideoiso, bool checkv
     }
     else if (justavideoiso) {
         // seek to L0 Video
-        if (fseeko(stream, 0, SEEK_SET) != 0) {
+        if (myfseeko(stream, 0, SEEK_SET) != 0) {
             printseekerror(isofilename, "Checking Video CRC");
             video_stealthuncertain = true;
           return;

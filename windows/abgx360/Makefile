@@ -6,7 +6,7 @@ LINKOBJ  = abgx360.o fnmatch.o rijndael-alg-fst.o sha1.o mspack/lzxd.o mspack/sy
 LIBS     = -L"lib" -L"lib/gcc" -static-libgcc libcurl-7.19.6.a libssh2.a libssl.a libcrypto.a libidn.a libz.a -lws2_32 -lwinmm -lwldap32 -lgdi32  
 INCS     = -I"include" 
 BIN      = abgx360.exe
-CFLAGS   = $(INCS) -DCURL_STATICLIB   -std=gnu99
+CFLAGS   = $(INCS) -DCURL_STATICLIB -std=gnu99 -pedantic
 RM       = rm -f
 
 .PHONY: all all-before all-after clean clean-custom
