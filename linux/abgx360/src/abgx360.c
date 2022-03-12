@@ -292,7 +292,6 @@ bool matchonly = false, testing = false, testingdvd = false;
 bool localonly = false, recursesubdirs = false, clobber = false;
 bool showachievements = false, hidesecretachievements = false, showavatarawards = false, unicode = false, imagedirmissing = false;
 bool skiplayerboundaryinfo = false, devkey = false, trustssv2angles = true, useinstalldir = false;
-bool skipvideoautofix = false;
 struct badshit {unsigned char c[21], d[21], data[21]; int count; char* explanation;};
 char unrecognizedRTarray[21];
 // don't forget to add new args to the list before stat()
@@ -3292,7 +3291,6 @@ void parsecmdline(int argc, char *argv[]) {
                 if (mystrcasecmp(argv[i], "--sizedoesntmatter") == 0) increasescreenbuffersize = false;
                 //if (mystrcasecmp(argv[i], "--rip") == 0 && (i+1 < argc)) riparg = i + 1;
                 //if (mystrcasecmp(argv[i], "--dest") == 0 && (i+1 < argc)) ripdestarg = i + 1;
-                if (mystrcasecmp(argv[i], "--missingpfi") == 0)  skipvideoautofix = true;
                 if (mystrcasecmp(argv[i], "--rec") == 0) recursesubdirs = true;
                 if (mystrcasecmp(argv[i], "--clobber") == 0) clobber = true;
                 if (mystrcasecmp(argv[i], "--ach") == 0) showachievements = true;
@@ -3850,11 +3848,6 @@ int main(int argc, char *argv[]) {
         printf("%s --dvdtimeout %ssecs%s change the timeout for DVD Drive I/O requests to%s", sp6, lessthan, greaterthan, newline);
         printf("%s%s %ssecs%s seconds (default=20)%s", sp21, sp5, lessthan, greaterthan, newline);
         printf("%s --devkey %s use the devkit AES key when decrypting an Xex%s", sp6, sp10, newline);
-        //--missingpfi
-        //                         tell abgx360 your console's region so it can display
-        printf("%s --missingpfi %s autofix without trying to fix the video partition%s", sp6, sp6, newline);
-        printf("%s%s (for redump-style games missing PFI)%s", sp21, sp5, newline, newline);
-        
         printf("%s --help %s display this message (or just use %s%s%s%s", sp6, sp12, quotation, argv[0], quotation, newline);
         printf("%s%s with no arguments)%s%s", sp21, sp5, newline, newline);
         
@@ -9977,7 +9970,15 @@ int doautofix() {
           return 1;
         }
     }
-    if (ini_video != video_crc32 && skipvideoautofix == false) {
+    // if pfi was fixed, recheck video crc now that data areas are known
+    // prevents having to patch video ISOs if video data is already correct
+    if (fixpfi && ini_video != video_crc32) {
+      printf("%sRechecking Video with new PFI%s", sp5, newline);
+      if (verbose) printf("%s", newline);
+      checkvideo(isofilename, fp, false, checkpadding);
+      if (verbose) printf("%s", newline);
+    }
+    if (ini_video != video_crc32) {
         fixvideo = true;
         if (ini_video == 0) {
             printf("ERROR: Failed to find a Video CRC in '%s'%s", inifilename, newline);
