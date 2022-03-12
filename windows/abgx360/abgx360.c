@@ -11510,7 +11510,7 @@ void checkini() {
                 getinivalue(buffer, 15, "autouploadwebaddress", WEB_AUTOUPLOAD,       "http://abgx360.net/Apps/Control/AutoUpload.php");
             }
             else if (memcmp(buffer, "web_unverifiedinidir:", 21) == 0) {
-                getinivalue(buffer, 21, "webunverifiedinidir",  WEB_UNVERIFIEDINIDIR, "http://abgx360.hadzz.com/Control/AutoUpload.php");
+                getinivalue(buffer, 21, "webunverifiedinidir",  WEB_UNVERIFIEDINIDIR, "http://abgx360.hadzz.com/unverified/");
             }
             /*
             else if (memcmp(buffer, "web_ap25autoupload:", 19) == 0) {
