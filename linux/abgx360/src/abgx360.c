@@ -187,8 +187,8 @@ Copyright 2008-2012 by Seacrest <Seacrest[at]abgx360[dot]net>
 #define TOPOLOGY_SIZE 26624
 
 // update version values here
-char *headerversion = "v1.0.7b";
-char *curluseragent = "abgx360 v1.0.7b (\"ABGX360_OS\")";
+char *headerversion = "v1.0.7";
+char *curluseragent = "abgx360 v1.0.7 (\"ABGX360_OS\")";
 unsigned long currentversion = 0x010007L;  // MSB (1.2.3 = 0x010203)
 
 // this will be replaced with the value from abgx360.dat if it exists

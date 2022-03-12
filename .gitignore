@@ -228,3 +228,4 @@ cmake-build-*/
 
 # allow makefile for Win CLI
 !Windows/abgx360/Makefile
+*.iso
