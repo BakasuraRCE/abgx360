@@ -10,4 +10,4 @@ src/mspack/lzx.h \
 src/mspack/mspack.h \
 src/mspack/system.c \
 src/mspack/system.h
-abgx360_CFLAGS = -Wall -W
+abgx360_CFLAGS = 

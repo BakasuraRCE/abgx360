@@ -5,7 +5,7 @@
 ;--------------------------------
 
 ; set this if not defining version on cmd line i.e. /DVERSION=v1.0.0
-; !define VERSION "v0.0.0"
+!define VERSION "v1.0.7"
 
 !include "sections.nsh"
 !include "LogicLib.nsh"

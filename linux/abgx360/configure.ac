@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.60)
-AC_INIT([abgx360], [1.0.6])
-AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+AC_INIT([abgx360], [1.0.7])
+AM_INIT_AUTOMAKE([foreign subdir-objects])
 AC_CONFIG_SRCDIR([src/abgx360.c])
 AC_CONFIG_HEADER([config.h])
 
