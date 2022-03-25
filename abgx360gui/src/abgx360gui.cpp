@@ -639,7 +639,7 @@ wxPanel *abgx360gui::generate_page_autofix(wxWindow *parent) {
   arrayStringFor_AutoFix.Add(wxT("Level 0 - Do not AutoFix"));
   AutoFix = new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, arrayStringFor_AutoFix);
   AutoFix->SetSelection(1);
-  sizer_left->Add(generate_box_sizer_with_controls({AutoFixText, AutoFix, AutoFixTip}), wxSizerFlags().Expand());
+  sizer_left->Add(generate_box_sizer_with_controls({AutoFixText, AutoFix, AutoFixTip}), wxSizerFlags().Expand().Border(wxBOTTOM, 5));
 
   auto *ss_sizer = new wxStaticBoxSizer(new wxStaticBox(panel, wxID_ANY, wxT("SS Challenge / Response Data")), wxVERTICAL);
 
@@ -848,7 +848,10 @@ wxPanel *abgx360gui::generate_page_misc(wxWindow *parent) {
   MyRegionEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
   MyRegionEditBox->SetMaxLength(8);
   MyRegionButton = new wxButton(panel, wxID_ANY, wxT("Select..."), wxDefaultPosition, wxDefaultSize);
-  sizer_left->Add(generate_box_sizer_with_controls({MyRegion, MyRegionEditBox, MyRegionButton, MyRegionTip}), wxSizerFlags().Expand());
+  sizer_left->Add(
+	  generate_box_sizer_with_controls({MyRegion, MyRegionEditBox, MyRegionButton, MyRegionTip}),
+	  wxSizerFlags().Expand().Border(wxBOTTOM, 5)
+  )->GetSizer()->GetItem((size_t)1)->SetProportion(1);
 
   PreferredLangTip = new InfoTip(panel,
 								 InfoTip_BITMAP,
@@ -869,7 +872,10 @@ wxPanel *abgx360gui::generate_page_misc(wxWindow *parent) {
   arrayStringFor_PreferredLangChoice.Add(wxT("Russian"));
   PreferredLangChoice = new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, arrayStringFor_PreferredLangChoice);
   PreferredLangChoice->SetSelection(0);
-  sizer_left->Add(generate_box_sizer_with_controls({PreferredLangText, PreferredLangChoice, PreferredLangTip}), wxSizerFlags().Expand());
+  sizer_left->Add(
+	  generate_box_sizer_with_controls({PreferredLangText, PreferredLangChoice, PreferredLangTip}),
+	  wxSizerFlags().Expand().Border(wxBOTTOM, 5)
+  )->GetSizer()->GetItem((size_t)1)->SetProportion(1);
 
   SplitVidTip = new InfoTip(panel, InfoTip_BITMAP, wxT("See \"To SplitVid or not to SplitVid\" under the Quickstart tab."));
   SplitVidText = new wxStaticText(panel, wxID_ANY, wxT("SplitVid:"), wxDefaultPosition, wxDefaultSize);
@@ -879,7 +885,10 @@ wxPanel *abgx360gui::generate_page_misc(wxWindow *parent) {
   arrayStringFor_SplitVid.Add(wxT("Leave it the way it is"));
   SplitVid = new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, arrayStringFor_SplitVid);
   SplitVid->SetSelection(2);
-  sizer_left->Add(generate_box_sizer_with_controls({SplitVid, SplitVidText, SplitVidTip}), wxSizerFlags().Expand());
+  sizer_left->Add(
+	  generate_box_sizer_with_controls({SplitVidText, SplitVid, SplitVidTip}),
+	  wxSizerFlags().Expand().Border(wxBOTTOM, 5)
+  )->GetSizer()->GetItem((size_t)1)->SetProportion(1);
 
   XexImagesText = new wxStaticText(panel, wxID_ANY, wxT("Images:"), wxDefaultPosition, wxDefaultSize);
   wxArrayString arrayStringFor_XexImages;
@@ -892,10 +901,14 @@ wxPanel *abgx360gui::generate_page_misc(wxWindow *parent) {
   ImagesTip = new InfoTip(panel,
 						  InfoTip_BITMAP,
 						  wxT("This refers to the game icon, achievement icons and gamer pictures located within the Xex title resource. Images are extracted to your \"Images\" folder (Press Ctrl+I to find it) with filename \"Title ID-Image ID.png\" (the Title ID will always be displayed when extracting images so that you can find them easily; also note that the game icon will always be Image ID 00008000). Images are only displayed by abgx360 when using HTML output, but you can choose to extract them always if you're using them for your own purpose. Note that not every Xex has a title resource (most bonus discs don't) and therefore images (as well as various strings and achievements) are not always available.\n\nYou can optionally choose to embed them in the HTML source code as data URIs for better portability (when using HTML output), otherwise the HTML source will contain absolute links to the images in your local \"Images\" folder."));
-  sizer_left->Add(generate_box_sizer_with_controls({XexImagesText, XexImages, EmbedImages, ImagesTip}), wxSizerFlags().Expand());
+  sizer_left->Add(
+	  generate_box_sizer_with_controls({XexImagesText, XexImages, EmbedImages, ImagesTip}),
+	  wxSizerFlags().Expand().Border(wxBOTTOM, 5)
+  )->GetSizer()->GetItem((size_t)1)->SetProportion(1);
 
   WxStaticText10 = new wxStaticText(panel, wxID_ANY, wxT("Add extra command line options here (for advanced users only):"), wxDefaultPosition, wxDefaultSize);
-  sizer_left->Add(WxStaticText10, wxSizerFlags().Expand());
+  sizer_left->Add(WxStaticText10, wxSizerFlags().Expand().Border(wxBOTTOM, 5)
+  );
 
   ExtraOptionsEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
   sizer_left->Add(ExtraOptionsEditBox, wxSizerFlags().Expand());
@@ -1056,7 +1069,7 @@ wxPanel *abgx360gui::generate_page_rebuilding(wxWindow *parent) {
   auto *sizer_left = new wxBoxSizer(wxVERTICAL);
 
   WxStaticText9 = new wxStaticText(panel, wxID_ANY, wxT("Choose the method for rebuilding an ISO if it's missing space for a video partition."), wxDefaultPosition, wxDefaultSize);
-  sizer_left->Add(WxStaticText9, wxSizerFlags().Expand());
+  sizer_left->Add(WxStaticText9, wxSizerFlags().Expand().Border(wxBOTTOM, 10));
 
   RebuildDefaultTip = new InfoTip(panel, InfoTip_BITMAP, wxT("Requires 7 to 7.5 GB free space on the partition your ISO is located."));
   RebuildDefault = new wxRadioButton(panel, wxID_ANY, wxT("Default Method"), wxDefaultPosition, wxDefaultSize);
@@ -1072,7 +1085,7 @@ wxPanel *abgx360gui::generate_page_rebuilding(wxWindow *parent) {
   sizer_left->Add(NoRebuild, wxSizerFlags().Expand());
 
   KeepOriginalISO = new wxCheckBox(panel, wxID_ANY, wxT("Don't delete the original ISO after rebuilding"), wxDefaultPosition, wxDefaultSize);
-  sizer_left->Add(KeepOriginalISO, wxSizerFlags().Expand());
+  sizer_left->Add(KeepOriginalISO, wxSizerFlags().Expand().Border(wxTOP, 10));
 
   // Add sub sizers to panel sizer
   sizer->Add(sizer_left, wxSizerFlags(0).Border(wxALL, 5));
