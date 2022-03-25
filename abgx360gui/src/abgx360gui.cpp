@@ -62,7 +62,7 @@ ABGX360GUI_FONT
 CMRC_DECLARE(foo);
 
 auto resource_fs = cmrc::foo::get_filesystem();
-
+wxCommandEvent dummy_event;
 //----------------------------------------------------------------------------
 // Utils
 //----------------------------------------------------------------------------
@@ -1048,12 +1048,9 @@ wxPanel *abgx360gui::generate_page_quickstart(wxWindow *parent) {
   sizer->Add(QuickstartChoice, wxSizerFlags().Expand().Border(wxALL, 5));
 
   QuickstartMemo = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
-  QuickstartMemo->AppendText(wxT("Welcome to " + this->name + " v" + this->version + ", the ultimate tool for Xbox 360 ISOs and Stealth files!\n\n"));
-  QuickstartMemo->AppendText(wxEmptyString);
-  QuickstartMemo->AppendText(wxT("Pick an item from the dropdown list above to get detailed information or instructions "));
-  QuickstartMemo->AppendText(wxT("displayed here."));
   QuickstartMemo->SetFocus();
   QuickstartMemo->SetInsertionPointEnd();
+  this->QuickstartChoiceSelected(dummy_event);
   sizer->Add(QuickstartMemo, wxSizerFlags(1).Expand().Border(wxALL, 5));
 
   panel->SetSizer(sizer);
