@@ -67,10 +67,20 @@ auto resource_fs = cmrc::foo::get_filesystem();
 // Utils
 //----------------------------------------------------------------------------
 
-wxBoxSizer *generate_box_sizer_with_controls(const std::list<wxWindow *> &controls, int orient = wxHORIZONTAL) {
+wxBoxSizer *generate_box_sizer_with_controls(
+	const std::list<wxWindow *> &controls,
+	int sizer_flags = wxRIGHT,
+	int sizer_border = 5,
+	int orient = wxHORIZONTAL
+) {
   auto *sizer = new wxBoxSizer(orient);
   for (auto control : controls) {
-	sizer->Add(control, wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL).Border(wxRIGHT, 5));
+	sizer->Add(
+		control,
+		wxSizerFlags()
+			.Align(wxALIGN_CENTER_VERTICAL)
+			.Border(sizer_flags, sizer_border)
+	);
   }
   return sizer;
 }
@@ -209,8 +219,8 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
 
   auto *input_sub_1_sizer = new wxBoxSizer(wxHORIZONTAL);
   auto *input_sub_2_sizer = new wxBoxSizer(wxHORIZONTAL);
-  InputSizer->Add(input_sub_1_sizer, 0, wxEXPAND, 0);
-  InputSizer->Add(input_sub_2_sizer, 0, wxEXPAND, 0);
+  InputSizer->Add(input_sub_1_sizer, 0, int(wxEXPAND) | wxRIGHT, 5);
+  InputSizer->Add(input_sub_2_sizer, 0, int(wxEXPAND) | wxBOTTOM | wxRIGHT, 5);
 
   wxArrayString arrayStringFor_InputChoice;
   arrayStringFor_InputChoice.Add(wxT("File(s)"));
@@ -259,7 +269,10 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   OpenFileWhenDone->Show(false);
   TerminalFont = new wxCheckBox(OutputSizer->GetStaticBox(), wxID_ANY, wxT("Use Terminal font characters"));
   TerminalFont->SetValue(true);
-  OutputSizer->Add(generate_box_sizer_with_controls({ProgramOutput, Maximize, OpenFileWhenDone, TerminalFont}), wxSizerFlags().Expand());
+  OutputSizer->Add(
+	  generate_box_sizer_with_controls({ProgramOutput, Maximize, OpenFileWhenDone, TerminalFont}, wxALL, 5),
+	  wxSizerFlags().Expand().Border(wxRIGHT, 5)
+  );
 
   OutputFileEditBox = new wxTextCtrl(OutputSizer->GetStaticBox(), wxID_ANY);
   OutputFileEditBox->Enable(false);
@@ -270,7 +283,10 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   auto SaveButtonDisabled_BITMAP = wxBitmap(abgx360gui_SaveButtonDisabled_XPM);
   SaveButtonDisabled = new wxBitmapButton(this, ID_SAVE_BUTTON_DISABLED, SaveButtonDisabled_BITMAP);
   SaveButtonDisabled->Show(false);
-  OutputSizer->Add(generate_box_sizer_with_controls({OutputFileEditBox, SaveButton}), wxSizerFlags().Expand());
+  OutputSizer->Add(
+	  generate_box_sizer_with_controls({OutputFileEditBox, SaveButton}, wxALL, 5),
+	  wxSizerFlags().Expand().Border(wxRIGHT | wxBOTTOM, 5)
+  )->GetSizer()->GetItem((size_t)0)->SetProportion(1);
 
   LaunchPanel = new wxPanel(this, ID_LAUNCHPANEL);
   LaunchButton = new wxBitmapButton(this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW | 0);
@@ -575,10 +591,13 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
 
   this->SetSizer(MainSizer);
   this->Layout();
-  this->SetAutoLayout(true);
-  MainSizer->SetMinSize(wxSize(-1, 700));
-  MainSizer->SetSizeHints(this);
-  this->SetMaxSize(this->GetSize());
+  this->Fit();
+
+  #if defined(__linux__) || defined(__CLION_IDE__)
+  // GTK3 BUG: https://github.com/wxWidgets/wxWidgets/issues/18866
+  this->SetClientSize(this->GetBestSize());
+  #endif
+
   this->Centre(wxBOTH);
 }
 
@@ -592,7 +611,6 @@ void abgx360gui::OnClose(wxCloseEvent &WXUNUSED(event)) {
 
 wxNotebook *abgx360gui::generate_notebook(wxWindow *parent) {
   Notebook = new wxNotebook(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-  Notebook->SetMinSize(wxSize(-1, 200));
 
   Notebook->AddPage(this->generate_page_quickstart(Notebook), wxT("Quickstart"));
   Notebook->AddPage(this->generate_page_options(Notebook), wxT("Options"));
@@ -628,20 +646,20 @@ wxPanel *abgx360gui::generate_page_autofix(wxWindow *parent) {
   TrustSSv2Tip = new InfoTip(ss_sizer->GetStaticBox(), InfoTip_BITMAP, wxT("See \"What is SS v2?\" under the Quickstart tab."));
   TrustSSv2 = new wxCheckBox(ss_sizer->GetStaticBox(), wxID_ANY, wxT("Trust SS v2 angles"));
   TrustSSv2->SetValue(true);
-  ss_sizer->Add(generate_box_sizer_with_controls({TrustSSv2, TrustSSv2Tip}), wxSizerFlags().Expand());
+  ss_sizer->Add(generate_box_sizer_with_controls({TrustSSv2, TrustSSv2Tip}), wxSizerFlags().Expand().Border(wxLEFT | wxRIGHT, 5));
 
   FixAngle359 = new wxCheckBox(ss_sizer->GetStaticBox(), wxID_ANY, wxT("Adjust SS v1 angle 359 for iXtreme < v1.4"));
   FixAngle359Tip = new InfoTip(ss_sizer->GetStaticBox(),
 							   InfoTip_BITMAP,
 							   wxT("iXtreme versions previous to v1.4 have a bug that will cause a valid angle of 359 degrees to be jittered to an invalid angle of 360 degrees (NOT safe for XBL). It is recommended to upgrade your firmware to the latest iXtreme version to fix this issue instead of relying on this option, but enabling it will adjust 359 to 0 for compatibility with older firmwares. Also note that enabling this option is harmless on newer firmwares (iXtreme v1.4 and later) as it merely changes the SS v1 angle deviation by 1 degree."));
-  ss_sizer->Add(generate_box_sizer_with_controls({FixAngle359, FixAngle359Tip}), wxSizerFlags().Expand());
+  ss_sizer->Add(generate_box_sizer_with_controls({FixAngle359, FixAngle359Tip}), wxSizerFlags().Expand().Border(wxLEFT | wxRIGHT, 5));
 
   FixDRTTip = new InfoTip(ss_sizer->GetStaticBox(),
 						  InfoTip_BITMAP,
 						  wxT("abgx360 decrypts the host's CCRT (Crypted Challenge Response Table) and combines it with the drive's deobfuscated table in order to validate or invalidate the data stored in an additional table used by hacked firmwares to replay responses to challenges issued by the host. Some invalid conditions can't or shouldn't be fixed, but enabling this option will fix the most common conditions like missing C/R data caused by old buggy ripping firmwares or worn out drives. This data is always checked whether this option is enabled or not and an error message will appear if any data is missing or invalid. This option applies to SS v1 only and has no effect on SS v2."));
   FixDRT = new wxCheckBox(ss_sizer->GetStaticBox(), wxID_ANY, wxT("Fix C/R Table if data is invalid"));
   FixDRT->SetValue(true);
-  ss_sizer->Add(generate_box_sizer_with_controls({FixDRT, FixDRTTip}), wxSizerFlags().Expand());
+  ss_sizer->Add(generate_box_sizer_with_controls({FixDRT, FixDRTTip}), wxSizerFlags().Expand().Border(wxLEFT | wxRIGHT, 5));
 
   FixBadAnglesTip = new InfoTip(ss_sizer->GetStaticBox(),
 								InfoTip_BITMAP,
@@ -666,7 +684,10 @@ wxPanel *abgx360gui::generate_page_autofix(wxWindow *parent) {
   FixBadAnglesValue = new wxChoice(ss_sizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, arrayStringFor_FixBadAnglesValue);
   FixBadAnglesValue->SetSelection(3);
   WxStaticText5 = new wxStaticText(ss_sizer->GetStaticBox(), wxID_ANY, wxT("degrees from their CCRT targets"));
-  ss_sizer->Add(generate_box_sizer_with_controls({FixBadAngles, FixBadAnglesValue, WxStaticText5, FixBadAnglesTip}), wxSizerFlags().Expand());
+  ss_sizer->Add(
+	  generate_box_sizer_with_controls({FixBadAngles, FixBadAnglesValue, WxStaticText5, FixBadAnglesTip}, wxRIGHT | wxBOTTOM, 5),
+	  wxSizerFlags().Expand().Border(wxLEFT | wxRIGHT | wxBOTTOM, 5)
+  );
 
   // Add ss sizer to left_sizer
   sizer_left->Add(ss_sizer, wxSizerFlags().Expand());
@@ -706,7 +727,10 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
 
   PatchVideoOpenButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_PatchVideoOpenButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   PatchVideoOpenButton->Enable(false);
-  sizer_left->Add(generate_box_sizer_with_controls({PatchVideo, PatchVideoEditBox, PatchVideoOpenButton}), wxSizerFlags().Expand());
+  sizer_left->Add(
+	  generate_box_sizer_with_controls({PatchVideo, PatchVideoEditBox, PatchVideoOpenButton}),
+	  wxSizerFlags().Expand()
+  )->GetSizer()->GetItem((size_t)1)->SetProportion(1);
 
   PatchPFI = new wxCheckBox(panel, wxID_ANY, wxT("Patch PFI"), wxDefaultPosition, wxDefaultSize);
   PatchPFIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
@@ -714,7 +738,10 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
 
   PatchPFIOpenButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_PatchPFIOpenButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   PatchPFIOpenButton->Enable(false);
-  sizer_left->Add(generate_box_sizer_with_controls({PatchPFI, PatchPFIEditBox, PatchPFIOpenButton}), wxSizerFlags().Expand());
+  sizer_left->Add(
+	  generate_box_sizer_with_controls({PatchPFI, PatchPFIEditBox, PatchPFIOpenButton}),
+	  wxSizerFlags().Expand()
+  )->GetSizer()->GetItem((size_t)1)->SetProportion(1);
 
   PatchDMI = new wxCheckBox(panel, wxID_ANY, wxT("Patch DMI"), wxDefaultPosition, wxDefaultSize);
   PatchDMIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
@@ -722,7 +749,10 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
 
   PatchDMIOpenButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_PatchDMIOpenButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   PatchDMIOpenButton->Enable(false);
-  sizer_left->Add(generate_box_sizer_with_controls({PatchDMI, PatchDMIEditBox, PatchDMIOpenButton}), wxSizerFlags().Expand());
+  sizer_left->Add(
+	  generate_box_sizer_with_controls({PatchDMI, PatchDMIEditBox, PatchDMIOpenButton}),
+	  wxSizerFlags().Expand()
+  )->GetSizer()->GetItem((size_t)1)->SetProportion(1);
 
   PatchSS = new wxCheckBox(panel, wxID_ANY, wxT("Patch SS"), wxDefaultPosition, wxDefaultSize);
   PatchSSEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
@@ -730,7 +760,10 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
 
   PatchSSOpenButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_PatchSSOpenButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator);
   PatchSSOpenButton->Enable(false);
-  sizer_left->Add(generate_box_sizer_with_controls({PatchSS, PatchSSEditBox, PatchSSOpenButton}), wxSizerFlags().Expand());
+  sizer_left->Add(
+	  generate_box_sizer_with_controls({PatchSS, PatchSSEditBox, PatchSSOpenButton}),
+	  wxSizerFlags().Expand()
+  )->GetSizer()->GetItem((size_t)1)->SetProportion(1);
 
   // //////
   // Right
@@ -745,7 +778,10 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
 
   ExtractVideoSaveButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_ExtractVideoSaveButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   ExtractVideoSaveButton->Enable(false);
-  sizer_right->Add(generate_box_sizer_with_controls({ExtractVideo, ExtractVideoEditBox, ExtractVideoSaveButton}), wxSizerFlags().Expand());
+  sizer_right->Add(
+	  generate_box_sizer_with_controls({ExtractVideo, ExtractVideoEditBox, ExtractVideoSaveButton}),
+	  wxSizerFlags().Expand()
+  )->GetSizer()->GetItem((size_t)1)->SetProportion(1);
 
   ExtractEntireVideoPartition = new wxCheckBox(panel, wxID_ANY, wxT("Extract entire video partition (253 MB)"), wxDefaultPosition, wxDefaultSize);
   ExtractEntireVideoPartition->Enable(false);
@@ -757,7 +793,10 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
 
   ExtractPFISaveButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_ExtractPFISaveButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   ExtractPFISaveButton->Enable(false);
-  sizer_right->Add(generate_box_sizer_with_controls({ExtractPFI, ExtractPFIEditBox, ExtractPFISaveButton}), wxSizerFlags().Expand());
+  sizer_right->Add(
+	  generate_box_sizer_with_controls({ExtractPFI, ExtractPFIEditBox, ExtractPFISaveButton}),
+	  wxSizerFlags().Expand()
+  )->GetSizer()->GetItem((size_t)1)->SetProportion(1);
 
   ExtractDMI = new wxCheckBox(panel, wxID_ANY, wxT("Extract DMI"), wxDefaultPosition, wxDefaultSize);
   ExtractDMIEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
@@ -765,7 +804,10 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
 
   ExtractDMISaveButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_ExtractDMISaveButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   ExtractDMISaveButton->Enable(false);
-  sizer_right->Add(generate_box_sizer_with_controls({ExtractDMI, ExtractDMIEditBox, ExtractDMISaveButton}), wxSizerFlags().Expand());
+  sizer_right->Add(
+	  generate_box_sizer_with_controls({ExtractDMI, ExtractDMIEditBox, ExtractDMISaveButton}),
+	  wxSizerFlags().Expand()
+  )->GetSizer()->GetItem((size_t)1)->SetProportion(1);
 
   ExtractSS = new wxCheckBox(panel, wxID_ANY, wxT("Extract SS"), wxDefaultPosition, wxDefaultSize);
   ExtractSSEditBox = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
@@ -773,7 +815,10 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
 
   ExtractSSSaveButton = new wxBitmapButton(panel, wxID_ANY, wxBitmap(abgx360gui_ExtractSSSaveButton_XPM), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
   ExtractSSSaveButton->Enable(false);
-  sizer_right->Add(generate_box_sizer_with_controls({ExtractSS, ExtractSSEditBox, ExtractSSSaveButton}), wxSizerFlags().Expand());
+  sizer_right->Add(
+	  generate_box_sizer_with_controls({ExtractSS, ExtractSSEditBox, ExtractSSSaveButton}),
+	  wxSizerFlags().Expand()
+  )->GetSizer()->GetItem((size_t)1)->SetProportion(1);
 
   // Add sub sizers to panel sizer
   sizer->Add(sizer_left, wxSizerFlags(0).Border(wxALL, 5));
@@ -782,7 +827,7 @@ wxPanel *abgx360gui::generate_page_manually_patch(wxWindow *parent) {
   root_sizer->Add(sizer, wxSizerFlags().Center());
 
   WxStaticText2 = new wxStaticText(panel, wxID_ANY, wxT("Note: if you choose to both patch and extract files, extraction will be done first"), wxDefaultPosition, wxDefaultSize);
-  root_sizer->Add(WxStaticText2, wxSizerFlags().Center());
+  root_sizer->Add(WxStaticText2, wxSizerFlags().Center().Border(wxBOTTOM, 5));
 
   panel->SetSizer(root_sizer);
   panel->Layout();
@@ -973,7 +1018,6 @@ wxPanel *abgx360gui::generate_page_options(wxWindow *parent) {
 
 wxPanel *abgx360gui::generate_page_quickstart(wxWindow *parent) {
   auto *panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-  panel->SetMinSize(wxSize(-1, 400));
   auto *sizer = new wxBoxSizer(wxVERTICAL);
 
   wxArrayString arrayStringFor_QuickstartChoice;
@@ -991,7 +1035,6 @@ wxPanel *abgx360gui::generate_page_quickstart(wxWindow *parent) {
   sizer->Add(QuickstartChoice, wxSizerFlags().Expand().Border(wxALL, 5));
 
   QuickstartMemo = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
-  QuickstartMemo->SetMinSize(wxSize(-1, 300));
   QuickstartMemo->AppendText(wxT("Welcome to " + this->name + " v" + this->version + ", the ultimate tool for Xbox 360 ISOs and Stealth files!\n\n"));
   QuickstartMemo->AppendText(wxEmptyString);
   QuickstartMemo->AppendText(wxT("Pick an item from the dropdown list above to get detailed information or instructions "));

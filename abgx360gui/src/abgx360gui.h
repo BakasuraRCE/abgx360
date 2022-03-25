@@ -92,12 +92,14 @@ class abgx360gui : public wxFrame {
   const std::string website = "https://bakasurarce.github.io/abgx360/";
 
  public:
-  abgx360gui(wxWindow *parent,
-			 wxWindowID id = wxID_ANY,
-			 const wxString &title = wxEmptyString,
-			 const wxPoint &pos = wxDefaultPosition,
-			 const wxSize &size = wxSize(-1, -1),
-			 long style = wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL);
+  abgx360gui(
+	  wxWindow *parent,
+	  wxWindowID id = wxID_ANY,
+	  const wxString &title = wxEmptyString,
+	  const wxPoint &pos = wxDefaultPosition,
+	  const wxSize &size = wxSize(-1, -1),
+	  long style = (wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX)) | wxTAB_TRAVERSAL
+  );
   virtual ~abgx360gui();
 
   void RunButtonClick(wxCommandEvent &event);
