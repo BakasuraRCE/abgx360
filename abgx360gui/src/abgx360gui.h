@@ -167,6 +167,7 @@ class abgx360gui : public wxFrame {
   wxBitmapButton *SaveButton;
   wxTextCtrl *OutputFileEditBox;
   wxChoice *ProgramOutput;
+  wxChoice *Terminal;
   wxCheckBox *OpenFileWhenDone;
   wxStaticBoxSizer *OutputSizer;
   wxStaticText *PreferredLangText;

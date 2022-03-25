@@ -93,6 +93,43 @@ wxBitmap bitmap_from_resource(const std::string &path) {
   return {wx_image};
 }
 
+std::string escape_filename(const std::string &filename) {
+  wxString _temp = filename;
+
+  if (_temp.StartsWith("\"")) {
+	_temp.Remove(0, 1);
+  }
+
+  if (_temp.EndsWith("\"")) {
+	_temp.RemoveLast();
+  }
+
+  // change " to \"
+  _temp.Replace("\"", "\\\"", true);
+  return _temp.ToStdString();
+}
+
+std::string wrap_command(const std::string &terminal, const std::string &cmd) {
+  std::string wrapped = "";
+
+  wxString escaped_cmd = cmd;
+  // change ' to '\''
+  escaped_cmd.Replace("'", "'\\''", true);
+  // change " to \\"
+  escaped_cmd.Replace("\\\"", "\\\\\"", true);
+
+  if (terminal.compare("gnome-terminal") == 0) {
+	wrapped = terminal + " --geometry 80x400+0+0 -- sh -c '" + escaped_cmd.ToStdString() + "'";
+  } else if (terminal.compare("xterm") == 0 || terminal.compare("uxterm") == 0) {
+	wrapped = terminal + " -bg black -geometry 80x400+0+0 -e '" + escaped_cmd.ToStdString() + "'";
+  } else {
+	wrapped = terminal + " --geometry 80x400+0+0 -e '" + escaped_cmd.ToStdString() + "'";
+  }
+
+  wxMessageBox(wrapped);
+  return wrapped;
+}
+
 //----------------------------------------------------------------------------
 // InfoTip
 //----------------------------------------------------------------------------
@@ -263,6 +300,33 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   arrayStringFor_ProgramOutput.Add(wxT("Text File"));
   ProgramOutput = new wxChoice(OutputSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, arrayStringFor_ProgramOutput);
   ProgramOutput->SetSelection(0);
+
+  wxArrayString wx_array_string_terminals;
+#if defined(_WIN32) || defined(__CLION_IDE__)
+  wx_array_string_terminals.Add(wxT("cmd"));
+  wx_array_string_terminals.Add(wxT("powershell"));
+#endif
+#if defined(__linux__) || defined(__APPLE__) || defined(__CLION_IDE__)
+
+  std::vector<std::string> terminal_list
+	  {"x-terminal-emulator", "mate-terminal", "gnome-terminal",
+	   "terminator", "xfce4-terminal", "urxvt", "rxvt", "termit",
+	   "Eterm", "aterm", "uxterm", "xterm", "roxterm", "termite",
+	   "lxterminal", "terminology", "st", "qterminal", "lilyterm",
+	   "tilix", "terminix", "konsole", "kitty", "guake", "tilda",
+	   "alacritty", "hyper"};
+
+  for (auto _terminal : terminal_list) {
+	wxArrayString out, err;
+	int ret = wxExecute("which " + _terminal, out, err, wxEXEC_SYNC);
+	if (ret == 0 && err.IsEmpty()) {
+	  wx_array_string_terminals.Add(_terminal);
+	}
+  }
+#endif
+  Terminal = new wxChoice(OutputSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wx_array_string_terminals);
+  Terminal->SetSelection(0);
+
   Maximize = new wxCheckBox(OutputSizer->GetStaticBox(), wxID_ANY, wxT("Maximize it"));
   Maximize->SetValue(true);
   OpenFileWhenDone = new wxCheckBox(OutputSizer->GetStaticBox(), wxID_ANY, wxT("Open file when done"));
@@ -270,7 +334,7 @@ abgx360gui::abgx360gui(wxWindow *parent, wxWindowID id, const wxString &title, c
   TerminalFont = new wxCheckBox(OutputSizer->GetStaticBox(), wxID_ANY, wxT("Use Terminal font characters"));
   TerminalFont->SetValue(true);
   OutputSizer->Add(
-	  generate_box_sizer_with_controls({ProgramOutput, Maximize, OpenFileWhenDone, TerminalFont}, wxALL, 5),
+	  generate_box_sizer_with_controls({ProgramOutput, Terminal, Maximize, OpenFileWhenDone, TerminalFont}, wxALL, 5),
 	  wxSizerFlags().Expand().Border(wxRIGHT, 5)
   );
 
@@ -1314,11 +1378,13 @@ void abgx360gui::doLoadSettings() {
 
   // show/hide output options that would normally only be shown/hidden when ProgramOutput is clicked on
   if (ProgramOutput->GetCurrentSelection() == 0) {  // command prompt
+	Terminal->Show();
 	Maximize->Show();
 	OpenFileWhenDone->Hide();
 	OutputFileEditBox->Enable(false);
 	SaveButton->Enable(false);
   } else {
+	Terminal->Hide();
 	Maximize->Hide();
 #if !defined(__APPLE__) || defined(__CLION_IDE__)
 	OpenFileWhenDone->Show();
@@ -1436,14 +1502,6 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 
   cmd.Empty();
 
-#if defined(__linux__) || defined(__CLION_IDE__)
-  // TODO: replace with https://build.i3wm.org/docs/i3-sensible-terminal.html > https://superuser.com/questions/1153988/find-the-default-terminal-emulator
-  cmd += wxT("xterm ");
-  if (ProgramOutput->GetCurrentSelection() == 0) cmd += wxT("-bg black ");
-  if (Maximize->IsChecked()) cmd += wxT("-geometry 80x400+0+0 ");
-  cmd += wxT("-e '");
-#endif
-
   // locate abgx360 binary within an OSX .app bundle
 #if defined(__APPLE__) || defined(__CLION_IDE__)
   CFURLRef abgx360url = CFBundleCopyAuxiliaryExecutableURL(CFBundleGetMainBundle(), CFSTR("abgx360"));
@@ -1556,7 +1614,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	PatchVideoEditBox->Enable(true);
 	PatchVideoOpenButton->Enable(true);
 	cmd += wxT(" --p-video \"");
-	cmd += PatchVideoEditBox->GetValue();
+	cmd += escape_filename(PatchVideoEditBox->GetValue().ToStdString());
 	cmd += wxT("\"");
   } else {
 	PatchVideoEditBox->Enable(false);
@@ -1567,7 +1625,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	PatchPFIEditBox->Enable(true);
 	PatchPFIOpenButton->Enable(true);
 	cmd += wxT(" --p-pfi \"");
-	cmd += PatchPFIEditBox->GetValue();
+	cmd += escape_filename(PatchPFIEditBox->GetValue().ToStdString());
 	cmd += wxT("\"");
   } else {
 	PatchPFIEditBox->Enable(false);
@@ -1578,7 +1636,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	PatchDMIEditBox->Enable(true);
 	PatchDMIOpenButton->Enable(true);
 	cmd += wxT(" --p-dmi \"");
-	cmd += PatchDMIEditBox->GetValue();
+	cmd += escape_filename(PatchDMIEditBox->GetValue().ToStdString());
 	cmd += wxT("\"");
   } else {
 	PatchDMIEditBox->Enable(false);
@@ -1589,7 +1647,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	PatchSSEditBox->Enable(true);
 	PatchSSOpenButton->Enable(true);
 	cmd += wxT(" --p-ss \"");
-	cmd += PatchSSEditBox->GetValue();
+	cmd += escape_filename(PatchSSEditBox->GetValue().ToStdString());
 	cmd += wxT("\"");
   } else {
 	PatchSSEditBox->Enable(false);
@@ -1604,7 +1662,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	ExtractEntireVideoPartition->Enable(true);
 	if (ExtractEntireVideoPartition->IsChecked()) cmd += wxT(" --e-videopartition \"");
 	else cmd += wxT(" --e-video \"");
-	cmd += ExtractVideoEditBox->GetValue();
+	cmd += escape_filename(ExtractVideoEditBox->GetValue().ToStdString());
 	cmd += wxT("\"");
   } else {
 	ExtractVideoEditBox->Enable(false);
@@ -1617,7 +1675,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	ExtractPFIEditBox->Enable(true);
 	ExtractPFISaveButton->Enable(true);
 	cmd += wxT(" --e-pfi \"");
-	cmd += ExtractPFIEditBox->GetValue();
+	cmd += escape_filename(ExtractPFIEditBox->GetValue().ToStdString());
 	cmd += wxT("\"");
   } else {
 	ExtractPFIEditBox->Enable(false);
@@ -1628,7 +1686,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	ExtractDMIEditBox->Enable(true);
 	ExtractDMISaveButton->Enable(true);
 	cmd += wxT(" --e-dmi \"");
-	cmd += ExtractDMIEditBox->GetValue();
+	cmd += escape_filename(ExtractDMIEditBox->GetValue().ToStdString());
 	cmd += wxT("\"");
   } else {
 	ExtractDMIEditBox->Enable(false);
@@ -1639,7 +1697,7 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	ExtractSSEditBox->Enable(true);
 	ExtractSSSaveButton->Enable(true);
 	cmd += wxT(" --e-ss \"");
-	cmd += ExtractSSEditBox->GetValue();
+	cmd += escape_filename(ExtractSSEditBox->GetValue().ToStdString());
 	cmd += wxT("\"");
   } else {
 	ExtractSSEditBox->Enable(false);
@@ -1660,20 +1718,15 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 
   if (InputChoice->GetCurrentSelection() == 0) {  // file(s)
 	cmd += wxT(" -- "); // -- is a special argument that will end option parsing and all following arguments will be treated as filenames in case a filename begins with a hyphen
-	if (!InputFileEditBox->GetValue().StartsWith(wxT("\""), nullptr)) cmd += wxT("\"");
-	cmd += InputFileEditBox->GetValue();
-	if (!InputFileEditBox->GetValue().EndsWith(wxT("\""), nullptr)) cmd += wxT("\"");
+	cmd += wxT("\"");
+	cmd += escape_filename(InputFileEditBox->GetValue().ToStdString());
+	cmd += wxT("\"");
   } else if (InputChoice->GetCurrentSelection() == 1) {  // dir
 	if (RecurseSubdirs->IsChecked()) cmd += wxT(" --rec --dir ");
 	else cmd += wxT(" --dir ");
-	if (!InputFileEditBox->GetValue().StartsWith(wxT("\""), nullptr)) cmd += wxT("\"");
-	cmd += InputFileEditBox->GetValue();
-	if (InputFileEditBox->GetValue().EndsWith(wxT("\\"), nullptr))
-	  cmd += wxT("\\\""); // asdf\ will be changed to asdf\\ so the shell sees it as asdf\ instead of asdf" ("asdf\" vs "asdf\\" when quoted by app)
-	else if (InputFileEditBox->GetValue().EndsWith(wxT("\\\""), nullptr)) {
-	  cmd.RemoveLast();
-	  cmd += wxT("\\\""); // "asdf\" will be changed to "asdf\\" if already quoted by user
-	} else if (!InputFileEditBox->GetValue().EndsWith(wxT("\""), nullptr)) cmd += wxT("\"");
+	cmd += wxT("\"");
+	cmd += escape_filename(InputFileEditBox->GetValue().ToStdString());
+	cmd += wxT("\"");
   }
 #if defined(_WIN32) || defined(__CLION_IDE__)
   else if (InputChoice->GetCurrentSelection() == 2) {  // burned dvd
@@ -1711,13 +1764,6 @@ void abgx360gui::UIUpdate(wxUpdateUIEvent &WXUNUSED(event)) {
 	cmd += OutputFileEditBox->GetValue();
 	cmd += wxT("\"");
   }
-#if defined(__linux__) || defined(__CLION_IDE_)
-  // change single quotes/apostrophes to \' but change the first one back for xterm -e ... 'abgx360 ...
-  cmd.Replace(wxT("'"), wxT("\\'"), true);
-  cmd.Replace(wxT("\\'"), wxT("'"), false);
-  // ending single quote
-  cmd += wxT("'");
-#endif
 
   //wxLogStatus(wxT("%s"), cmd);
   if (cmd.Find(wxT(" --user ")) == wxNOT_FOUND && cmd.Find(wxT(" --pass ")) == wxNOT_FOUND) {
@@ -1920,7 +1966,7 @@ void abgx360gui::RunButtonClick(wxCommandEvent &WXUNUSED(event)) {
   StatusBar->SetValue(wxT("and away we go..."));
 
   if (ProgramOutput->GetCurrentSelection() == 0) {  // CLI Window
-	return_value = wxExecute(cmd, wxEXEC_ASYNC);
+	return_value = wxExecute(wrap_command(Terminal->GetString(Terminal->GetCurrentSelection()).ToStdString(), cmd.ToStdString()), wxEXEC_ASYNC);
 	if (return_value == 0) {  // couldn't start the process
 #if defined(__APPLE__) || defined(__CLION_IDE__)
 	  wxMessageBox(wxT("ERROR: The command could not be executed! You're probably missing osascript"), wxT("abgx360 GUI ERROR"), wxICON_ERROR);
@@ -2052,6 +2098,7 @@ void abgx360gui::SaveButtonClick(wxCommandEvent &WXUNUSED(event)) {
  */
 void abgx360gui::ProgramOutputSelected(wxCommandEvent &WXUNUSED(event)) {
   if (ProgramOutput->GetCurrentSelection() == 0) {  // command prompt
+	Terminal->Show();
 	Maximize->Show();
 	Maximize->SetValue(true);
 	OpenFileWhenDone->Hide();
@@ -2065,6 +2112,7 @@ void abgx360gui::ProgramOutputSelected(wxCommandEvent &WXUNUSED(event)) {
 	TerminalFont->SetValue(false);
 #endif
   } else {
+	Terminal->Hide();
 	Maximize->Hide();
 	Maximize->SetValue(false);
 #if !defined(__APPLE__) || defined(__CLION_IDE__)
