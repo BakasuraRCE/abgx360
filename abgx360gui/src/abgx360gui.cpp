@@ -174,7 +174,6 @@ BEGIN_EVENT_TABLE(abgx360gui, wxFrame)
 
 		EVT_CLOSE(abgx360gui::OnClose)
 
-		EVT_MENU_RANGE(wxID_FILE1, wxID_FILE9, abgx360gui::MnuDirHistoryClick)
 		EVT_MENU_RANGE(wxID_FILE1, wxID_FILE9, abgx360gui::MnuFileHistoryClick)
 
 END_EVENT_TABLE()

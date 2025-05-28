@@ -11,7 +11,7 @@
 #include "abgx360guiApp.h"
 #include "abgx360gui.h"
 
-IMPLEMENT_APP(abgx360guiApp)
+wxIMPLEMENT_APP(abgx360guiApp)
 
 bool abgx360guiApp::OnInit() {
   // Enable load PNG images from resource
