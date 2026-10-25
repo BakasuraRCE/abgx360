@@ -3,7 +3,7 @@ import sys
 sys.path.append('.')
 from pelicanconf import *
 
-SITEURL = 'https://bakasurarce.github.io/abgx360'
+SITEURL = 'https://abgx360.bakasura.im'
 JINJA_GLOBALS['SITEURL'] = SITEURL
 
 PLUGINS += ['html-minifier']
