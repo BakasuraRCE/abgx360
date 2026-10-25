@@ -1,0 +1,1 @@
+window.onload=event=>{let navbar_height=document.querySelector("header").offsetHeight;document.body.style.paddingTop=navbar_height+"px"};

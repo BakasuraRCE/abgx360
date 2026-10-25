@@ -1,0 +1,21 @@
+Example abgx360 output:
+
+	Failed to find or open 'Video_1914211B.iso' (No such file or directory)
+	This is a very large video partition that isn't hosted on the database, so
+	you'll have to find it elsewhere and put it in your StealthFiles folder --
+	Check the Download page on abgx360.net
+	AutoFix Failed
+
+
+In this example you would need to download 'Video_1914211B.rar' and extract
+'Video_1914211B.iso' to your StealthFiles folder. Alternatively, you could get
+the entire Video ISO archive and extract them all to your StealthFiles folder.
+
+To find out where your StealthFiles folder is, open abgx360 GUI v1.0.2 or later
+and press Ctrl+F (and click yes to have it opened for you).
+
+Note to Windows users: If you have limited space in your Windows partition, you
+can re-install abgx360 on a different partition and put the Video ISOs in that
+abgx360\StealthFiles folder instead of the main one that abgx360 GUI tells you
+about. Note that this only works for Video ISOs and not other types of Stealth
+Files.

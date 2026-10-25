@@ -1,0 +1,3 @@
+Sitemap: https://bakasurarce.github.io/abgx360/sitemap.xml
+User-agent: *
+Allow: /
