@@ -1,3 +1,13 @@
+import sys
+import os
+
+# Pelican loads this file via importlib, which doesn't add the project root to
+# sys.path automatically. Insert it here so local packages (jinja_config, etc.)
+# are importable.
+_project_root = os.path.dirname(os.path.abspath(__file__))
+if _project_root not in sys.path:
+    sys.path.insert(0, _project_root)
+
 from jinja_config.filters import menu_order
 
 # Site

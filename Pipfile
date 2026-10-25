@@ -6,10 +6,9 @@ name = "pypi"
 [packages]
 pelican = {extras = ["markdown"], version = "*"}
 pelican-sitemap = "*"
-install = "*"
 pelican-jinja2content = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.10"
+python_version = "3.14"
