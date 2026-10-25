@@ -7,15 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v7
         with:
           node-version: '14'
       - run: npm install
 
       - name: Install Python, pipenv and Pipfile packages
-        uses: palewire/install-python-pipenv-pipfile@v2
+        uses: palewire/install-python-pipenv-pipfile@v4
         with:
           python-version: "3.10"
 
@@ -25,7 +25,7 @@ jobs:
 
       - name: Deploy to GitHub Pages
         if: success()
-        uses: crazy-max/ghaction-github-pages@v2
+        uses: crazy-max/ghaction-github-pages@v5
         with:
           target_branch: gh-pages
           build_dir: output
